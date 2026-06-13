@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
+import SideRays from "./SideRays/SideRays";
 
 // 背景图 — 深色/浅色各一张
 const HERO_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/hero-bg-L6admPuuAYFKMwipXMbsMf.webp";
@@ -78,6 +79,17 @@ export default function HeroSection() {
     document.querySelector("#understand")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // 滚动检测：只在前半屏显示光效
+  const [showRays, setShowRays] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowRays(window.scrollY < window.innerHeight * 0.5);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const isDark = theme === "dark";
   const heroBg = isDark ? HERO_BG_DARK : HERO_BG_LIGHT;
 
@@ -99,6 +111,28 @@ export default function HeroSection() {
           ? "bg-gradient-to-t from-[oklch(0.15_0.02_250/0.8)] via-transparent to-[oklch(0.15_0.02_250/0.2)]"
           : "bg-gradient-to-t from-[oklch(0.97_0.012_80/0.7)] via-transparent to-transparent"
       }`} />
+
+      {/* 光效 — 只在首屏显示，仅暗色模式 */}
+      {isDark && (
+        <div
+          className="absolute inset-0 z-0 transition-opacity duration-500"
+          style={{ opacity: showRays ? 0.8 : 0 }}
+        >
+          <SideRays
+            origin="top-right"
+            rayColor1="#EAB308"
+            rayColor2="#96c8ff"
+            speed={2.5}
+            intensity={3}
+            spread={2.0}
+            tilt={0}
+            saturation={1.25}
+            blend={0.75}
+            falloff={2.0}
+            opacity={0.8}
+          />
+        </div>
+      )}
 
       {/* 内容区 — 右侧对齐 */}
       <div className="container relative z-10 pt-20">
