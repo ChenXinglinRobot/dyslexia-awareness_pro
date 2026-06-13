@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
+import GlitchText from "./GlitchText";
 import SideRays from "./SideRays/SideRays";
 
 // 背景图 — 深色/浅色各一张
@@ -149,21 +150,30 @@ export default function HeroSection() {
               Dyslexia Awareness
             </motion.p>
 
-            {/* 主标题 */}
-            <motion.h1
+            {/* 主标题 — 接入 GlitchText:常态抖动(模拟开启时)+ 鼠标悬停停止 */}
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.4 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
-              style={{ fontFamily: "'Noto Serif SC', serif" }}
             >
-              他们不是
-              <span className="text-primary">不努力</span>
-              <br />
-              只是看见的世界
-              <br />
-              <span className={isDark ? "text-[oklch(0.65_0.18_25)]" : "text-[oklch(0.55_0.18_25)]"}>不一样</span>
-            </motion.h1>
+              {/* ⚠️ dataText 必须是 JS 表达式(花括号),不能 JSX 字面量,
+                  否则 CSS pre-wrap 不换行,Prettier 也会自动去掉花括号。
+                  详见 GlitchText.dataText JSDoc。 */}
+              <GlitchText
+                as="h1"
+                respectSimulation
+                dataText={"他们不是不努力\n只是看见的世界\n不一样"}
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
+                style={{ fontFamily: "'Noto Serif SC', serif" }}
+              >
+                他们不是
+                <span className="text-primary">不努力</span>
+                <br />
+                只是看见的世界
+                <br />
+                <span className={isDark ? "text-[oklch(0.65_0.18_25)]" : "text-[oklch(0.55_0.18_25)]"}>不一样</span>
+              </GlitchText>
+            </motion.div>
 
             {/* 打字机副标题 — 复用 book-notes 逻辑 */}
             <motion.div

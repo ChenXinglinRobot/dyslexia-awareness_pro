@@ -4,6 +4,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import SimulationToggleButton from "./SimulationToggleButton";
 import ThemeToggleButton from "./ThemeToggleButton";
 import "./Navbar.css";
 
@@ -288,10 +289,14 @@ export default function Navbar() {
         </div>
 
         {/* 主题切换按钮 — 桌面端 */}
-        <ThemeToggleButton className="hidden md:block" />
+        <div className="hidden md:flex items-center gap-1">
+          <SimulationToggleButton />
+          <ThemeToggleButton />
+        </div>
 
         {/* 移动端按钮组 */}
         <div className="md:hidden flex items-center gap-2">
+          <SimulationToggleButton />
           <ThemeToggleButton />
           <button
             className="p-2 text-muted-foreground"

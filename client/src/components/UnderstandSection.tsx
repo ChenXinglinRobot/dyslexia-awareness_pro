@@ -6,10 +6,13 @@
    ============================================================ */
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check } from "lucide-react";
+import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import FuzzyText from "./FuzzyText";
+import GlitchText from "./GlitchText";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
@@ -19,19 +22,25 @@ const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/3105196637350956
 const sampleText = "今天的语文课，老师让我们大声朗读课文。我站起来，看着书上的字，它们好像在跳舞，我认不出来它们的顺序。同学们都笑了，老师叹了口气。我不是不努力，我只是看到的世界和你们不一样。";
 
 function DyslexiaSimulator() {
-  const [active, setActive] = useState(false);
-  const [intensity, setIntensity] = useState(50);
+  // 单一真相源:模拟开关与强度全部从 SimulationContext 读取
+  const { enabled: active, intensity, toggle, setIntensity } = useSimulation();
+  const intensityPct = Math.round(intensity * 100);
 
-  const chars = sampleText.split("").map((char, i) => {
-    const factor = intensity / 100;
-    return {
-      char,
-      rotate: (i % 3 === 0 ? -3 : i % 5 === 0 ? 4 : 0) * factor,
-      translateY: (i % 4 === 0 ? -3 : i % 6 === 0 ? 3 : 0) * factor,
-      blur: i % 7 === 0 ? 1.5 * factor : i % 11 === 0 ? 1 * factor : 0,
-      opacity: 1 - (i % 9 === 0 ? 0.3 * factor : 0),
-    };
-  });
+  // useMemo 避免每次渲染都新建 chars,防止 FuzzyText 因依赖变化而频繁重启
+  const chars = useMemo(
+    () =>
+      sampleText.split("").map((char, i) => {
+        const factor = intensity;
+        return {
+          char,
+          rotate: (i % 3 === 0 ? -3 : i % 5 === 0 ? 4 : 0) * factor,
+          translateY: (i % 4 === 0 ? -3 : i % 6 === 0 ? 3 : 0) * factor,
+          blur: i % 7 === 0 ? 1.5 * factor : i % 11 === 0 ? 1 * factor : 0,
+          opacity: 1 - (i % 9 === 0 ? 0.3 * factor : 0),
+        };
+      }),
+    [intensity],
+  );
 
   return (
     <div className="space-y-6">
@@ -44,7 +53,8 @@ function DyslexiaSimulator() {
             </h4>
           </div>
           <button
-            onClick={() => setActive(!active)}
+            onClick={toggle}
+            aria-pressed={active}
             className="flex items-center gap-2 text-xs px-4 py-2 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
             style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
           >
@@ -56,32 +66,51 @@ function DyslexiaSimulator() {
           <div className="flex items-center gap-4 mb-4">
             <span className="text-xs text-muted-foreground">强度</span>
             <input
-              type="range" min="20" max="100" value={intensity}
-              onChange={(e) => setIntensity(Number(e.target.value))}
+              type="range" min="20" max="100" value={intensityPct}
+              onChange={(e) => setIntensity(Number(e.target.value) / 100)}
               className="flex-1 h-1 bg-border rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
             />
-            <span className="text-xs text-primary" style={{ fontFamily: "'Space Grotesk'" }}>{intensity}%</span>
+            <span className="text-xs text-primary" style={{ fontFamily: "'Space Grotesk'" }}>{intensityPct}%</span>
           </div>
         )}
 
         <div className="min-h-[120px] leading-loose text-base">
           {active ? (
-            <p className="text-foreground/80 dyslexia-text" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-              {chars.map((item, i) => (
-                <span
-                  key={i}
-                  style={{
-                    display: "inline-block",
-                    transform: `translateY(${item.translateY}px) rotate(${item.rotate}deg)`,
-                    filter: item.blur > 0 ? `blur(${item.blur}px)` : "none",
-                    opacity: item.opacity,
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  {item.char}
-                </span>
-              ))}
-            </p>
+            // 二层叠加:DOM 字符层(底,带 4 轴变换)+ FuzzyText canvas 层(上,随机抖动)
+            // mix-blend-difference 让两层视觉融合,产生"被文字干扰"的双重感
+            <div className="relative">
+              <p className="text-foreground/80 dyslexia-text" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+                {chars.map((item, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      display: "inline-block",
+                      transform: `translateY(${item.translateY}px) rotate(${item.rotate}deg)`,
+                      filter: item.blur > 0 ? `blur(${item.blur}px)` : "none",
+                      opacity: item.opacity,
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    {item.char}
+                  </span>
+                ))}
+              </p>
+              <FuzzyText
+                baseIntensity={intensity}
+                hoverIntensity={Math.min(1, intensity + 0.2)}
+                direction="both"
+                fontSize={16}
+                fontFamily="'Noto Sans SC', sans-serif"
+                fontWeight={300}
+                color="currentColor"
+                fps={30}
+                disabled={!active}
+                className="absolute inset-0 pointer-events-none opacity-60 mix-blend-difference text-foreground/80"
+                aria-hidden
+              >
+                {sampleText}
+              </FuzzyText>
+            </div>
           ) : (
             <p className="text-foreground/80" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               {sampleText}
@@ -318,7 +347,14 @@ export default function UnderstandSection() {
           className="mb-16"
         >
           <p className="text-primary text-sm tracking-[0.2em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>Understanding Dyslexia</p>
-          <h2 className="text-3xl md:text-5xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>了解阅读障碍</h2>
+          <GlitchText
+            as="h2"
+            respectSimulation
+            className="text-3xl md:text-5xl text-foreground"
+            style={{ fontFamily: "'Noto Serif SC', serif" }}
+          >
+            了解阅读障碍
+          </GlitchText>
         </motion.div>
 
         <div className="mb-20">

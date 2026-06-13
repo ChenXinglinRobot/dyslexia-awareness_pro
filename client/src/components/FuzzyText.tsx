@@ -20,6 +20,11 @@ interface FuzzyTextProps {
   gradient?: string[] | null;
   letterSpacing?: number;
   className?: string;
+  /**
+   * 完全禁用动画与 canvas 渲染,退化为普通 <span>。
+   * 用途:模拟开关关闭时让 FuzzyText 一并退场,零 CPU 占用。
+   */
+  disabled?: boolean;
 }
 
 const FuzzyText: React.FC<FuzzyTextProps> = ({
@@ -41,11 +46,13 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
   glitchDuration = 200,
   gradient = null,
   letterSpacing = 0,
-  className = ''
+  className = '',
+  disabled = false
 }) => {
   const canvasRef = useRef<HTMLCanvasElement & { cleanupFuzzyText?: () => void }>(null);
 
   useEffect(() => {
+    if (disabled) return; // 早退:不挂载任何 animation 循环
     let animationFrameId: number;
     let isCancelled = false;
     let glitchTimeoutId: ReturnType<typeof setTimeout>;
@@ -323,8 +330,27 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     glitchInterval,
     glitchDuration,
     gradient,
-    letterSpacing
+    letterSpacing,
+    disabled
   ]);
+
+  // disabled 时退化为静态 <span>,完全无 canvas 开销
+  if (disabled) {
+    return (
+      <span
+        className={className}
+        style={{
+          fontFamily: fontFamily === 'inherit' ? 'inherit' : fontFamily,
+          fontWeight,
+          fontSize: typeof fontSize === 'number' ? `${fontSize}px` : fontSize,
+          color,
+          letterSpacing: letterSpacing ? `${letterSpacing}px` : undefined,
+        }}
+      >
+        {children}
+      </span>
+    );
+  }
 
   return <canvas ref={canvasRef} className={className} />;
 };

@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-14T00:00:00Z",
+  "title": "Design System: 字向每人",
+  "extensions": {
+    "colorMeta": {
+      "amber-lamp": {
+        "role": "primary",
+        "displayName": "Amber Lamp (Dark Mode)",
+        "canonical": "oklch(0.72 0.14 70)",
+        "tonalRamp": [
+          "oklch(0.18 0.05 70)",
+          "oklch(0.30 0.08 70)",
+          "oklch(0.42 0.10 70)",
+          "oklch(0.55 0.13 70)",
+          "oklch(0.65 0.14 70)",
+          "oklch(0.72 0.14 70)",
+          "oklch(0.82 0.12 70)",
+          "oklch(0.92 0.08 70)"
+        ]
+      },
+      "amber-lamp-deep": {
+        "role": "primary",
+        "displayName": "Amber Lamp (Light Mode)",
+        "canonical": "oklch(0.55 0.14 70)",
+        "tonalRamp": [
+          "oklch(0.18 0.05 70)",
+          "oklch(0.30 0.08 70)",
+          "oklch(0.42 0.10 70)",
+          "oklch(0.55 0.13 70)",
+          "oklch(0.65 0.14 70)",
+          "oklch(0.72 0.14 70)",
+          "oklch(0.82 0.12 70)",
+          "oklch(0.92 0.08 70)"
+        ]
+      },
+      "deep-ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "canonical": "oklch(0.15 0.02 250)",
+        "tonalRamp": [
+          "oklch(0.10 0.02 250)",
+          "oklch(0.15 0.02 250)",
+          "oklch(0.22 0.02 250)",
+          "oklch(0.32 0.02 250)",
+          "oklch(0.45 0.02 250)",
+          "oklch(0.60 0.02 250)",
+          "oklch(0.75 0.02 250)",
+          "oklch(0.92 0.02 250)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(0.97 0.012 80)",
+        "tonalRamp": [
+          "oklch(0.30 0.012 80)",
+          "oklch(0.45 0.012 80)",
+          "oklch(0.60 0.012 80)",
+          "oklch(0.72 0.012 80)",
+          "oklch(0.82 0.012 80)",
+          "oklch(0.90 0.012 80)",
+          "oklch(0.94 0.012 80)",
+          "oklch(0.97 0.012 80)"
+        ]
+      },
+      "quiet-ink": {
+        "role": "neutral",
+        "displayName": "Quiet Ink",
+        "canonical": "oklch(0.92 0.01 90)",
+        "tonalRamp": [
+          "oklch(0.20 0.01 90)",
+          "oklch(0.35 0.01 90)",
+          "oklch(0.50 0.01 90)",
+          "oklch(0.65 0.01 90)",
+          "oklch(0.75 0.01 90)",
+          "oklch(0.85 0.01 90)",
+          "oklch(0.90 0.01 90)",
+          "oklch(0.95 0.01 90)"
+        ]
+      },
+      "ink-deep": {
+        "role": "neutral",
+        "displayName": "Ink Deep",
+        "canonical": "oklch(0.25 0.04 50)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 50)",
+          "oklch(0.25 0.04 50)",
+          "oklch(0.38 0.04 50)",
+          "oklch(0.50 0.04 50)",
+          "oklch(0.62 0.04 50)",
+          "oklch(0.75 0.04 50)",
+          "oklch(0.85 0.04 50)",
+          "oklch(0.95 0.04 50)"
+        ]
+      },
+      "warm-sodium": {
+        "role": "accent",
+        "displayName": "Warm Sodium",
+        "canonical": "oklch(0.65 0.18 25)",
+        "tonalRamp": [
+          "oklch(0.18 0.06 25)",
+          "oklch(0.30 0.10 25)",
+          "oklch(0.42 0.13 25)",
+          "oklch(0.55 0.16 25)",
+          "oklch(0.65 0.18 25)",
+          "oklch(0.75 0.16 25)",
+          "oklch(0.85 0.12 25)",
+          "oklch(0.94 0.08 25)"
+        ]
+      },
+      "quiet-fog": {
+        "role": "muted",
+        "displayName": "Quiet Fog",
+        "canonical": "oklch(0.60 0.03 240)",
+        "tonalRamp": [
+          "oklch(0.25 0.03 240)",
+          "oklch(0.38 0.03 240)",
+          "oklch(0.50 0.03 240)",
+          "oklch(0.60 0.03 240)",
+          "oklch(0.70 0.03 240)",
+          "oklch(0.78 0.03 240)",
+          "oklch(0.85 0.03 240)",
+          "oklch(0.92 0.03 240)"
+        ]
+      },
+      "paper-fog": {
+        "role": "muted",
+        "displayName": "Paper Fog",
+        "canonical": "oklch(0.50 0.03 60)",
+        "tonalRamp": [
+          "oklch(0.20 0.03 60)",
+          "oklch(0.32 0.03 60)",
+          "oklch(0.42 0.03 60)",
+          "oklch(0.50 0.03 60)",
+          "oklch(0.60 0.03 60)",
+          "oklch(0.70 0.03 60)",
+          "oklch(0.80 0.03 60)",
+          "oklch(0.90 0.03 60)"
+        ]
+      },
+      "ember": {
+        "role": "destructive",
+        "displayName": "Ember",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.18 0.08 27.325)",
+          "oklch(0.30 0.13 27.325)",
+          "oklch(0.42 0.18 27.325)",
+          "oklch(0.55 0.22 27.325)",
+          "oklch(0.65 0.18 25)",
+          "oklch(0.75 0.16 25)",
+          "oklch(0.85 0.12 25)",
+          "oklch(0.95 0.06 25)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero h1 only. Cap ceiling clamp(2.25rem, 5vw, 4.5rem). text-wrap: balance."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2/h3. clamp(1.875rem, 4vw, 3rem). text-wrap: balance."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Subsection h4 (simulator labels, About mission card). 1.25rem, weight 500."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Chinese prose default. 1rem, weight 300, line-height 1.8, max-width 65ch. The Quiet Body Rule keeps weight at 300."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "English kickers, data numbers, SCROLL cue. Space Grotesk 500, 0.875rem, letter-spacing 0.2em, uppercase. One per section, used as a deliberate kicker."
+      }
+    },
+    "shadows": [
+      {
+        "name": "amber-lift",
+        "value": "0 12px 40px oklch(0.72 0.14 70 / 0.15)",
+        "purpose": "Card hover/focus. The only ambient-leaning shadow, and it carries the lamp's hue."
+      },
+      {
+        "name": "amber-glow",
+        "value": "0 0 30px oklch(0.72 0.14 70 / 0.3), 0 0 60px oklch(0.72 0.14 70 / 0.1)",
+        "purpose": "Active simulator panel + Hero SideRays bloom. Reserved — never decorative."
+      },
+      {
+        "name": "amber-button",
+        "value": "0 8px 24px oklch(0.72 0.14 70 / 0.3)",
+        "purpose": "Primary button hover. The lamp briefly focusing on the affordance."
+      },
+      {
+        "name": "navbar-scroll",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "purpose": "Navbar shadow-sm after scrollY > 40. Structural weight, not visual — the only neutral shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-amber",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Standard transition easing for cards and buttons. Exponential ease-out — no bounce, no elastic."
+      },
+      {
+        "name": "theme-crossfade",
+        "value": "transition: background-color 0.4s ease, color 0.4s ease",
+        "purpose": "Theme swap on body. Slow enough to feel intentional, not jarring."
+      },
+      {
+        "name": "fade-in-up",
+        "value": "0.6s ease forwards (opacity 0→1, translateY 24px→0)",
+        "purpose": "Section entrance reveal. Reveal enhances already-visible default."
+      },
+      {
+        "name": "letter-dance",
+        "value": "2s ease-in-out infinite (translateY ±3px, rotate ±2deg)",
+        "purpose": "Dyslexia simulator per-character sway. Stagger via nth-child delays 0.1–0.6s. Active state only."
+      },
+      {
+        "name": "clarify",
+        "value": "1.2s ease-out forwards (blur 4px→0, opacity 0.3→1)",
+        "purpose": "Progressive clarity reveal — from blur to legibility. Opt-in trigger only."
+      },
+      {
+        "name": "blink-cursor",
+        "value": "1s step-end infinite (border-right transparent↔amber)",
+        "purpose": "Typewriter cursor. The lamp blinks."
+      },
+      {
+        "name": "card-hover",
+        "value": "0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Card lift on hover. Combined with amber-lift shadow."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Amber Lamp primary CTA. Press-scale on click, amber shadow on hover, focus ring.",
+      "html": "<button class=\"ds-btn-primary\">了解阅读障碍</button>",
+      "css": ".ds-btn-primary { background: oklch(0.72 0.14 70); color: oklch(0.15 0.02 250); padding: 0.5rem 1rem; height: 36px; border-radius: 6px; border: none; font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); outline: none; } .ds-btn-primary:hover { opacity: 0.9; box-shadow: 0 8px 24px oklch(0.72 0.14 70 / 0.3); } .ds-btn-primary:focus-visible { box-shadow: 0 0 0 3px oklch(0.72 0.14 70 / 0.5); } .ds-btn-primary:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Transparent background + Amber Lamp border. Simulator trigger pattern.",
+      "html": "<button class=\"ds-btn-outline\">开启模拟</button>",
+      "css": ".ds-btn-outline { background: transparent; color: oklch(0.72 0.14 70); padding: 0.5rem 1rem; height: 32px; border-radius: 6px; border: 1px solid oklch(0.72 0.14 70); font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 0.75rem; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; outline: none; } .ds-btn-outline:hover { background: oklch(0.72 0.14 70 / 0.1); } .ds-btn-outline:active { transform: scale(0.97); } .ds-btn-outline:focus-visible { box-shadow: 0 0 0 3px oklch(0.72 0.14 70 / 0.4); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Ink Plate surface + 1px Ink Edge border. Amber Lift on hover/focus only.",
+      "html": "<div class=\"ds-card\"><h4 class=\"ds-card-title\">卡片标题</h4><p class=\"ds-card-body\">卡片正文。</p></div>",
+      "css": ".ds-card { background: oklch(0.20 0.025 250); border: 1px solid oklch(0.30 0.03 245); border-radius: 6px; padding: 1.5rem; transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease; cursor: default; } .ds-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px oklch(0.72 0.14 70 / 0.15); border-color: oklch(0.72 0.14 70 / 0.5); } .ds-card-title { font-family: 'Noto Serif SC', serif; font-weight: 500; font-size: 1.25rem; line-height: 1.4; color: oklch(0.92 0.01 90); margin: 0 0 0.5rem 0; } .ds-card-body { font-family: 'Noto Sans SC', sans-serif; font-weight: 300; font-size: 0.75rem; line-height: 1.8; color: oklch(0.60 0.03 240); margin: 0; }"
+    },
+    {
+      "name": "Range Slider",
+      "kind": "input",
+      "refersTo": "slider-thumb",
+      "description": "1px track + 12px amber thumb. Used for simulator intensity (20-100%) and typography adjuster.",
+      "html": "<div class=\"ds-slider\"><label class=\"ds-slider-label\">强度 <span class=\"ds-slider-value\">50%</span></label><input type=\"range\" min=\"20\" max=\"100\" value=\"50\" class=\"ds-slider-input\" /></div>",
+      "css": ".ds-slider { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; } .ds-slider-label { font-family: 'Noto Sans SC', sans-serif; font-weight: 300; font-size: 0.75rem; color: oklch(0.60 0.03 240); flex-shrink: 0; } .ds-slider-value { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.75rem; color: oklch(0.72 0.14 70); } .ds-slider-input { flex: 1; height: 4px; background: oklch(0.30 0.03 245); border-radius: 999px; appearance: none; -webkit-appearance: none; outline: none; } .ds-slider-input::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: oklch(0.72 0.14 70); cursor: pointer; border: 0; } .ds-slider-input::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: oklch(0.72 0.14 70); cursor: pointer; border: none; } .ds-slider-input:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px oklch(0.72 0.14 70 / 0.5); }"
+    },
+    {
+      "name": "Section Heading",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "English kicker (Space Grotesk uppercase) + Chinese headline (Noto Serif SC). One per section. Used as a deliberate kicker, not as repeated AI grammar.",
+      "html": "<div class=\"ds-section-heading\"><p class=\"ds-section-kicker\">About Us</p><h2 class=\"ds-section-title\">关于我们</h2></div>",
+      "css": ".ds-section-heading { margin-bottom: 4rem; } .ds-section-kicker { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.875rem; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.72 0.14 70); margin: 0 0 0.75rem 0; } .ds-section-title { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: clamp(1.875rem, 4vw, 3rem); line-height: 1.3; color: oklch(0.92 0.01 90); margin: 0; text-wrap: balance; }"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Sun/Moon icon button. Tints to Amber Lamp on hover. Inline SVG (no icon-font dependency).",
+      "html": "<button class=\"ds-theme-toggle\" aria-label=\"切换到日间模式\"><svg class=\"ds-theme-toggle-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41\"/></svg></button>",
+      "css": ".ds-theme-toggle { background: transparent; border: none; padding: 0.5rem; color: oklch(0.60 0.03 240); border-radius: 4px; cursor: pointer; transition: color 0.2s ease, background-color 0.2s ease; } .ds-theme-toggle:hover { color: oklch(0.72 0.14 70); background: oklch(0.25 0.03 245); } .ds-theme-toggle:focus-visible { outline: 2px solid oklch(0.72 0.14 70); outline-offset: 2px; } .ds-theme-toggle-icon { width: 16px; height: 16px; display: block; }"
+    },
+    {
+      "name": "Dyslexia Simulator",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Outline trigger button + intensity slider + per-char transforms. Opt-in only. The climax of the experience.",
+      "html": "<div class=\"ds-sim\"><div class=\"ds-sim-header\"><h4 class=\"ds-sim-title\">模拟：阅读障碍者的视角</h4><button class=\"ds-sim-toggle\">恢复正常</button></div><div class=\"ds-sim-controls\"><span class=\"ds-sim-label\">强度</span><input type=\"range\" min=\"20\" max=\"100\" value=\"50\" class=\"ds-slider-input\" /><span class=\"ds-slider-value\">50%</span></div></div>",
+      "css": ".ds-sim { background: oklch(0.20 0.025 250); border: 1px solid oklch(0.30 0.03 245); border-radius: 6px; padding: 1.5rem; transition: background-color 0.5s ease, border-color 0.5s ease; } .ds-sim.is-active { box-shadow: 0 0 30px oklch(0.72 0.14 70 / 0.3), 0 0 60px oklch(0.72 0.14 70 / 0.1); border-color: oklch(0.72 0.14 70 / 0.5); } .ds-sim-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; } .ds-sim-title { font-family: 'Noto Serif SC', serif; font-weight: 500; font-size: 0.875rem; color: oklch(0.92 0.01 90); margin: 0; } .ds-sim-toggle { background: transparent; color: oklch(0.72 0.14 70); padding: 0.5rem 1rem; border: 1px solid oklch(0.72 0.14 70); border-radius: 6px; font-family: 'Noto Sans SC', sans-serif; font-size: 0.75rem; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; } .ds-sim-toggle:hover { background: oklch(0.72 0.14 70 / 0.1); } .ds-sim-toggle:active { transform: scale(0.97); } .ds-sim-controls { display: flex; align-items: center; gap: 1rem; } .ds-sim-label { font-family: 'Noto Sans SC', sans-serif; font-weight: 300; font-size: 0.75rem; color: oklch(0.60 0.03 240); }"
+    },
+    {
+      "name": "Typewriter Tagline",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Rotating tagline with blinking amber cursor. Hero only.",
+      "html": "<p class=\"ds-typewriter\">文字应该向每个人敞开<span class=\"ds-typewriter-cursor\"></span></p>",
+      "css": ".ds-typewriter { font-family: 'Noto Serif SC', serif; font-weight: 300; font-size: 1.125rem; line-height: 1.5; color: oklch(0.60 0.03 240); display: inline-block; } .ds-typewriter-cursor { display: inline-block; border-right: 2px solid oklch(0.72 0.14 70); padding-right: 2px; margin-left: 1px; height: 1.2em; vertical-align: text-bottom; animation: ds-blink-cursor 1s step-end infinite; } @keyframes ds-blink-cursor { 0%, 100% { border-right-color: transparent; } 50% { border-right-color: oklch(0.72 0.14 70); } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ink and Amber Observatory",
+    "overview": "字向每人 is not a website about dyslexia. It is an observatory where visitors stand inside the experience and look out. The structural frame is deep ink blue: cold, vast, like a chamber at night. The single saturated color, amber, behaves as a lamp: a beam that swings to where the visitor's attention needs to land. Each section is one observation through that lamp — confusion, mechanism, recognition, action — and the layout rewards the visitor who follows the beam rather than scanning for cards.\n\nThe voice is restrained and powerful, like a documentary narrator who trusts the audience to receive difficult information without melodrama. From PRODUCT.md: 克制中的温度 — restraint that carries warmth. Warmth arrives only through the amber lamp and through typography that takes Chinese characters seriously as physical objects. The cold structural frame is what makes the warm moments land harder; warmth in the body background would dilute both.",
+    "keyCharacteristics": [
+      "OKLCH-only color tokens across light + dark themes; both share the same accent and the same hue families",
+      "Two-color identity: Deep Ink background + Amber Lamp single signature accent. No third saturated hue.",
+      "Display = Noto Serif SC, body = Noto Sans SC, English labels + numbers = Space Grotesk. Three registers, three jobs.",
+      "Section-as-emotional-moment — each section earns its place as a narrative beat, not a feature slot",
+      "The dyslexia simulator is the climax, not an accessibility feature. Opt-in only; never automatic.",
+      "Flat by default; surfaces gain a single amber glow on hover or focus, never ambient noise"
+    ],
+    "rules": [
+      { "name": "The Amber Lamp Rule", "body": "The signature accent appears on ≤10% of any given screen. Its rarity is the point.", "section": "colors" },
+      { "name": "The Frame Rule", "body": "The background carries the structural cold. Warmth arrives only through the amber lamp and through typography; never through body-bg tinting.", "section": "colors" },
+      { "name": "The Single Light Source Rule", "body": "Every shadow or glow carries amber. Gray shadows break the world; if the lamp is warm, the shadows it casts are warm.", "section": "colors" },
+      { "name": "The Quiet Body Rule", "body": "Body weight stays at 300. Heavier weights draw attention that the prose hasn't earned.", "section": "typography" },
+      { "name": "The Cold Display Rule", "body": "Display headings never carry colored gradient text. Emphasis goes through solid color spans in Amber Lamp or Warm Sodium only.", "section": "typography" },
+      { "name": "The Three-Register Rule", "body": "Chinese prose uses Noto Sans SC only. English/numeric callouts use Space Grotesk only. The two never mix inside a single sentence.", "section": "typography" },
+      { "name": "The Flat Rest Rule", "body": "Surfaces do not carry shadows at rest. If a shadow is visible without a state change, it is wrong.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do treat Chinese character forms as the primary visual medium. Use the simulator to make written language a physical substance — fragments, particles, blur, clarity transitions.",
+      "Do keep Amber Lamp on ≤10% of any given screen. The lamp's rarity is its voice.",
+      "Do use Noto Serif SC for headings, Noto Sans SC for Chinese body, Space Grotesk only for English/numeric labels. Three registers, three jobs.",
+      "Do keep the simulator opt-in only. A neurotypical visitor must explicitly activate it. The default page is fully readable prose.",
+      "Do test heading copy at every breakpoint. The viewport is part of the design; long display strings plus large clamp scales cause overflow.",
+      "Do verify body text contrast ≥4.5:1 against its bg in both light and dark.",
+      "Do use text-wrap: balance on h1–h3, text-wrap: pretty on long prose.",
+      "Do ship every interactive element with a focus-visible state.",
+      "Do cross-link a prefers-reduced-motion alternative for any animation."
+    ],
+    "donts": [
+      "Don't reach for SaaS landing-page scaffolding: no hero → features → pricing → CTA pattern.",
+      "Don't use gradient text. Use solid color; emphasis via weight + size + solid spans only.",
+      "Don't use glassmorphism or frosted-glass cards as decoration.",
+      "Don't repeat identical icon + heading + body card grids.",
+      "Don't put tiny uppercase tracked eyebrows above every section heading.",
+      "Don't number sections (01 · 02 · 03) as default scaffolding.",
+      "Don't translate 'warm' into a near-white cream body bg.",
+      "Don't use em dashes. Use commas, colons, semicolons, periods, parentheses.",
+      "Don't use marketing buzzwords: streamline, empower, supercharge, leverage, unleash, transform, seamless, world-class, enterprise-grade, next-generation, cutting-edge, game-changer, mission-critical.",
+      "Don't add new side-stripe borders (border-left or border-right > 1px as a colored accent). The Hero stat card uses border-r-2 border-primary as a pre-existing exception.",
+      "Don't add animate-bounce or elastic easing. The Hero scroll cue uses animate-bounce as a pre-existing exception.",
+      "Don't use generic welcomes or CTA clichés. Button labels are verb + object.",
+      "Don't introduce new fonts beyond the three declared.",
+      "Don't auto-trigger the dyslexia simulator."
+    ]
+  }
+}
