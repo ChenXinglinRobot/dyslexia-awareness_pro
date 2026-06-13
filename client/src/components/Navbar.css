@@ -3,48 +3,32 @@
    ============================================================ */
 
 :root {
+  --color-1: #94a3b8;
+  --color-2: #94a3b8;
+  --color-3: #94a3b8;
+  --color-4: #94a3b8;
+  --gooey-text-light: #1f2937;
+  --gooey-text-dark: #1f2937;
+  --gooey-bg-hover-light: rgba(0, 0, 0, 0.12);
+  --gooey-bg-hover-dark: rgba(255, 255, 255, 0.1);
+}
+
+/* 日间模式（日间粒子低饱和，文字深灰） */
+:root:not(.dark) {
+  --color-1: #94a3b8;
+  --color-2: #94a3b8;
+  --color-3: #94a3b8;
+  --color-4: #94a3b8;
+  --gooey-text-light: #1f2937;
+}
+
+/* 夜间模式 */
+.dark {
   --color-1: #e0f2fe;
   --color-2: #fce7f3;
   --color-3: #dcfce7;
   --color-4: #fef08a;
   --gooey-text-light: white;
-  --gooey-text-dark: #1f2937;
-  --gooey-bg-hover-light: rgba(255, 255, 255, 0.1);
-  --gooey-bg-hover-dark: rgba(0, 0, 0, 0.05);
-  --linear-ease: linear(
-    0,
-    0.068,
-    0.19 2.7%,
-    0.804 8.1%,
-    1.037,
-    1.199 13.2%,
-    1.245,
-    1.27 15.8%,
-    1.274,
-    1.272 17.4%,
-    1.249 19.1%,
-    0.996 28%,
-    0.949,
-    0.928 33.3%,
-    0.926,
-    0.933 36.8%,
-    1.001 45.6%,
-    1.013,
-    1.019 50.8%,
-    1.018 54.4%,
-    1 63.1%,
-    0.995 68%,
-    1.001 85%,
-    1
-  );
-}
-
-/* 日间模式粒子颜色和文字颜色 */
-[data-theme="light"] {
-  --color-1: #0ea5e9;
-  --color-2: #ec4899;
-  --color-3: #22c55e;
-  --color-4: #eab308;
 }
 
 /* Gooey 导航容器 - 靠右对齐 */
@@ -68,7 +52,7 @@
   margin: 0;
   position: relative;
   z-index: 3;
-  color: white;
+  color: var(--gooey-text-light);
   text-shadow: 0 1px 1px hsl(205deg 30% 10% / 0.2);
 }
 
@@ -81,7 +65,7 @@
     color 0.3s ease,
     box-shadow 0.3s ease;
   box-shadow: 0 0 0.5px 1.5px transparent;
-  color: white;
+  color: var(--gooey-text-light);
   white-space: nowrap;
 }
 
@@ -91,24 +75,34 @@
 }
 
 .gooey-nav-container nav ul li:hover button {
-  color: white;
+  color: var(--gooey-text-light);
 }
 
-[data-theme="light"] .gooey-nav-container nav ul {
+/* 日间模式导航栏背景 + 文字 */
+:root:not(.dark) .gooey-nav-container nav ul {
   background: rgba(0, 0, 0, 0.12);
   border-radius: 100vw;
 }
 
-[data-theme="light"] .gooey-nav-container nav ul li {
+:root:not(.dark) .gooey-nav-container nav ul li {
   color: #374151;
 }
 
-[data-theme="light"] .gooey-nav-container nav ul li:hover {
+:root:not(.dark) .gooey-nav-container nav ul li:hover {
   background: rgba(0, 0, 0, 0.15);
 }
 
-[data-theme="light"] .gooey-nav-container nav ul li:hover button {
+:root:not(.dark) .gooey-nav-container nav ul li:hover button {
   color: #1f2937;
+}
+
+/* 夜间模式悬停覆盖 */
+.dark .gooey-nav-container nav ul li:hover {
+  background: var(--gooey-bg-hover-dark);
+}
+
+.dark .gooey-nav-container nav ul li:hover button {
+  color: white;
 }
 
 .gooey-nav-container nav ul li button {
@@ -123,7 +117,7 @@
 }
 
 .gooey-nav-container nav ul li:focus-within:has(:focus-visible) {
-  box-shadow: 0 0 0.5px 1.5px white;
+  box-shadow: 0 0 0.5px 1.5px var(--gooey-text-light);
 }
 
 .gooey-nav-container nav ul li::after {
@@ -139,8 +133,13 @@
 }
 
 .gooey-nav-container nav ul li.active {
-  color: black;
+  color: #1f2937;
   text-shadow: none;
+}
+
+/* 夜间模式 active 状态覆盖 */
+.dark .gooey-nav-container nav ul li.active {
+  color: black;
 }
 
 .gooey-nav-container nav ul li.active::after {
@@ -170,36 +169,18 @@
   font-weight: 400;
 }
 
-.gooey-nav-container .effect.text.active {
-  color: var(--gooey-text-dark);
-}
-
-/* 日间模式文字颜色 */
-[data-theme="light"] .gooey-nav-container .effect.text {
-  color: var(--gooey-text-dark);
-}
-
-[data-theme="light"] .gooey-nav-container .effect.text.active {
-  color: var(--gooey-text-dark);
-}
-
 .gooey-nav-container .effect.filter {
   filter: blur(7px) contrast(100) blur(0);
   mix-blend-mode: lighten;
 }
 
-/* 移除黑色背景，改用透明背景 */
+/* 透明背景，不需要 override */
 .gooey-nav-container .effect.filter::before {
   content: "";
   position: absolute;
   inset: -75px;
   z-index: -2;
   background: transparent;
-}
-
-/* 日间模式使用浅灰背景 */
-[data-theme="light"] .gooey-nav-container .effect.filter::before {
-  background: #e5e7eb;
 }
 
 .gooey-nav-container .effect.filter::after {

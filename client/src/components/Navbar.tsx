@@ -13,7 +13,6 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Gooey effect refs
@@ -22,7 +21,7 @@ export default function Navbar() {
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
 
-  // Gooey effect constants (from GooeyNav)
+  // Gooey particle system constants
   const noise = (n = 1) => n / 2 - Math.random() * n;
   const particleCount = 15;
   const particleDistances: [number, number] = [90, 0];
@@ -108,7 +107,6 @@ export default function Navbar() {
   const handleSelect = (element: HTMLElement, index: number) => {
     if (activeIndex === index) return;
 
-    // 移除所有 li 的 active 类，防止两个白色选中同时出现
     if (navRef.current) {
       navRef.current.querySelectorAll("li").forEach(li => {
         li.classList.remove("active");
@@ -121,16 +119,13 @@ export default function Navbar() {
     if (filterRef.current) {
       const particles = filterRef.current.querySelectorAll(".particle");
       particles.forEach((particle) => filterRef.current?.removeChild(particle));
+      makeParticles(filterRef.current);
     }
 
     if (textRef.current) {
       textRef.current.classList.remove("active");
       void textRef.current.offsetWidth;
       textRef.current.classList.add("active");
-    }
-
-    if (filterRef.current) {
-      makeParticles(filterRef.current);
     }
   };
 
@@ -141,7 +136,6 @@ export default function Navbar() {
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && el.getBoundingClientRect().top <= 100) {
-          setActiveSection(sections[i]);
           setActiveIndex(i);
           break;
         }
@@ -255,12 +249,12 @@ export default function Navbar() {
       {/* 移动端菜单 */}
       {menuOpen && (
         <div className="md:hidden bg-background/98 backdrop-blur-xl border-t border-border py-4">
-          {navLinks.map((link) => (
+          {navLinks.map((link, index) => (
             <button
               key={link.href}
               onClick={() => scrollTo(link.href)}
               className={`block w-full text-left px-6 py-3 text-sm transition-colors ${
-                activeSection === link.id
+                activeIndex === index
                   ? "text-primary bg-primary/8"
                   : "text-muted-foreground hover:text-foreground"
               }`}
