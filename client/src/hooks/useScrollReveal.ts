@@ -11,7 +11,8 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
   const { margin = "-80px", stagger = 0.1, defaultDuration = 0.6 } = options;
 
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: false, margin });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const inView = useInView(ref, { once: false, margin: margin as any });
   const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
