@@ -178,6 +178,7 @@
 .gooey-nav-container .effect.filter {
   filter: blur(7px) contrast(100) blur(0);
   mix-blend-mode: lighten;
+  transition: opacity 0.2s ease;
 }
 
 /* 透明背景，不需要 override */

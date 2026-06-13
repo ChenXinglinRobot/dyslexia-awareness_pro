@@ -46,7 +46,7 @@ export default function Navbar() {
     };
   };
 
-  const makeParticles = (element: HTMLElement, distances: [number, number] = [90, 0]) => {
+  const makeParticles = (element: HTMLElement, distances: [number, number] = [90, 0], manageActive = true) => {
     const d: [number, number] = distances;
     const r = particleR;
     const bubbleTime = animationTime * 2 + timeVariance;
@@ -55,7 +55,9 @@ export default function Navbar() {
     for (let i = 0; i < particleCount; i++) {
       const t = animationTime * 2 + noise(timeVariance * 2);
       const p = createParticle(i, t, d, r);
-      element.classList.remove("active");
+      if (manageActive) {
+        element.classList.remove("active");
+      }
 
       setTimeout(() => {
         const particle = document.createElement("span");
@@ -73,9 +75,11 @@ export default function Navbar() {
         point.classList.add("point");
         particle.appendChild(point);
         element.appendChild(particle);
-        requestAnimationFrame(() => {
-          element.classList.add("active");
-        });
+        if (manageActive) {
+          requestAnimationFrame(() => {
+            element.classList.add("active");
+          });
+        }
         setTimeout(() => {
           try {
             element.removeChild(particle);
@@ -118,6 +122,9 @@ export default function Navbar() {
     if (oldIndex !== index && filterRef.current && containerRef.current) {
       const oldItem = navRef.current?.querySelectorAll("li button")[oldIndex] as HTMLElement;
       if (oldItem) {
+        // 显式设置 opacity = 0，让 gooey fill 渐隐
+        filterRef.current.style.opacity = "0";
+
         const containerRect = containerRef.current.getBoundingClientRect();
         const oldPos = oldItem.getBoundingClientRect();
         // 临时把 filter 移回旧位置
@@ -129,10 +136,10 @@ export default function Navbar() {
         });
         textRef.current!.innerText = oldItem.innerText;
 
-        // 清除旧粒子，在旧位置散开
+        // 清除旧粒子，在旧位置散开（不管理 active class）
         const particles = filterRef.current.querySelectorAll(".particle");
         particles.forEach((particle) => filterRef.current?.removeChild(particle));
-        makeParticles(filterRef.current, [0, 90]); // 散开：中心→外围
+        makeParticles(filterRef.current, [0, 90], false);
       }
     }
 
@@ -141,10 +148,12 @@ export default function Navbar() {
       setActiveIndex(index);
       updateEffectPosition(element);
 
+      // 显式设置 opacity = 1，让 gooey fill 渐显
       if (filterRef.current) {
+        filterRef.current.style.opacity = "1";
         const particles = filterRef.current.querySelectorAll(".particle");
         particles.forEach((particle) => filterRef.current?.removeChild(particle));
-        makeParticles(filterRef.current, [90, 0]); // 聚拢：外围→中心
+        makeParticles(filterRef.current, [90, 0], false); // 不管理 active，直接用 opacity 控制
       }
 
       if (textRef.current) {
@@ -152,7 +161,7 @@ export default function Navbar() {
         void textRef.current.offsetWidth;
         textRef.current.classList.add("active");
       }
-    }, 400); // 等待散开粒子扩散一段时间后再跳变
+    }, 400);
   };
 
   useEffect(() => {
