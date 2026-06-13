@@ -1,6 +1,7 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 
+import { GalleryWaveContext } from './GalleryWaveContext';
 import './CircularGallery.css';
 
 type GL = Renderer['gl'];
@@ -30,6 +31,23 @@ const DEFAULT_FONT = 'bold 30px Figtree';
 // Figtree is not guaranteed to be available on the host page, so the component
 // loads it on demand whenever the default font is used.
 const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap';
+
+/**
+ * Performance tuning config — tweak these values to balance visual quality vs. GPU cost
+ */
+export const PERFORMANCE_CONFIG = {
+  // Wave animation speed: lower = slower/cheaper, higher = faster/more expensive
+  // Range: 0.001 (very slow) to 0.05 (fast). Default: 0.008 (80% reduction from original 0.04)
+  waveTimeIncrement: 0.008,
+
+  // Plane geometry segments: lower = fewer vertices = cheaper rendering
+  // Range: { height: 5-50, width: 10-100 }. Default: { height: 20, width: 40 }
+  geometrySegments: { height: 20, width: 40 },
+
+  // Frame skip: render every N frames. 1 = full FPS, 2 = half FPS, etc.
+  // Range: 1-4. Default: 1 (no skip for smoothest experience)
+  frameSkip: 1,
+} as const;
 
 function deriveFontFamilyFromUrl(url: string): string {
   const fileName = (url.split('/').pop() || 'custom-font').split('?')[0];
@@ -278,6 +296,11 @@ class Media {
   speed: number = 0;
   isBefore: boolean = false;
   isAfter: boolean = false;
+  wavePaused: boolean = false;
+
+  setWavePaused(paused: boolean) {
+    this.wavePaused = paused;
+  }
 
   constructor({
     geometry,
@@ -433,7 +456,9 @@ class Media {
     }
 
     this.speed = scroll.current - scroll.last;
-    this.program.uniforms.uTime.value += 0.04;
+    if (!this.wavePaused) {
+      this.program.uniforms.uTime.value += PERFORMANCE_CONFIG.waveTimeIncrement;
+    }
     this.program.uniforms.uSpeed.value = this.speed;
 
     const planeOffset = this.plane.scale.x / 2;
@@ -559,9 +584,10 @@ class App {
   }
 
   createGeometry() {
+    const seg = PERFORMANCE_CONFIG.geometrySegments;
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100
+      heightSegments: seg.height,
+      widthSegments: seg.width
     });
   }
 
@@ -701,7 +727,11 @@ class App {
     if (this.medias) {
       this.medias.forEach(media => media.update(this.scroll, direction));
     }
-    this.renderer.render({ scene: this.scene, camera: this.camera });
+    const skip = PERFORMANCE_CONFIG.frameSkip;
+    if (skip <= 1 || this.frameCount === undefined) {
+      this.renderer.render({ scene: this.scene, camera: this.camera });
+    }
+    this.frameCount = ((this.frameCount || 0) + 1) % skip;
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
@@ -721,6 +751,10 @@ class App {
     window.addEventListener('touchstart', this.boundOnTouchDown);
     window.addEventListener('touchmove', this.boundOnTouchMove);
     window.addEventListener('touchend', this.boundOnTouchUp);
+  }
+
+  setWavePaused(paused: boolean) {
+    this.medias.forEach(media => media.setWavePaused(paused));
   }
 
   destroy() {
@@ -762,13 +796,15 @@ export default function CircularGallery({
   scrollEase = 0.05
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<App | undefined>();
+  const { isPaused } = useContext(GalleryWaveContext);
+
   useEffect(() => {
     if (!containerRef.current) return;
-    let app: App | undefined;
     let isMounted = true;
     resolveFont(font, fontUrl).then(resolvedFont => {
       if (!isMounted || !containerRef.current) return;
-      app = new App(containerRef.current, {
+      appRef.current = new App(containerRef.current, {
         items,
         bend,
         textColor,
@@ -780,8 +816,19 @@ export default function CircularGallery({
     });
     return () => {
       isMounted = false;
-      if (app) app.destroy();
+      if (appRef.current) {
+        appRef.current.destroy();
+        appRef.current = undefined;
+      }
     };
   }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase]);
+
+  // Sync wave pause state when modal opens/closes
+  useEffect(() => {
+    if (appRef.current) {
+      appRef.current.setWavePaused(isPaused);
+    }
+  }, [isPaused]);
+
   return <div className="circular-gallery" ref={containerRef} />;
 }

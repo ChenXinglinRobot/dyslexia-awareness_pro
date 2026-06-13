@@ -5,11 +5,13 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope } from "lucide-react";
+import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope, InfoIcon } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import CircularGallery from "./CircularGallery";
 import { famousDyslexics } from "@/data/famousDyslexics";
+import FamousDyslexicsModal from "./FamousDyslexicsModal";
+import { GalleryWaveContext } from "./GalleryWaveContext";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-TcCGm2ayK8j4zP26qRa3WD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-light-NvKmNJuEMR3fiRz3FNaBFi.webp";
@@ -65,10 +67,12 @@ export default function ActionSection() {
   const { theme } = useTheme();
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <section id="action" className="relative overflow-hidden">
-      <div className="divider-glow" />
+    <GalleryWaveContext.Provider value={{ isPaused: showModal }}>
+      <section id="action" className="relative overflow-hidden">
+        <div className="divider-glow" />
 
       <div className="absolute inset-0 opacity-8">
         <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-700" style={{ backgroundImage: `url(${sectionBg})` }} />
@@ -189,8 +193,20 @@ export default function ActionSection() {
             <p className="text-center text-muted-foreground text-sm mt-4" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               以上名人均为已确诊的阅读障碍者，他们在各自领域做出了杰出贡献。
             </p>
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={() => setShowModal(true)}
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-105 active:scale-95"
+                style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+              >
+                <InfoIcon className="w-4 h-4" />
+                了解详情
+              </button>
+            </div>
           </div>
         </motion.div>
+
+        <FamousDyslexicsModal open={showModal} onOpenChange={setShowModal} />
 
         {/* 金句 */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 1, delay: delay(10) }} className="text-center py-12">
@@ -200,5 +216,6 @@ export default function ActionSection() {
         </motion.div>
       </div>
     </section>
+    </GalleryWaveContext.Provider>
   );
 }

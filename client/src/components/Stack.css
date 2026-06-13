@@ -1,0 +1,100 @@
+.stack-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 600px;
+}
+
+.card-rotate {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.card-rotate-disabled {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Famous Dyslexics Card Styles */
+.card-famous {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.card-famous-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.card-famous-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  color: white;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+}
+
+.card-famous-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  font-family: 'Noto Serif SC', serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-famous-field {
+  font-size: 0.875rem;
+  color: #a5b4fc;
+  margin-bottom: 0.5rem;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.card-famous-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 300;
+}
+
+.stack-wrapper {
+  height: calc(100vh - 180px);
+  min-height: 400px;
+}
