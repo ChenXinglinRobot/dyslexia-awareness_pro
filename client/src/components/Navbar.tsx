@@ -118,10 +118,6 @@ export default function Navbar() {
     if (oldIndex !== index && filterRef.current && containerRef.current) {
       const oldItem = navRef.current?.querySelectorAll("li button")[oldIndex] as HTMLElement;
       if (oldItem) {
-        // 先移除 active，让 gooey fill 消失
-        filterRef.current.classList.remove("active");
-        textRef.current?.classList.remove("active");
-
         const containerRect = containerRef.current.getBoundingClientRect();
         const oldPos = oldItem.getBoundingClientRect();
         // 临时把 filter 移回旧位置

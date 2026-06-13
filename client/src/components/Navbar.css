@@ -198,10 +198,13 @@
   opacity: 0;
   z-index: -1;
   border-radius: 100vw;
+  transition: opacity 0.2s ease;
 }
 
-.gooey-nav-container .effect.active::after {
-  animation: pill 0.3s ease both;
+.gooey-nav-container .effect.filter.active::after {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.2s ease, transform 0.3s ease;
 }
 
 @keyframes pill {
