@@ -1,34 +1,38 @@
 # React Bits 组件库文档
 
-> 本目录包含 20 个由 `@react-bits` 提供的视觉效果组件，涵盖文字动画、卡片交互、3D 画廊、物理粒子等类别。每个组件均有独立 `README.md` 详细说明。
+> 本目录除了包含自己的设计外，还包含 20 个由 `@react-bits` 提供的视觉效果组件，涵盖文字动画、卡片交互、3D 画廊、物理粒子等类别。每个组件均有独立 `README.md` 详细说明。
 
 ---
 
 ## 目录
 
-- [文字动画类](#文字动画类)
-  - [GlitchText](#glitchtext) — 故障风文字
-  - [RotatingText](#rotatingtext) — 轮换文字
-  - [ScrambledText](#scrambledtext) — 近距离打乱还原
-  - [DecryptedText](#decryptedtext) — 解密动画
-  - [BlurText](#blurtext) — 模糊展开
-  - [FuzzyText](#fuzzytext) — 毛边模糊
-  - [TextPressure](#textpressure) — 可变字体挤压
-  - [ShinyText](#shinytext) — 光泽扫过
-  - [Shuffle](#shuffle) — GSAP 洗牌动画
-  - [TrueFocus](#truefocus) — 焦点模糊
-  - [ASCIIText](#asciitext) — ASCII 艺术文字
-  - [FallingText](#fallingtext) — 物理坠落
-- [卡片交互类](#卡片交互类)
-  - [CardSwap](#cardswap) — 3D 堆叠卡片轮换
-  - [BorderGlow](#borderglow) — 发光边框
-  - [SpotlightCard](#spotlightcard) — 聚光灯卡片
-- [3D / WebGL 类](#3d--webgl-类)
-  - [CircularGallery](#circulargallery) — 3D 环形画廊
-  - [Antigravity](#antigravity) — 反重力粒子
-  - [ShapeBlur](#shapeblur) — Three.js 形状模糊层
-- [氛围叠加类](#氛围叠加类)
-  - [Noise](#noise) — 动态噪点
+- [React Bits 组件库文档](#react-bits-组件库文档)
+  - [目录](#目录)
+  - [文字动画类](#文字动画类)
+    - [GlitchText](#glitchtext)
+    - [RotatingText](#rotatingtext)
+    - [ScrambledText](#scrambledtext)
+    - [DecryptedText](#decryptedtext)
+    - [BlurText](#blurtext)
+    - [FuzzyText](#fuzzytext)
+    - [TextPressure](#textpressure)
+    - [ShinyText](#shinytext)
+    - [Shuffle](#shuffle)
+    - [TrueFocus](#truefocus)
+    - [ASCIIText](#asciitext)
+    - [FallingText](#fallingtext)
+  - [卡片交互类](#卡片交互类)
+    - [CardSwap](#cardswap)
+    - [BorderGlow](#borderglow)
+    - [SpotlightCard](#spotlightcard)
+  - [3D / WebGL 类](#3d--webgl-类)
+    - [CircularGallery](#circulargallery)
+    - [Antigravity](#antigravity)
+    - [ShapeBlur](#shapeblur)
+  - [氛围叠加类](#氛围叠加类)
+    - [Noise](#noise)
+  - [场景组合推荐](#场景组合推荐)
+  - [依赖说明](#依赖说明)
 
 ---
 
