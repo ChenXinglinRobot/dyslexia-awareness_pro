@@ -3,14 +3,13 @@
    ============================================================ */
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
+import { Menu, X } from "lucide-react";
+import ThemeToggleButton from "./ThemeToggleButton";
 import "./Navbar.css";
 
 const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/logo-icon-B8wkoZ4z4y5bf87CJoo3x3.webp";
 
 export default function Navbar() {
-  const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -288,23 +287,12 @@ export default function Navbar() {
           <span className="effect text" ref={textRef} />
         </div>
 
-        {/* 主题切换按钮 */}
-        <button
-          onClick={toggleTheme}
-          className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-sm hover:bg-secondary"
-          title={theme === "dark" ? "切换到日间模式" : "切换到夜间模式"}
-        >
-          {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-        </button>
+        {/* 主题切换按钮 — 桌面端 */}
+        <ThemeToggleButton className="hidden md:block" />
 
         {/* 移动端按钮组 */}
         <div className="md:hidden flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="p-2 text-muted-foreground hover:text-primary transition-colors"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
+          <ThemeToggleButton />
           <button
             className="p-2 text-muted-foreground"
             onClick={() => setMenuOpen(!menuOpen)}
