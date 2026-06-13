@@ -20,6 +20,7 @@ export default function Navbar() {
   const navRef = useRef<HTMLDivElement>(null);
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
+  const isAnimatingRef = useRef(false);
 
   // Gooey particle system constants
   const noise = (n = 1) => n / 2 - Math.random() * n;
@@ -108,9 +109,10 @@ export default function Navbar() {
   };
 
   const handleSelect = (element: HTMLElement, index: number) => {
-    if (activeIndex === index) return;
+    if (activeIndex === index || isAnimatingRef.current) return;
 
     const oldIndex = activeIndex;
+    isAnimatingRef.current = true;
 
     if (navRef.current) {
       navRef.current.querySelectorAll("li").forEach(li => {
@@ -161,12 +163,21 @@ export default function Navbar() {
         void textRef.current.offsetWidth;
         textRef.current.classList.add("active");
       }
+
+      // 动画完成后释放锁，保护粒子动画完整播放
+      setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 800);
     }, 400);
   };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
+
+      // 动画期间绝不允许滚动改变 activeIndex，防止 React re-render 导致 <li> 闪烁
+      if (isAnimatingRef.current) return;
+
       const sections = ["hero", "understand", "action", "resources", "about"];
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -182,7 +193,8 @@ export default function Navbar() {
 
   // 滚动导致 activeIndex 变化时，同步更新 gooey 特效位置
   useEffect(() => {
-    if (!navRef.current) return;
+    // 双重保险：动画期间跳过，防止意外干扰
+    if (!navRef.current || isAnimatingRef.current) return;
     const activeItem = navRef.current.querySelectorAll("li button")[activeIndex] as HTMLElement;
     if (activeItem) {
       updateEffectPosition(activeItem);
@@ -190,7 +202,7 @@ export default function Navbar() {
         if (filterRef.current) {
           const particles = filterRef.current.querySelectorAll(".particle");
           particles.forEach((particle) => filterRef.current?.removeChild(particle));
-          makeParticles(filterRef.current, [90, 0]); // 聚拢：外围→中心
+          makeParticles(filterRef.current, [90, 0], false); // 聚拢：外围→中心，不操控 active class
         }
       }, 150);
       if (textRef.current) {
