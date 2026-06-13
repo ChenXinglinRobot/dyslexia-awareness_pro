@@ -132,14 +132,15 @@
   z-index: -1;
 }
 
-.gooey-nav-container nav ul li.active {
-  color: #1f2937;
+/* 提升特异性：强制 active 颜色，无论日间/夜间 */
+:root:not(.dark) .gooey-nav-container nav ul li.active {
+  color: var(--primary);
   text-shadow: none;
 }
 
-/* 夜间模式 active 状态覆盖 */
 .dark .gooey-nav-container nav ul li.active {
-  color: black;
+  color: var(--primary);
+  text-shadow: none;
 }
 
 .gooey-nav-container nav ul li.active::after {
@@ -167,6 +168,11 @@
   font-size: 0.875rem;
   font-family: 'Noto Sans SC', sans-serif;
   font-weight: 400;
+}
+
+/* active 状态：文字颜色变橙色，匹配 li.active */
+.gooey-nav-container .effect.text.active {
+  color: var(--primary);
 }
 
 .gooey-nav-container .effect.filter {

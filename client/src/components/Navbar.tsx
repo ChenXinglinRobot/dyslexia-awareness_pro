@@ -24,7 +24,6 @@ export default function Navbar() {
   // Gooey particle system constants
   const noise = (n = 1) => n / 2 - Math.random() * n;
   const particleCount = 15;
-  const particleDistances: [number, number] = [90, 0];
   const particleR = 100;
   const timeVariance = 300;
   const animationTime = 600;
@@ -47,8 +46,8 @@ export default function Navbar() {
     };
   };
 
-  const makeParticles = (element: HTMLElement) => {
-    const d: [number, number] = particleDistances;
+  const makeParticles = (element: HTMLElement, distances: [number, number] = [90, 0]) => {
+    const d: [number, number] = distances;
     const r = particleR;
     const bubbleTime = animationTime * 2 + timeVariance;
     element.style.setProperty("--time", `${bubbleTime}ms`);
@@ -107,26 +106,57 @@ export default function Navbar() {
   const handleSelect = (element: HTMLElement, index: number) => {
     if (activeIndex === index) return;
 
+    const oldIndex = activeIndex;
+
     if (navRef.current) {
       navRef.current.querySelectorAll("li").forEach(li => {
         li.classList.remove("active");
       });
     }
 
-    setActiveIndex(index);
-    updateEffectPosition(element);
+    // Phase 1: 在旧位置散开（扩散）
+    if (oldIndex !== index && filterRef.current && containerRef.current) {
+      const oldItem = navRef.current?.querySelectorAll("li button")[oldIndex] as HTMLElement;
+      if (oldItem) {
+        // 先移除 active，让 gooey fill 消失
+        filterRef.current.classList.remove("active");
+        textRef.current?.classList.remove("active");
 
-    if (filterRef.current) {
-      const particles = filterRef.current.querySelectorAll(".particle");
-      particles.forEach((particle) => filterRef.current?.removeChild(particle));
-      makeParticles(filterRef.current);
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const oldPos = oldItem.getBoundingClientRect();
+        // 临时把 filter 移回旧位置
+        Object.assign(filterRef.current.style, {
+          left: `${oldPos.x - containerRect.x}px`,
+          top: `${oldPos.y - containerRect.top}px`,
+          width: `${oldPos.width}px`,
+          height: `${oldPos.height}px`,
+        });
+        textRef.current!.innerText = oldItem.innerText;
+
+        // 清除旧粒子，在旧位置散开
+        const particles = filterRef.current.querySelectorAll(".particle");
+        particles.forEach((particle) => filterRef.current?.removeChild(particle));
+        makeParticles(filterRef.current, [0, 90]); // 散开：中心→外围
+      }
     }
 
-    if (textRef.current) {
-      textRef.current.classList.remove("active");
-      void textRef.current.offsetWidth;
-      textRef.current.classList.add("active");
-    }
+    // 延迟后：gooey 跳到新位置 + 聚拢粒子
+    setTimeout(() => {
+      setActiveIndex(index);
+      updateEffectPosition(element);
+
+      if (filterRef.current) {
+        const particles = filterRef.current.querySelectorAll(".particle");
+        particles.forEach((particle) => filterRef.current?.removeChild(particle));
+        makeParticles(filterRef.current, [90, 0]); // 聚拢：外围→中心
+      }
+
+      if (textRef.current) {
+        textRef.current.classList.remove("active");
+        void textRef.current.offsetWidth;
+        textRef.current.classList.add("active");
+      }
+    }, 400); // 等待散开粒子扩散一段时间后再跳变
   };
 
   useEffect(() => {
@@ -144,6 +174,27 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // 滚动导致 activeIndex 变化时，同步更新 gooey 特效位置
+  useEffect(() => {
+    if (!navRef.current) return;
+    const activeItem = navRef.current.querySelectorAll("li button")[activeIndex] as HTMLElement;
+    if (activeItem) {
+      updateEffectPosition(activeItem);
+      setTimeout(() => {
+        if (filterRef.current) {
+          const particles = filterRef.current.querySelectorAll(".particle");
+          particles.forEach((particle) => filterRef.current?.removeChild(particle));
+          makeParticles(filterRef.current, [90, 0]); // 聚拢：外围→中心
+        }
+      }, 150);
+      if (textRef.current) {
+        textRef.current.classList.remove("active");
+        void textRef.current.offsetWidth;
+        textRef.current.classList.add("active");
+      }
+    }
+  }, [activeIndex]);
 
   // Initialize effect position on mount
   useEffect(() => {
