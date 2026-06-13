@@ -3,10 +3,11 @@
    包含：个人可以、社会可以（含排版调适体验目标三）、优势视角、金句
    ============================================================ */
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-TcCGm2ayK8j4zP26qRa3WD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-light-NvKmNJuEMR3fiRz3FNaBFi.webp";
@@ -60,8 +61,7 @@ function TypographyAdjuster() {
 
 export default function ActionSection() {
   const { theme } = useTheme();
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
 
   return (
@@ -86,7 +86,7 @@ export default function ActionSection() {
             <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>个人可以</h3>
           </div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(1) }}
             className="bg-card border border-border p-6 mb-4 transition-colors duration-500">
             <div className="flex items-center gap-2 mb-3">
               <Heart className="w-4 h-4 text-primary" />
@@ -97,7 +97,7 @@ export default function ActionSection() {
             </p>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(2) }}
             className="bg-primary/8 border border-primary/30 p-6 text-center transition-colors duration-500">
             <p className="text-primary text-lg" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 500 }}>
               以及最朴素的三件事：不催促、不嘲笑、尽早评估。
@@ -113,7 +113,7 @@ export default function ActionSection() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-4 mb-6">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.3 }}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: delay(3) }}
               className="bg-card border border-border p-5 transition-colors duration-500">
               <div className="flex items-center gap-2 mb-3">
                 <Stethoscope className="w-4 h-4 text-primary" />
@@ -124,7 +124,7 @@ export default function ActionSection() {
               </p>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.4 }}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: delay(4) }}
               className="bg-card border border-border p-5 transition-colors duration-500">
               <div className="flex items-center gap-2 mb-3">
                 <GraduationCap className="w-4 h-4 text-primary" />
@@ -136,11 +136,11 @@ export default function ActionSection() {
             </motion.div>
           </div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.5 }} className="mb-6">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(5) }} className="mb-6">
             <TypographyAdjuster />
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.6 }}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(6) }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="flex items-center gap-4 bg-card border border-border p-5 transition-colors duration-500">
               <Clock className="w-6 h-6 text-primary shrink-0" />
@@ -152,14 +152,14 @@ export default function ActionSection() {
             </div>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: 0.7 }}
+          <motion.p initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: delay(7) }}
             className="text-muted-foreground text-sm leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
             排版调适只是起点。在制度层面，特殊教育支持同样可以为他们「调一调参数」。
           </motion.p>
         </div>
 
         {/* 优势视角 */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.8 }} className="mb-16">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: delay(8) }} className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <Sparkles className="w-5 h-5 text-primary" />
             <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>优势视角</h3>
@@ -172,7 +172,7 @@ export default function ActionSection() {
         </motion.div>
 
         {/* 金句 */}
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 1, delay: 1 }} className="text-center py-12">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 1, delay: delay(10) }} className="text-center py-12">
           <p className="text-3xl md:text-5xl text-primary leading-tight" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
             「文字应该向每个人敞开。」
           </p>

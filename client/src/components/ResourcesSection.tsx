@@ -2,10 +2,10 @@
    ResourcesSection — 社会资源
    ============================================================ */
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { ExternalLink, ClipboardList, BookOpen, Building } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-Lewy7Hs2KY2GAPVNgUiHwD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-light-Yuw2okRBVT6i8Mn6NYWwwg.webp";
@@ -32,8 +32,7 @@ const screeningClues = [
 
 export default function ResourcesSection() {
   const { theme } = useTheme();
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
 
   return (
@@ -58,7 +57,7 @@ export default function ResourcesSection() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {institutions.map((inst, index) => (
               <motion.a key={index} href={inst.url} target="_blank" rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 * index }}
+                initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: delay(index) }}
                 className="bg-card border border-border p-5 hover:border-primary/50 transition-all card-hover block">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="text-foreground text-sm font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>{inst.name}</h4>

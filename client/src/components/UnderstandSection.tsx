@@ -5,10 +5,11 @@
    体验目标二：直观看见"乘法归零"
    ============================================================ */
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
@@ -106,8 +107,7 @@ function DyslexiaSimulator() {
 
 function ReadingMechanism() {
   const [decodeOff, setDecodeOff] = useState(false);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.2 });
 
   const decodeValue = decodeOff ? 0 : 1;
   const result = decodeValue * 1;
@@ -117,7 +117,7 @@ function ReadingMechanism() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, delay: delay(0) }}
         className="text-center"
       >
         <p className="text-2xl md:text-3xl text-foreground mb-4" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
@@ -131,7 +131,7 @@ function ReadingMechanism() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        transition={{ duration: 0.6, delay: delay(1) }}
         className="bg-card border border-border p-6 md:p-8 transition-colors duration-500"
       >
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
@@ -176,7 +176,7 @@ function ReadingMechanism() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: 0.4 }}
+        transition={{ duration: 0.6, delay: delay(2) }}
         className="grid grid-cols-2 gap-3 md:gap-4 max-w-xl mx-auto"
       >
         <div className="p-4 bg-card border border-border text-center transition-colors duration-500">
@@ -205,8 +205,7 @@ function ReadingMechanism() {
 // ============ 汉语特殊性 ============
 
 function ChineseSpecificity() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.1 });
 
   const awarenessItems = [
     { title: "复合意识", example: "长颈鹿、梅花鹿 →「短颈鳄」？", desc: "理解词语由语素组合而成的规则。" },
@@ -233,7 +232,7 @@ function ChineseSpecificity() {
             key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 * index }}
+            transition={{ duration: 0.5, delay: delay(index) }}
             className="bg-card border border-border p-5 hover:border-primary/50 transition-colors duration-300"
           >
             <div className="flex items-center gap-2 mb-3">
@@ -249,7 +248,7 @@ function ChineseSpecificity() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: 0.5 }}
+        transition={{ duration: 0.6, delay: delay(5) }}
         className="bg-primary/8 border border-primary/30 p-6 text-center transition-colors duration-500"
       >
         <p className="text-primary text-xl md:text-2xl" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
@@ -263,8 +262,7 @@ function ChineseSpecificity() {
 // ============ 误解 vs 事实 ============
 
 function MythsVsFacts() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.15 });
 
   const items = [
     { myth: '\u201c他就是不用功\u201d', fact: '与努力程度无关' },
@@ -279,7 +277,7 @@ function MythsVsFacts() {
           key={index}
           initial={{ opacity: 0, x: -20 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.15 * index }}
+          transition={{ duration: 0.5, delay: delay(index) }}
           className="flex flex-col md:flex-row gap-4 bg-card border border-border p-5 transition-colors duration-500"
         >
           <div className="flex items-start gap-3 flex-1">
@@ -300,8 +298,7 @@ function MythsVsFacts() {
 
 export default function UnderstandSection() {
   const { theme } = useTheme();
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
 
   return (
@@ -317,7 +314,7 @@ export default function UnderstandSection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: delay(0) }}
           className="mb-16"
         >
           <p className="text-primary text-sm tracking-[0.2em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>Understanding Dyslexia</p>
