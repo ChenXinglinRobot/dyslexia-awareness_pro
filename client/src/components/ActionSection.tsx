@@ -8,6 +8,8 @@ import { useState } from "react";
 import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import CircularGallery from "./CircularGallery";
+import { famousDyslexics } from "@/data/famousDyslexics";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-TcCGm2ayK8j4zP26qRa3WD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-light-NvKmNJuEMR3fiRz3FNaBFi.webp";
@@ -167,6 +169,25 @@ export default function ActionSection() {
           <div className="bg-gradient-to-br from-primary/10 to-destructive/5 border border-primary/30 p-8 md:p-12 transition-colors duration-500">
             <p className="text-foreground text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 500 }}>
               阅读障碍不只意味着困难。许多阅读障碍者在艺术、空间科学、创新思维与审辨性思维上拥有独特天赋。科普的终点不是怜悯，而是欣赏与赋能。
+            </p>
+          </div>
+        </motion.div>
+
+        {/* 名人画廊 */}
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: delay(9) }} className="mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>阅读障碍名人</h3>
+          </div>
+          <div className="bg-card border border-border p-4 md:p-6" style={{ height: "480px" }}>
+            <CircularGallery
+              items={famousDyslexics.map(p => ({ image: p.image, text: p.name }))}
+              bend={2}
+              textColor="#545050"
+              borderRadius={0.1}
+              scrollSpeed={1.5}
+            />
+            <p className="text-center text-muted-foreground text-sm mt-4" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+              以上名人均为已确诊的阅读障碍者，他们在各自领域做出了杰出贡献。
             </p>
           </div>
         </motion.div>

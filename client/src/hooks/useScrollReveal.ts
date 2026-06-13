@@ -10,7 +10,7 @@ interface UseScrollRevealOptions {
 export function useScrollReveal(options: UseScrollRevealOptions = {}) {
   const { margin = "-80px", stagger = 0.1, defaultDuration = 0.6 } = options;
 
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inView = useInView(ref, { once: false, margin: margin as any });
   const hasAnimatedRef = useRef(false);
