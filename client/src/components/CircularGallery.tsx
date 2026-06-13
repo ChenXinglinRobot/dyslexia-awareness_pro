@@ -1,7 +1,6 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
-import { useEffect, useRef, useContext } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { GalleryWaveContext } from './GalleryWaveContext';
 import './CircularGallery.css';
 
 type GL = Renderer['gl'];
@@ -31,23 +30,6 @@ const DEFAULT_FONT = 'bold 30px Figtree';
 // Figtree is not guaranteed to be available on the host page, so the component
 // loads it on demand whenever the default font is used.
 const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap';
-
-/**
- * Performance tuning config — tweak these values to balance visual quality vs. GPU cost
- */
-export const PERFORMANCE_CONFIG = {
-  // Wave animation speed: lower = slower/cheaper, higher = faster/more expensive
-  // Range: 0.001 (very slow) to 0.05 (fast). Default: 0.008 (80% reduction from original 0.04)
-  waveTimeIncrement: 0.008,
-
-  // Plane geometry segments: lower = fewer vertices = cheaper rendering
-  // Range: { height: 5-50, width: 10-100 }. Default: { height: 20, width: 40 }
-  geometrySegments: { height: 20, width: 40 },
-
-  // Frame skip: render every N frames. 1 = full FPS, 2 = half FPS, etc.
-  // Range: 1-4. Default: 1 (no skip for smoothest experience)
-  frameSkip: 1,
-} as const;
 
 function deriveFontFamilyFromUrl(url: string): string {
   const fileName = (url.split('/').pop() || 'custom-font').split('?')[0];
@@ -296,11 +278,6 @@ class Media {
   speed: number = 0;
   isBefore: boolean = false;
   isAfter: boolean = false;
-  wavePaused: boolean = false;
-
-  setWavePaused(paused: boolean) {
-    this.wavePaused = paused;
-  }
 
   constructor({
     geometry,
@@ -456,9 +433,7 @@ class Media {
     }
 
     this.speed = scroll.current - scroll.last;
-    if (!this.wavePaused) {
-      this.program.uniforms.uTime.value += PERFORMANCE_CONFIG.waveTimeIncrement;
-    }
+    this.program.uniforms.uTime.value += 0.04;
     this.program.uniforms.uSpeed.value = this.speed;
 
     const planeOffset = this.plane.scale.x / 2;
@@ -525,6 +500,7 @@ class App {
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
   raf: number = 0;
+  isPaused: boolean = false;
 
   boundOnResize!: () => void;
   boundOnWheel!: (e: Event) => void;
@@ -584,10 +560,9 @@ class App {
   }
 
   createGeometry() {
-    const seg = PERFORMANCE_CONFIG.geometrySegments;
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: seg.height,
-      widthSegments: seg.width
+      heightSegments: 50,
+      widthSegments: 100
     });
   }
 
@@ -721,17 +696,26 @@ class App {
     }
   }
 
+  pause() {
+    this.isPaused = true;
+  }
+
+  resume() {
+    this.isPaused = false;
+    this.update(); // 手动触发一次来重新唤醒 RAF 循环
+  }
+
   update() {
+    if (this.isPaused) {
+      // RAF 链正常终止（因为没调用下一次 RAF）
+      return;
+    }
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
     if (this.medias) {
       this.medias.forEach(media => media.update(this.scroll, direction));
     }
-    const skip = PERFORMANCE_CONFIG.frameSkip;
-    if (skip <= 1 || this.frameCount === undefined) {
-      this.renderer.render({ scene: this.scene, camera: this.camera });
-    }
-    this.frameCount = ((this.frameCount || 0) + 1) % skip;
+    this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
   }
@@ -751,10 +735,6 @@ class App {
     window.addEventListener('touchstart', this.boundOnTouchDown);
     window.addEventListener('touchmove', this.boundOnTouchMove);
     window.addEventListener('touchend', this.boundOnTouchUp);
-  }
-
-  setWavePaused(paused: boolean) {
-    this.medias.forEach(media => media.setWavePaused(paused));
   }
 
   destroy() {
@@ -783,6 +763,7 @@ interface CircularGalleryProps {
   fontUrl?: string;
   scrollSpeed?: number;
   scrollEase?: number;
+  disabled?: boolean;
 }
 
 export default function CircularGallery({
@@ -793,11 +774,11 @@ export default function CircularGallery({
   font = 'bold 30px Figtree',
   fontUrl,
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  disabled = false
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const appRef = useRef<App | undefined>();
-  const { isPaused } = useContext(GalleryWaveContext);
+  const appRef = useRef<App | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -813,22 +794,29 @@ export default function CircularGallery({
         scrollSpeed,
         scrollEase
       });
+      // 如果初始就是 disabled 状态，立即暂停
+      if (disabled) {
+        appRef.current.pause();
+      }
     });
     return () => {
       isMounted = false;
       if (appRef.current) {
         appRef.current.destroy();
-        appRef.current = undefined;
+        appRef.current = null;
       }
     };
   }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase]);
 
-  // Sync wave pause state when modal opens/closes
+  // 处理 disabled 状态变化
   useEffect(() => {
-    if (appRef.current) {
-      appRef.current.setWavePaused(isPaused);
+    if (!appRef.current) return;
+    if (disabled) {
+      appRef.current.pause();
+    } else {
+      appRef.current.resume();
     }
-  }, [isPaused]);
+  }, [disabled]);
 
   return <div className="circular-gallery" ref={containerRef} />;
 }

@@ -11,7 +11,6 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import CircularGallery from "./CircularGallery";
 import { famousDyslexics } from "@/data/famousDyslexics";
 import FamousDyslexicsModal from "./FamousDyslexicsModal";
-import { GalleryWaveContext } from "./GalleryWaveContext";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-TcCGm2ayK8j4zP26qRa3WD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-light-NvKmNJuEMR3fiRz3FNaBFi.webp";
@@ -70,9 +69,8 @@ export default function ActionSection() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <GalleryWaveContext.Provider value={{ isPaused: showModal }}>
-      <section id="action" className="relative overflow-hidden">
-        <div className="divider-glow" />
+    <section id="action" className="relative overflow-hidden">
+      <div className="divider-glow" />
 
       <div className="absolute inset-0 opacity-8">
         <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-700" style={{ backgroundImage: `url(${sectionBg})` }} />
@@ -189,6 +187,7 @@ export default function ActionSection() {
               textColor="#545050"
               borderRadius={0.1}
               scrollSpeed={1.5}
+              disabled={showModal}
             />
             <p className="text-center text-muted-foreground text-sm mt-4" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               以上名人均为已确诊的阅读障碍者，他们在各自领域做出了杰出贡献。
@@ -216,6 +215,5 @@ export default function ActionSection() {
         </motion.div>
       </div>
     </section>
-    </GalleryWaveContext.Provider>
   );
 }
