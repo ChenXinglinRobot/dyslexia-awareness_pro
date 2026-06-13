@@ -23,7 +23,7 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
-        side="right"
+        side="left"
         className="w-full sm:max-w-lg bg-background/95 backdrop-blur-sm overflow-hidden"
       >
         <SheetHeader className="pb-4 border-b border-border">

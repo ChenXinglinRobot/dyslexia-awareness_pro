@@ -66,7 +66,20 @@ export default function ActionSection() {
   const { theme } = useTheme();
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
-  const [showModal, setShowModal] = useState(false);
+  const [maskOpen, setMaskOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setMaskOpen(true);
+    setTimeout(() => setSheetOpen(true), 500);
+  };
+
+  const handleCloseModal = (open: boolean) => {
+    setSheetOpen(open);
+    if (!open) {
+      setTimeout(() => setMaskOpen(false), 400);
+    }
+  };
 
   return (
     <section id="action" className="relative overflow-hidden">
@@ -180,21 +193,32 @@ export default function ActionSection() {
           <div className="flex items-center gap-3 mb-6">
             <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>阅读障碍名人</h3>
           </div>
-          <div className="bg-card border border-border p-4 md:p-6" style={{ height: "480px" }}>
-            <CircularGallery
-              items={famousDyslexics.map(p => ({ image: p.image, text: p.name }))}
-              bend={2}
-              textColor="#545050"
-              borderRadius={0.1}
-              scrollSpeed={1.5}
-              disabled={showModal}
-            />
+          <div className="bg-card border border-border p-4 md:p-6">
+            {/* 画廊区域 - 固定高度，relative定位用于遮罩 */}
+            <div className="relative overflow-hidden" style={{ height: "380px" }}>
+              {/* 滑动遮罩 - 弹窗打开时从左滑入只盖住画廊 */}
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={maskOpen ? { x: "0%" } : { x: "-100%" }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 bg-background/95 z-10"
+                style={{ pointerEvents: maskOpen ? "auto" : "none" }}
+              />
+              <CircularGallery
+                items={famousDyslexics.map(p => ({ image: p.image, text: p.name }))}
+                bend={2}
+                textColor="#545050"
+                borderRadius={0.1}
+                scrollSpeed={1.5}
+                disabled={maskOpen}
+              />
+            </div>
             <p className="text-center text-muted-foreground text-sm mt-4" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               以上名人均为已确诊的阅读障碍者，他们在各自领域做出了杰出贡献。
             </p>
             <div className="flex justify-center mt-4">
               <button
-                onClick={() => setShowModal(true)}
+                onClick={handleOpenModal}
                 className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-105 active:scale-95"
                 style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
               >
@@ -205,7 +229,7 @@ export default function ActionSection() {
           </div>
         </motion.div>
 
-        <FamousDyslexicsModal open={showModal} onOpenChange={setShowModal} />
+        <FamousDyslexicsModal open={sheetOpen} onOpenChange={handleCloseModal} />
 
         {/* 金句 */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 1, delay: delay(10) }} className="text-center py-12">
