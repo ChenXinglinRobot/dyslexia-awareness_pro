@@ -6,7 +6,7 @@
    ============================================================ */
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check } from "lucide-react";
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -16,6 +16,8 @@ import FuzzyText from "./FuzzyText";
 import GlitchText from "./GlitchText";
 import TrueFocus from "./TrueFocus";
 import DecryptedText from "./DecryptedText";
+// @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
+import Matter from "matter-js";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
@@ -137,8 +139,129 @@ function DyslexiaSimulator() {
 
 // ============ 简单阅读观 + 四象限 ============
 
+type Phase = 'normal' | 'falling' | 'settled';
+
+// 模块顶层字组常量:引用永不变,避免 ReadingMechanism 重渲染(inView、Context 更新等)
+// 导致 UnifiedDropZone 的 useEffect 反复 teardown + 重建物理世界
+const DROP_LABEL_CHARS   = ['字', '符', '识', '别'];
+const DROP_READING_CHARS = ['阅', '读', '能', '力'];
+const DROP_INTRO_CHARS   = '这是一道乘法题:任何一项受损归零,乘积都会归零。'.split('');
+
+// 统一落字区:一个 Matter.js 世界,所有字共享同一块地板、同一对墙壁、同一套鼠标约束
+// 字之间可以互相碰撞,可以拖动任意字,只能在框内活动
+function UnifiedDropZone({
+  groups,
+  height,
+}: {
+  groups: string[][];
+  height: number;
+}) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const rect = container.getBoundingClientRect();
+    const width = rect.width;
+    if (width <= 0 || height <= 0) return;
+
+    // 一个 Engine、一个世界
+    const engine = Matter.Engine.create();
+    engine.world.gravity.y = 1;
+
+    // 共享地板、左右墙、天花板
+    const floor   = Matter.Bodies.rectangle(width / 2,  height + 25, width,  50, { isStatic: true });
+    const left    = Matter.Bodies.rectangle(-25,        height / 2,  50,   height, { isStatic: true });
+    const right   = Matter.Bodies.rectangle(width + 25, height / 2,  50,   height, { isStatic: true });
+    const ceiling = Matter.Bodies.rectangle(width / 2,  -25,        width,  50, { isStatic: true });
+    Matter.World.add(engine.world, [floor, left, right, ceiling]);
+
+    // 鼠标约束(共享):任何字都能被拖
+    const mouse = Matter.Mouse.create(container);
+    const mouseConstraint = Matter.MouseConstraint.create(engine, {
+      mouse,
+      constraint: { stiffness: 0.2, render: { visible: false } },
+    });
+    Matter.World.add(engine.world, mouseConstraint);
+
+    // 移除 touch 事件监听,避免移动端 Matter.js 拦截 touchstart/touchmove/touchend 导致页面无法滚动
+    mouseConstraint.mouse.element.removeEventListener('touchstart', mouseConstraint.mouse.mousedown);
+    mouseConstraint.mouse.element.removeEventListener('touchmove',  mouseConstraint.mouse.mousemove);
+    mouseConstraint.mouse.element.removeEventListener('touchend',   mouseConstraint.mouse.mouseup);
+
+    // 把所有组扁平化,在容器顶部一字排开(超出宽度时允许初始重叠,落下后自然分散)
+    const fontSize = 16;
+    const charW = fontSize;
+    const charH = fontSize * 1.4;
+    const gap = 4;
+    const allChars = groups.flat();
+    const totalW = allChars.length * (charW + gap);
+    let x = Math.max(8, (width - totalW) / 2);
+    const y0 = 30;
+
+    type Entry = { body: Matter.Body; elem: HTMLSpanElement };
+    const entries: Entry[] = [];
+    allChars.forEach((ch) => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      span.style.position = 'absolute';
+      span.style.left = '0';
+      span.style.top = '0';
+      span.style.fontSize = `${fontSize}px`;
+      span.style.fontFamily = "'Noto Sans SC', sans-serif";
+      span.style.color = 'currentColor';
+      span.style.pointerEvents = 'none';
+      span.style.transform = 'translate(-50%, -50%)';
+      span.style.whiteSpace = 'nowrap';
+      container.appendChild(span);
+
+      const body = Matter.Bodies.rectangle(x + charW / 2, y0, charW, charH, {
+        restitution: 0.8,
+        frictionAir: 0.01,
+        friction: 0.2,
+      });
+      Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 5, y: 0 });
+      Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.05);
+      Matter.World.add(engine.world, body);
+      entries.push({ body, elem: span });
+      x += charW + gap;
+    });
+
+    // 不用 Matter.Runner(它内部已自带 RAF),只手动 RAF 驱动,避免每帧双重 update
+    let raf = 0;
+    let lastTime = performance.now();
+    const loop = (now: number) => {
+      const delta = Math.min(now - lastTime, 50); // 限制最大 delta,后台标签页恢复时不跳帧
+      lastTime = now;
+      Matter.Engine.update(engine, delta);
+      entries.forEach(({ body, elem }) => {
+        elem.style.left = `${body.position.x}px`;
+        elem.style.top = `${body.position.y}px`;
+        elem.style.transform = `translate(-50%, -50%) rotate(${body.angle}rad)`;
+      });
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      Matter.World.clear(engine.world, false);
+      Matter.Engine.clear(engine);
+      entries.forEach(({ elem }) => elem.remove());
+    };
+  }, [groups, height]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full rounded border border-border bg-background/30"
+      style={{ height, position: 'relative', overflow: 'hidden' }}
+    />
+  );
+}
+
 function ReadingMechanism() {
-  const [decodeOff, setDecodeOff] = useState(false);
+  const [phase, setPhase] = useState<Phase>('normal');
   const { enabled: simEnabled } = useSimulation();
   const [showFocus, setShowFocus] = useState(false);
   const isMobile = useIsMobile();
@@ -149,7 +272,22 @@ function ReadingMechanism() {
     if (!simEnabled) setShowFocus(false);
   }, [simEnabled]);
 
-  const decodeValue = decodeOff ? 0 : 1;
+  // 单向触发:点击 → falling → 3s 后 settled(无回退)
+  const handleDecodeClick = () => {
+    if (phase !== 'normal') return;
+    setPhase('falling');
+  };
+
+  useEffect(() => {
+    if (phase !== 'falling') return;
+    const t = setTimeout(() => setPhase('settled'), 3000);
+    return () => clearTimeout(t);
+  }, [phase]);
+
+  // 统一落字区高度:所有字共享一个物理世界,同一块地板
+  const dropZoneH = isMobile ? 300 : 200;
+
+  const decodeValue = phase === 'normal' ? 1 : 0;
   const result = decodeValue * 1;
 
   return (
@@ -163,9 +301,6 @@ function ReadingMechanism() {
         <p className="text-2xl md:text-3xl text-foreground mb-4" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
           阅读 = 字符识别 <span className="text-primary">&times;</span> 言语理解
         </p>
-        <p className="text-muted-foreground text-base leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-          这是一道乘法题：任何一项受损归零，乘积都会归零。阅读障碍的核心，正是「字符识别」这一项出了问题。
-        </p>
       </motion.div>
 
       <motion.div
@@ -177,18 +312,21 @@ function ReadingMechanism() {
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
           <div className="text-center">
             <button
-              onClick={() => setDecodeOff(!decodeOff)}
+              onClick={handleDecodeClick}
+              disabled={phase !== 'normal'}
               className={`w-20 h-20 rounded-sm border-2 flex items-center justify-center text-2xl font-bold transition-all duration-500 btn-press ${
-                decodeOff
-                  ? "border-destructive bg-destructive/10 text-destructive"
-                  : "border-primary bg-primary/10 text-primary"
+                phase === 'normal'
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-destructive bg-destructive/10 text-destructive"
               }`}
               style={{ fontFamily: "'Space Grotesk'" }}
             >
               {decodeValue}
             </button>
-            <p className="text-xs text-muted-foreground mt-2">字符识别</p>
-            <p className="text-xs text-muted-foreground/60">(点击切换)</p>
+            {/* inline 标签:normal 显原字 / settled 显 replacement;falling 时无 inline(字在落字区) */}
+            <span className="text-xs text-muted-foreground mt-2 block">
+              {phase === 'settled' ? '极难进行字符识别' : '字符识别'}
+            </span>
           </div>
           <span className="text-3xl text-primary" style={{ fontFamily: "'Space Grotesk'" }}>&times;</span>
           <div className="text-center">
@@ -202,13 +340,37 @@ function ReadingMechanism() {
                 ? "border-destructive bg-destructive/15 text-destructive"
                 : "border-primary bg-primary/15 text-primary"
             }`} style={{ fontFamily: "'Space Grotesk'" }}>{result}</div>
-            <p className="text-xs text-muted-foreground mt-2">阅读能力</p>
+            <span className="text-xs text-muted-foreground mt-2 block">
+              {phase === 'settled' ? '阅读障碍' : '阅读能力'}
+            </span>
           </div>
         </div>
-        {decodeOff && (
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center text-destructive text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+
+        {/* normal: 引言静态显示;settled: 红色提示 */}
+        {phase === 'normal' && (
+          <p
+            className="text-muted-foreground text-base leading-relaxed text-center max-w-2xl mx-auto"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+          >
+            这是一道乘法题:任何一项受损归零,乘积都会归零。
+          </p>
+        )}
+
+        {phase === 'settled' && (
+          <p
+            className="text-center text-destructive text-sm mb-4"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+          >
             字符识别归零 — 即使理解力完好，阅读也无法进行。这就是阅读障碍的核心困境。
-          </motion.p>
+          </p>
+        )}
+
+        {/* falling/settled: 统一落字区(共享物理世界,所有字同框活动) */}
+        {(phase === 'falling' || phase === 'settled') && (
+          <UnifiedDropZone
+            groups={[DROP_LABEL_CHARS, DROP_READING_CHARS, DROP_INTRO_CHARS]}
+            height={dropZoneH}
+          />
         )}
       </motion.div>
 
