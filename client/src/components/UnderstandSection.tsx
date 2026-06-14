@@ -16,6 +16,7 @@ import FuzzyText from "./FuzzyText";
 import SectionHeading from "./SectionHeading";
 import TrueFocus from "./TrueFocus";
 import DecryptedText from "./DecryptedText";
+import CoordinatePlane from "./CoordinatePlane";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
 
@@ -468,31 +469,14 @@ function ReadingMechanism() {
         </div>
       </motion.div>
 
-      {/* 四象限 */}
+      {/* 四象限 — 纯 SVG 坐标系,viewBox 自适应缩放 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: delay(2) }}
-        className="grid grid-cols-2 gap-3 md:gap-4 max-w-xl mx-auto"
+        className="w-full"
       >
-        <div className="p-4 bg-card border border-border text-center transition-colors duration-500">
-          <p className="text-xs text-muted-foreground mb-1">识别+ 理解+</p>
-          <p className="text-sm text-foreground/70">正常发展</p>
-        </div>
-        <div className="p-4 bg-primary/10 border-2 border-primary text-center relative transition-colors duration-500">
-          <div className="absolute -top-2 -right-2 w-4 h-4 bg-primary rounded-full" />
-          <p className="text-xs text-primary mb-1">识别- 理解+</p>
-          <p className="text-sm text-primary font-bold" style={{ fontFamily: "'Noto Serif SC', serif" }}>阅读障碍</p>
-          <p className="text-xs text-muted-foreground mt-1">本站主角</p>
-        </div>
-        <div className="p-4 bg-card border border-border text-center transition-colors duration-500">
-          <p className="text-xs text-muted-foreground mb-1">识别+ 理解-</p>
-          <p className="text-sm text-foreground/70">特定理解困难 <span className="text-destructive text-xs">[待核实术语]</span></p>
-        </div>
-        <div className="p-4 bg-card border border-border text-center transition-colors duration-500">
-          <p className="text-xs text-muted-foreground mb-1">识别- 理解-</p>
-          <p className="text-sm text-foreground/70">全面发展落后</p>
-        </div>
+        <CoordinatePlane />
       </motion.div>
 
       {/* 逐字解码体验 — 仅在总开关打开时可进入,鼠标 hover 控制 */}

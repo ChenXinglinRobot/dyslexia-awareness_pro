@@ -140,6 +140,10 @@
     font-weight: 700;
     line-height: 1.3;
   }
+  /* SVG elements using CSS custom properties transition smoothly on theme change */
+  svg [style*="var(--"] {
+    transition: fill 0.4s ease, stroke 0.4s ease, stop-color 0.4s ease;
+  }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
