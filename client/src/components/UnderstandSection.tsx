@@ -11,6 +11,7 @@ import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check } from "lucide-
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useIsMobile } from "@/hooks/useMobile";
 import FuzzyText from "./FuzzyText";
 import GlitchText from "./GlitchText";
 import TrueFocus from "./TrueFocus";
@@ -140,6 +141,7 @@ function ReadingMechanism() {
   const [decodeOff, setDecodeOff] = useState(false);
   const { enabled: simEnabled } = useSimulation();
   const [showFocus, setShowFocus] = useState(false);
+  const isMobile = useIsMobile();
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.2 });
 
   // 总开关关掉时,强制收起局部体验,文字回到清晰
@@ -259,13 +261,15 @@ function ReadingMechanism() {
           className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
         >
           <p className="text-xs text-muted-foreground text-center mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            鼠标移到任意字上 — 只有它会清晰
+            {isMobile
+              ? "正在自动逐字扫描 — 一次只能看清一个字"
+              : "鼠标移到任意字上 — 只有它会清晰"}
           </p>
           <div className="flex justify-center">
             <TrueFocus
               sentence="一次 只能 看清 一个 字"
               separator=" "
-              manualMode={true}
+              manualMode={!isMobile}
               blurAmount={6}
               borderColor="var(--primary)"
               glowColor="color-mix(in oklch, var(--primary) 60%, transparent)"
