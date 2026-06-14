@@ -38,13 +38,14 @@
   user-select: none;
   position: absolute;
   font-weight: 900;
-  font-size: 4rem;
+  /* 视口自适应：5vw 基准，最小 2rem、最大 4rem（全屏恢复原大，小窗保底更大） */
+  font-size: clamp(2rem, 5vw, 4rem);
   left: 1.6em;
-  top: 50%;
+  top: 40%;
   color: var(--foreground);
   text-shadow: 0 2px 18px oklch(0.15 0.02 250 / 0.35);
   font-family: 'Noto Serif SC', 'STSong', serif;
-  transition: color 0.4s ease;
+  transition: color 0.4s ease, font-size 0.4s ease, left 0.4s ease, top 0.4s ease, transform 0.4s ease;
 }
 
 .action-button-icon {
@@ -58,7 +59,7 @@
 
 .face-title {
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translate(20%, -50%);
 }
 
@@ -78,16 +79,18 @@
 .face-description {
   user-select: none;
   position: absolute;
-  max-width: 10ch;
-  top: 50%;
-  font-size: 1.5rem;
+  /* 10ch → 24ch：中文一句通常 12+ 字，原来 10ch 必换行被截 */
+  max-width: 24ch;
+  top: 60%;
+  /* 视口自适应：2.2vw 基准，最小 1.1rem、最大 1.5rem（全屏恢复原大，小窗保底更大） */
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
   right: 1%;
   transform: translate(0, -50%);
   color: var(--muted-foreground);
   font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
   font-weight: 300;
   line-height: 1.5;
-  transition: color 0.4s ease;
+  transition: color 0.4s ease, font-size 0.4s ease, right 0.4s ease, top 0.4s ease, transform 0.4s ease, max-width 0.4s ease;
 }
 
 .face-description.active {
@@ -123,4 +126,27 @@
   opacity: 0;
   pointer-events: none;
   transition: 0.1s ease;
+}
+
+/* ── 窄屏（≤640px）：标题/描述改成上下堆叠居中，彻底避免左右挤压 ── */
+@media (max-width: 640px) {
+  .face-title,
+  .face-title.active,
+  .face-title.inactive {
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .face-description,
+  .face-description.active,
+  .face-description.inactive {
+    right: auto;
+    left: 50%;
+    top: 68%;
+    max-width: 80vw;
+    text-align: center;
+    transform: translate(-50%, 0);
+  }
 }
