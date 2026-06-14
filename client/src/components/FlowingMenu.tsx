@@ -181,8 +181,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
       className="menu__item"
       ref={itemRef}
       style={{ borderColor, borderTop: isFirst ? 'none' : undefined }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      initial={{ opacity: 0, x: -20 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: (delay ?? ((i: number) => i * 0.1))(index) }}
     >
       <a

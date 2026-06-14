@@ -118,8 +118,8 @@ export default function ResourcesSection() {
                 href={inst.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: delay(index) }}
                 className="bg-card border border-border p-5 hover:border-primary/50 transition-all card-hover block"
               >
