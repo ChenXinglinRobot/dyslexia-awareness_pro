@@ -141,28 +141,28 @@ function DyslexiaSimulator() {
 
 type Phase = 'normal' | 'falling' | 'settled';
 
-// 模块顶层字组常量:引用永不变,避免 ReadingMechanism 重渲染(inView、Context 更新等)
-// 导致 UnifiedDropZone 的 useEffect 反复 teardown + 重建物理世界
+// 标签小字常量(不存于 DOM,作为补充字源)
 const DROP_LABEL_CHARS   = ['字', '符', '识', '别'];
 const DROP_READING_CHARS = ['阅', '读', '能', '力'];
-const DROP_INTRO_CHARS   = '这是一道乘法题:任何一项受损归零,乘积都会归零。'.split('');
+// 外层包装也常量化:JSX 内联 [DROP_LABEL_CHARS, ...] 每次渲染都会建新数组,
+// 导致 useEffect 引用比对失败 → dev/StrictMode 下可见「下落两次」
+const DROP_EXTRA_GROUPS: string[][] = [DROP_LABEL_CHARS, DROP_READING_CHARS];
 
-// 统一落字区:一个 Matter.js 世界,所有字共享同一块地板、同一对墙壁、同一套鼠标约束
-// 字之间可以互相碰撞,可以拖动任意字,只能在框内活动
+// 统一落字区:挂载在 ReadingMechanism 的「引言容器」上,
+// 通过 containerRef 读取容器内已有 [data-drop-char] span 的精确位置,
+// 在原坐标生成 Matter.js 刚体;不在容器内的小字以负 y 坐标「落入」容器。
 function UnifiedDropZone({
-  groups,
+  containerRef,
   height,
 }: {
-  groups: string[][];
+  containerRef: React.RefObject<HTMLDivElement | null>;
   height: number;
 }) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
-    if (!containerRef.current) return;
     const container = containerRef.current;
-    const rect = container.getBoundingClientRect();
-    const width = rect.width;
+    if (!container) return;
+    const containerRect = container.getBoundingClientRect();
+    const width = containerRect.width;
     if (width <= 0 || height <= 0) return;
 
     // 一个 Engine、一个世界
@@ -189,21 +189,24 @@ function UnifiedDropZone({
     mouseConstraint.mouse.element.removeEventListener('touchmove',  mouseConstraint.mouse.mousemove);
     mouseConstraint.mouse.element.removeEventListener('touchend',   mouseConstraint.mouse.mouseup);
 
-    // 把所有组扁平化,在容器顶部一字排开(超出宽度时允许初始重叠,落下后自然分散)
-    const fontSize = 16;
-    const charW = fontSize;
-    const charH = fontSize * 1.4;
-    const gap = 4;
-    const allChars = groups.flat();
-    const totalW = allChars.length * (charW + gap);
-    let x = Math.max(8, (width - totalW) / 2);
-    const y0 = 30;
-
-    type Entry = { body: Matter.Body; elem: HTMLSpanElement };
+    // === 收集所有字符的起始坐标 ===
+    type Entry = { body: Matter.Body; elem: HTMLSpanElement; fontSize: number };
     const entries: Entry[] = [];
-    allChars.forEach((ch) => {
+
+    // 1) 引言段落的每个字符:从 DOM 读取真实位置
+    const introSpans = container.querySelectorAll<HTMLSpanElement>('[data-drop-char]');
+    introSpans.forEach((src) => {
+      const rect = src.getBoundingClientRect();
+      const char = src.textContent || '';
+      if (!char) return;
+      const fontSize = parseFloat(getComputedStyle(src).fontSize) || 16;
+      const charW = rect.width || fontSize;
+      const charH = rect.height || fontSize * 1.4;
+      const x = rect.left - containerRect.left + rect.width / 2;
+      const y = rect.top - containerRect.top + rect.height / 2;
+
       const span = document.createElement('span');
-      span.textContent = ch;
+      span.textContent = char;
       span.style.position = 'absolute';
       span.style.left = '0';
       span.style.top = '0';
@@ -215,16 +218,60 @@ function UnifiedDropZone({
       span.style.whiteSpace = 'nowrap';
       container.appendChild(span);
 
-      const body = Matter.Bodies.rectangle(x + charW / 2, y0, charW, charH, {
-        restitution: 0.8,
+      const body = Matter.Bodies.rectangle(x, y, charW, charH, {
+        restitution: 0.5,
         frictionAir: 0.01,
         friction: 0.2,
       });
-      Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 5, y: 0 });
-      Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.05);
+      Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 2, y: 0 });
+      Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.03);
       Matter.World.add(engine.world, body);
-      entries.push({ body, elem: span });
-      x += charW + gap;
+      entries.push({ body, elem: span, fontSize });
+    });
+
+    // 2) 不在容器内的标签小字:用负 y 坐标,模拟「从容器上方落入」
+    //    落在容器顶部居中区域,避免与引言字重叠
+    const extraChars = DROP_EXTRA_GROUPS.flat();
+    const labelFontSize = 12; // 与 text-xs 一致
+    const labelCharW = labelFontSize;
+    const labelCharH = labelFontSize * 1.4;
+    const labelGap = 2;
+    const totalLabelW = extraChars.length * (labelCharW + labelGap);
+    let labelX = Math.max(8, (width - totalLabelW) / 2);
+    // 关键:y 为负 → 物理引擎一启动,字就在容器顶之上,自然「落入」,缓解瞬移违和感
+    const labelY0 = -(labelCharH * 0.6);
+
+    extraChars.forEach((ch) => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      span.style.position = 'absolute';
+      span.style.left = '0';
+      span.style.top = '0';
+      span.style.fontSize = `${labelFontSize}px`;
+      span.style.fontFamily = "'Noto Sans SC', sans-serif";
+      span.style.color = 'currentColor';
+      span.style.pointerEvents = 'none';
+      span.style.transform = 'translate(-50%, -50%)';
+      span.style.whiteSpace = 'nowrap';
+      container.appendChild(span);
+
+      const body = Matter.Bodies.rectangle(
+        labelX + labelCharW / 2,
+        labelY0,
+        labelCharW,
+        labelCharH,
+        {
+          restitution: 0.6,
+          frictionAir: 0.01,
+          friction: 0.2,
+        },
+      );
+      // 起始无随机速度,让标签字同步下落,看起来更像「集体入场」
+      Matter.Body.setVelocity(body, { x: 0, y: 0 });
+      Matter.Body.setAngularVelocity(body, 0);
+      Matter.World.add(engine.world, body);
+      entries.push({ body, elem: span, fontSize: labelFontSize });
+      labelX += labelCharW + labelGap;
     });
 
     // 不用 Matter.Runner(它内部已自带 RAF),只手动 RAF 驱动,避免每帧双重 update
@@ -249,15 +296,10 @@ function UnifiedDropZone({
       Matter.Engine.clear(engine);
       entries.forEach(({ elem }) => elem.remove());
     };
-  }, [groups, height]);
+  }, [containerRef, height]);
 
-  return (
-    <div
-      ref={containerRef}
-      className="w-full rounded border border-border bg-background/30"
-      style={{ height, position: 'relative', overflow: 'hidden' }}
-    />
-  );
+  // 此组件不渲染任何 DOM:一切物理活动直接发生在 containerRef 指向的容器内
+  return null;
 }
 
 function ReadingMechanism() {
@@ -266,6 +308,8 @@ function ReadingMechanism() {
   const [showFocus, setShowFocus] = useState(false);
   const isMobile = useIsMobile();
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.2 });
+  // 物理容器 ref:在 falling/settled 阶段复用为引言段落的容器
+  const physicsContainerRef = useRef<HTMLDivElement>(null);
 
   // 总开关关掉时,强制收起局部体验,文字回到清晰
   useEffect(() => {
@@ -286,9 +330,16 @@ function ReadingMechanism() {
 
   // 统一落字区高度:所有字共享一个物理世界,同一块地板
   const dropZoneH = isMobile ? 300 : 200;
+  const isPhysics = phase === 'falling' || phase === 'settled';
 
   const decodeValue = phase === 'normal' ? 1 : 0;
   const result = decodeValue * 1;
+
+  // 引言字(扁平化一次,保持引用稳定以避免子组件重渲染)
+  const introChars = useMemo(
+    () => '这是一道乘法题:任何一项受损归零,乘积都会归零。'.split(''),
+    [],
+  );
 
   return (
     <div ref={ref} className="space-y-8">
@@ -323,8 +374,16 @@ function ReadingMechanism() {
             >
               {decodeValue}
             </button>
-            {/* inline 标签:normal 显原字 / settled 显 replacement;falling 时无 inline(字在落字区) */}
-            <span className="text-xs text-muted-foreground mt-2 block">
+            {/* inline 标签:normal 显原字(muted)/ settled 显 replacement(destructive 红);falling 时透明度降为 0(字在落字区) */}
+            <span
+              className={`text-xs mt-2 block transition-opacity duration-200 ${
+                phase === 'falling'
+                  ? 'opacity-0 text-muted-foreground'
+                  : phase === 'settled'
+                    ? 'opacity-100 text-destructive'
+                    : 'opacity-100 text-muted-foreground'
+              }`}
+            >
               {phase === 'settled' ? '极难进行字符识别' : '字符识别'}
             </span>
           </div>
@@ -340,38 +399,73 @@ function ReadingMechanism() {
                 ? "border-destructive bg-destructive/15 text-destructive"
                 : "border-primary bg-primary/15 text-primary"
             }`} style={{ fontFamily: "'Space Grotesk'" }}>{result}</div>
-            <span className="text-xs text-muted-foreground mt-2 block">
+            <span
+              className={`text-xs mt-2 block transition-opacity duration-200 ${
+                phase === 'falling'
+                  ? 'opacity-0 text-muted-foreground'
+                  : phase === 'settled'
+                    ? 'opacity-100 text-destructive'
+                    : 'opacity-100 text-muted-foreground'
+              }`}
+            >
               {phase === 'settled' ? '阅读障碍' : '阅读能力'}
             </span>
           </div>
         </div>
 
-        {/* normal: 引言静态显示;settled: 红色提示 */}
-        {phase === 'normal' && (
+        {/*
+          引言 / 物理容器 — 同一个 <div>,在 normal 是引言段落,
+          在 falling/settled 膨胀为统一落字区。
+          关键:容器内始终保留引言的 inline-block span,让 UnifiedDropZone 能读取精确位置。
+        */}
+        <div
+          ref={physicsContainerRef}
+          className={`rounded transition-all duration-500 ${
+            isPhysics
+              ? 'relative overflow-hidden border border-border bg-background/30'
+              : ''
+          }`}
+          style={isPhysics ? { height: dropZoneH } : undefined}
+        >
           <p
-            className="text-muted-foreground text-base leading-relaxed text-center max-w-2xl mx-auto"
+            className={`text-muted-foreground text-base leading-relaxed text-center max-w-2xl mx-auto transition-opacity duration-200 ${
+              isPhysics ? 'opacity-0 absolute inset-0 pointer-events-none' : 'opacity-100'
+            }`}
             style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
           >
-            这是一道乘法题:任何一项受损归零,乘积都会归零。
+            {introChars.map((ch, i) => (
+              // inline-block 关键:让 getBoundingClientRect() 在换行/对齐时给出绝对精准的宽高和坐标
+              <span
+                key={i}
+                data-drop-char=""
+                style={{ display: 'inline-block' }}
+              >
+                {ch}
+              </span>
+            ))}
           </p>
-        )}
 
-        {phase === 'settled' && (
-          <p
-            className="text-center text-destructive text-sm mb-4"
-            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-          >
-            字符识别归零 — 即使理解力完好，阅读也无法进行。这就是阅读障碍的核心困境。
-          </p>
-        )}
+          {/* UnifiedDropZone 不渲染 DOM,所有物理活动直接发生在 physicsContainerRef 内 */}
+          {isPhysics && (
+            <UnifiedDropZone
+              containerRef={physicsContainerRef}
+              height={dropZoneH}
+            />
+          )}
 
-        {/* falling/settled: 统一落字区(共享物理世界,所有字同框活动) */}
-        {(phase === 'falling' || phase === 'settled') && (
-          <UnifiedDropZone
-            groups={[DROP_LABEL_CHARS, DROP_READING_CHARS, DROP_INTRO_CHARS]}
-            height={dropZoneH}
-          />
-        )}
+          {/* settled 总结语:绝对定位叠在物理容器顶端,不参与文档流,避免卡片拉长 */}
+          {phase === 'settled' && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="absolute top-3 left-0 right-0 text-center text-destructive text-sm px-4 pointer-events-none z-10"
+              style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+            >
+              字符识别归零 — 即使理解力完好，阅读也无法进行。这就是阅读障碍的核心困境。
+            </motion.p>
+          )}
+        </div>
       </motion.div>
 
       {/* 四象限 */}
