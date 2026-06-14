@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 
 import './FlowingMenu.css';
@@ -17,6 +18,10 @@ interface FlowingMenuProps {
   marqueeBgColor?: string;
   marqueeTextColor?: string;
   borderColor?: string;
+  /* 父级从 useScrollReveal 透传,让入场动画与 section 内其他元素同源触发。
+     不传则不动画(组件可独立使用)。 */
+  inView?: boolean;
+  delay?: (index: number) => number;
 }
 
 interface MenuItemProps extends MenuItemData {
@@ -26,6 +31,9 @@ interface MenuItemProps extends MenuItemData {
   marqueeTextColor: string;
   borderColor: string;
   isFirst: boolean;
+  index: number;
+  inView?: boolean;
+  delay?: (index: number) => number;
 }
 
 const FlowingMenu: React.FC<FlowingMenuProps> = ({
@@ -35,7 +43,9 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({
   bgColor = '#120F17',
   marqueeBgColor = '#fff',
   marqueeTextColor = '#120F17',
-  borderColor = '#fff'
+  borderColor = '#fff',
+  inView,
+  delay
 }) => {
   return (
     <div className="menu-wrap" style={{ backgroundColor: bgColor }}>
@@ -50,6 +60,9 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({
             marqueeTextColor={marqueeTextColor}
             borderColor={borderColor}
             isFirst={idx === 0}
+            index={idx}
+            inView={inView}
+            delay={delay}
           />
         ))}
       </nav>
@@ -66,7 +79,10 @@ const MenuItem: React.FC<MenuItemProps> = ({
   marqueeBgColor,
   marqueeTextColor,
   borderColor,
-  isFirst
+  isFirst,
+  index,
+  inView,
+  delay
 }) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -161,7 +177,14 @@ const MenuItem: React.FC<MenuItemProps> = ({
   };
 
   return (
-    <div className="menu__item" ref={itemRef} style={{ borderColor, borderTop: isFirst ? 'none' : undefined }}>
+    <motion.div
+      className="menu__item"
+      ref={itemRef}
+      style={{ borderColor, borderTop: isFirst ? 'none' : undefined }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: (delay ?? ((i: number) => i * 0.1))(index) }}
+    >
       <a
         className="menu__item-link"
         href={link}
@@ -183,7 +206,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

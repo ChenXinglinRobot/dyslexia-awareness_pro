@@ -95,7 +95,7 @@ export default function ResourcesSection() {
             <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>研究机构与医疗资源</h3>
           </div>
 
-          {/* 桌面端：FlowingMenu 行式 */}
+          {/* 桌面端：FlowingMenu 行式 — 透传 useScrollReveal 状态让桌面卡片与手机 fallback 同源入场 */}
           <div className="hidden md:block" style={{ height: "min(45vh, 420px)" }}>
             <FlowingMenu
               items={flowItems}
@@ -105,6 +105,8 @@ export default function ResourcesSection() {
               marqueeBgColor={flowMarqueeBg}
               marqueeTextColor={flowMarqueeText}
               borderColor={flowBorder}
+              inView={inView}
+              delay={delay}
             />
           </div>
 
