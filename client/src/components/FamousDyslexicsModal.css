@@ -1,0 +1,9 @@
+/* 让 stack-wrapper 高度合理化，给卡片层叠留出空间。
+   原 Stack.css 的 .stack-wrapper 是 calc(100vh - 180px)，卡片因此被拉得又高又窄，
+   旋转/缩放后的"下方还有牌"全被遮在视图内。这里把高度收一档，让翻牌堆叠露出边缘，
+   而 .card-famous 仍按 Stack.css 默认的 width/height:100% 填满 stack，
+   图片以 object-fit: cover 缩放，不会被裁切、文字字号也不变。
+   选择器多一层祖先以保证仅在本 modal 生效，不动 Stack 原始组件。 */
+.famous-stack.stack-wrapper {
+  height: min(calc(100vh - 220px), 680px);
+}

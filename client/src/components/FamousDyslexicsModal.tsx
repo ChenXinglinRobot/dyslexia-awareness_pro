@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Stack from "./Stack";
 import { famousDyslexics } from "@/data/famousDyslexics";
 import "./Stack.css";
+import "./FamousDyslexicsModal.css";
 
 interface FamousDyslexicsModalProps {
   open: boolean;
@@ -24,7 +25,7 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="left"
-        className="w-full sm:max-w-lg bg-background/95 backdrop-blur-sm overflow-hidden"
+        className="w-full sm:max-w-xl bg-background/95 backdrop-blur-sm overflow-hidden"
       >
         <SheetHeader className="pb-4 border-b border-border">
           <SheetTitle className="text-lg md:text-xl" style={{ fontFamily: "'Noto Serif SC', serif" }}>
@@ -34,7 +35,7 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
             拖动卡片查看更多名人 · 点击也可翻页
           </p>
         </SheetHeader>
-        <div className="stack-wrapper py-6">
+        <div className="stack-wrapper py-6 famous-stack">
           <Stack
             cards={cards}
             randomRotation={false}
