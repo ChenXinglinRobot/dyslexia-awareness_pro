@@ -1,17 +1,16 @@
 /* ============================================================
    ResourcesSection — 社会资源
-   4 个子区：研究机构（FlowingMenu）/ 筛查线索 / 游戏化干预（Dialog+InfiniteMenu）/ 参考文献
+   4 个子区：研究机构（FlowingMenu）/ 筛查线索 / 游戏化干预（全屏 GameInterventionExplorer）/ 参考文献
    ============================================================ */
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, ClipboardList, BookOpen, Building, Gamepad2, Sparkles, X, AlertTriangle } from "lucide-react";
+import { ExternalLink, ClipboardList, BookOpen, Building, Gamepad2, Sparkles } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import SectionHeading from "./SectionHeading";
 import FlowingMenu from "./FlowingMenu";
-import InfiniteMenu from "./InfiniteMenu";
-import { Dialog, DialogContent, DialogTitle } from "./ui/dialog";
+import GameInterventionExplorer from "./GameInterventionExplorer";
 import { Button } from "./ui/button";
 import { institutions } from "@/data/institutions";
 import { gameInterventions } from "@/data/gameInterventions";
@@ -41,21 +40,6 @@ function detectWebGL2(): boolean {
   } catch {
     return false;
   }
-}
-
-function NoWebGLFallback({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-full gap-6 p-8 bg-background text-foreground">
-      <AlertTriangle className="w-12 h-12 text-destructive" />
-      <h3 className="text-xl" style={{ fontFamily: "'Noto Serif SC', serif" }}>
-        当前浏览器不支持 WebGL2
-      </h3>
-      <p className="text-sm text-muted-foreground text-center max-w-md" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-        球面菜单需要 WebGL2 渲染。请使用最新版 Chrome / Firefox / Edge / Safari（macOS &amp; iOS 15+）打开。
-      </p>
-      <Button variant="outline" onClick={onClose}>关闭</Button>
-    </div>
-  );
 }
 
 export default function ResourcesSection() {
@@ -205,41 +189,16 @@ export default function ResourcesSection() {
         </div>
       </div>
 
-      {/* ===================== Dialog: 游戏化干预球面菜单 ===================== */}
-      <Dialog
+      {/* ===================== 全屏探索：游戏化干预星图 ===================== */}
+      <GameInterventionExplorer
         open={gameMenuOpen && gameInterventions.length > 0}
         onOpenChange={(open) => {
           setGameMenuOpen(open);
           if (!open) setWebGL2Ok(null); // 关闭时重置探测状态，下次打开重新探测
         }}
-      >
-        <DialogContent
-          className="max-w-none w-screen h-screen p-0 rounded-none border-0 bg-background
-                     top-0 left-0 translate-x-0 translate-y-0
-                     [&>button]:hidden"
-        >
-          <DialogTitle className="sr-only">游戏化干预资源</DialogTitle>
-
-          {webGL2Ok === false ? (
-            <NoWebGLFallback onClose={() => setGameMenuOpen(false)} />
-          ) : webGL2Ok === true ? (
-            <InfiniteMenu items={gameInterventions} scale={1} />
-          ) : (
-            // 探测中的过渡态（一般瞬时）
-            <div className="flex items-center justify-center w-full h-full bg-background text-muted-foreground text-sm">
-              加载中…
-            </div>
-          )}
-
-          <button
-            onClick={() => setGameMenuOpen(false)}
-            className="absolute top-4 right-4 z-50 bg-background/80 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-background transition-colors"
-            aria-label="关闭"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </DialogContent>
-      </Dialog>
+        items={gameInterventions}
+        webGL2Ok={webGL2Ok}
+      />
     </section>
   );
 }

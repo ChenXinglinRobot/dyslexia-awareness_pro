@@ -19,11 +19,18 @@
   height: 60px;
   display: grid;
   place-items: center;
-  background: cyan;
+  background: var(--primary);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  border: 5px solid #000;
+  border: 5px solid var(--card);
+  box-shadow: 0 0 24px -4px oklch(0.72 0.14 70 / 0.5);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.action-button:hover {
+  box-shadow: 0 0 36px -2px oklch(0.72 0.14 70 / 0.8);
+  transform: translateX(-50%) scale(1.06);
 }
 
 .face-title {
@@ -33,14 +40,19 @@
   font-size: 4rem;
   left: 1.6em;
   top: 50%;
+  color: var(--foreground);
+  text-shadow: 0 2px 18px oklch(0.15 0.02 250 / 0.35);
+  font-family: 'Noto Serif SC', 'STSong', serif;
+  transition: color 0.4s ease;
 }
 
 .action-button-icon {
   user-select: none;
   position: relative;
-  color: #120F17;
+  color: var(--primary-foreground);
   top: 2px;
   font-size: 26px;
+  transition: color 0.4s ease;
 }
 
 .face-title {
@@ -70,6 +82,11 @@
   font-size: 1.5rem;
   right: 1%;
   transform: translate(0, -50%);
+  color: var(--muted-foreground);
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  transition: color 0.4s ease;
 }
 
 .face-description.active {
