@@ -6,13 +6,15 @@
    ============================================================ */
 
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check } from "lucide-react";
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import FuzzyText from "./FuzzyText";
 import GlitchText from "./GlitchText";
+import TrueFocus from "./TrueFocus";
+import DecryptedText from "./DecryptedText";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
@@ -136,7 +138,14 @@ function DyslexiaSimulator() {
 
 function ReadingMechanism() {
   const [decodeOff, setDecodeOff] = useState(false);
+  const { enabled: simEnabled } = useSimulation();
+  const [showFocus, setShowFocus] = useState(false);
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.2 });
+
+  // 总开关关掉时,强制收起局部体验,文字回到清晰
+  useEffect(() => {
+    if (!simEnabled) setShowFocus(false);
+  }, [simEnabled]);
 
   const decodeValue = decodeOff ? 0 : 1;
   const result = decodeValue * 1;
@@ -227,6 +236,51 @@ function ReadingMechanism() {
           <p className="text-sm text-foreground/70">全面发展落后</p>
         </div>
       </motion.div>
+
+      {/* 逐字解码体验 — 仅在总开关打开时可进入,鼠标 hover 控制 */}
+      {simEnabled && !showFocus && (
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          onClick={() => setShowFocus(true)}
+          className="mx-auto flex items-center gap-2 text-xs px-4 py-2 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+        >
+          启动逐字解码体验
+        </motion.button>
+      )}
+
+      {simEnabled && showFocus && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
+        >
+          <p className="text-xs text-muted-foreground text-center mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+            鼠标移到任意字上 — 只有它会清晰
+          </p>
+          <div className="flex justify-center">
+            <TrueFocus
+              sentence="一次 只能 看清 一个 字"
+              separator=" "
+              manualMode={true}
+              blurAmount={6}
+              borderColor="var(--primary)"
+              glowColor="color-mix(in oklch, var(--primary) 60%, transparent)"
+              animationDuration={0.4}
+            />
+          </div>
+          <button
+            onClick={() => setShowFocus(false)}
+            className="mx-auto mt-8 block text-xs text-muted-foreground hover:text-foreground transition-colors"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+          >
+            收起
+          </button>
+        </motion.div>
+      )}
     </div>
   );
 }
@@ -252,7 +306,14 @@ function ChineseSpecificity() {
         className="text-foreground/80 text-lg leading-relaxed"
         style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
       >
-        与拼音文字以语音缺陷为主不同，汉语阅读障碍儿童更突出地缺乏以下四种意识：
+        与拼音文字以语音缺陷为主不同，
+        <DecryptedText
+          text="汉语阅读障碍儿童更突出地缺乏以下四种意识："
+          sequential={true}
+          revealDirection="start"
+          animateOn="view"
+          speed={80}
+        />
       </motion.p>
 
       <div className="grid md:grid-cols-2 gap-4">
