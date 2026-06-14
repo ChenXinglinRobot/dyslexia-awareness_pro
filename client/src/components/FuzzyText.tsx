@@ -21,6 +21,14 @@ interface FuzzyTextProps {
   letterSpacing?: number;
   className?: string;
   /**
+   * 抵消 canvas 内部 margin 的偏移,让 visible text 与定位容器原点对齐
+   * (而非 canvas 内部 margin 后的位置)。
+   * 仅 canvas 分支生效;disabled 分支忽略(它本来就画在 (0,0))。
+   * 典型值:{ x: -(fuzzRange + 20), y: -(fuzzRange + 10) } 当 direction 包含 vertical 时。
+   * 例如 fuzzRange=30, direction='both' → { x: -50, y: -40 }。
+   */
+  textAnchorOffset?: { x?: number; y?: number };
+  /**
    * 完全禁用动画与 canvas 渲染,退化为普通 <span>。
    * 用途:模拟开关关闭时让 FuzzyText 一并退场,零 CPU 占用。
    */
@@ -47,6 +55,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
   gradient = null,
   letterSpacing = 0,
   className = '',
+  textAnchorOffset,
   disabled = false
 }) => {
   const canvasRef = useRef<HTMLCanvasElement & { cleanupFuzzyText?: () => void }>(null);
@@ -67,6 +76,9 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
 
       const computedFontFamily =
         fontFamily === 'inherit' ? window.getComputedStyle(canvas).fontFamily || 'sans-serif' : fontFamily;
+
+      // 支持 currentColor:canvas API 不识别 CSS 关键字,需从 computed style 解析成真实颜色值
+      const computedColor = color === 'currentColor' ? window.getComputedStyle(canvas).color : color;
 
       const fontSizeStr = typeof fontSize === 'number' ? `${fontSize}px` : fontSize;
       const fontString = `${fontWeight} ${fontSizeStr} ${computedFontFamily}`;
@@ -133,7 +145,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         gradient.forEach((c, i) => grad.addColorStop(i / (gradient.length - 1), c));
         offCtx.fillStyle = grad;
       } else {
-        offCtx.fillStyle = color;
+        offCtx.fillStyle = computedColor;
       }
 
       if (letterSpacing !== 0) {
@@ -352,7 +364,14 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     );
   }
 
-  return <canvas ref={canvasRef} className={className} />;
+  // canvas 分支:用 inline style 抵消内部 margin(horizontalMargin, verticalMargin),
+  // 让 visible text 与定位容器原点对齐。仅当调用方传 textAnchorOffset 时生效;
+  // 未传时保持原行为(canvas 位于 className 指定的 left/top)。
+  const canvasStyle: React.CSSProperties = {};
+  if (textAnchorOffset?.x !== undefined) canvasStyle.left = `${textAnchorOffset.x}px`;
+  if (textAnchorOffset?.y !== undefined) canvasStyle.top = `${textAnchorOffset.y}px`;
+
+  return <canvas ref={canvasRef} className={className} style={canvasStyle} />;
 };
 
 export default FuzzyText;
