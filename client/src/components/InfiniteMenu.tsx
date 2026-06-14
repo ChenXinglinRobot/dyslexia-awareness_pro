@@ -762,7 +762,9 @@ class InfiniteGridMenu {
   private init(onInit?: InitCallback): void {
     const gl = this.canvas.getContext('webgl2', {
       antialias: true,
-      alpha: false
+      // alpha: true —— 必须开启 alpha 通道,否则 WebGL backbuffer 不透明,
+      // clearColor(0,0,0,0) 也会被解读为不透明黑色,主题感知 (日间米色 / 夜间深墨蓝) 透不下去
+      alpha: true
     });
     if (!gl) {
       throw new Error('No WebGL 2 context!');

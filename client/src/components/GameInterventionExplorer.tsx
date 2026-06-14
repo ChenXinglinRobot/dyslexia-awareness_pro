@@ -143,21 +143,19 @@ const GameInterventionExplorer: FC<GameInterventionExplorerProps> = ({
       {open && (
         <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
           <DialogPrimitive.Portal forceMount>
-            {/* 故意省略 DialogPrimitive.Overlay —— 全屏内容自带背景，不要 bg-black/50 残留 */}
+            {/* 故意省略 DialogPrimitive.Overlay —— 全屏内容自带背景，不要 bg-black/50 残留
+                 关键：Content 自身必须用 inline style 兜底背景，避免 framer-motion 入场
+                 opacity 0→1 时露出 body 透色 / WebGL canvas 透到下层 */}
             <DialogPrimitive.Content
               forceMount
               aria-describedby={undefined}
               className={cn(
                 // 真·全屏：占满 100vw × 100vh，去除 Radix 默认的居中 transform / max-width / rounded / border / shadow
                 "fixed inset-0 z-50 w-screen h-screen max-w-none p-0 m-0",
-                "rounded-none border-0 shadow-none bg-transparent",
-                "top-0 left-0 translate-x-0 translate-y-0",
-                // 抑制 tw-animate-css 注入的 zoom-in-95 / animate-in / fade-in-0
-                "data-[state=open]:!animate-none data-[state=closed]:!animate-none",
-                "data-[state=open]:!zoom-in-100 data-[state=closed]:!zoom-out-100",
-                "data-[state=open]:!fade-in-100 data-[state=closed]:!fade-out-100",
-                "transition-none"
+                "rounded-none border-0 shadow-none",
+                "top-0 left-0 translate-x-0 translate-y-0"
               )}
+              style={{ backgroundColor: "var(--background)" }}
             >
               <DialogPrimitive.Title className="sr-only">游戏化干预探索星图</DialogPrimitive.Title>
               <DialogPrimitive.Description className="sr-only">
@@ -165,8 +163,8 @@ const GameInterventionExplorer: FC<GameInterventionExplorerProps> = ({
               </DialogPrimitive.Description>
 
               <motion.div
-                className="relative w-screen h-screen overflow-hidden bg-background"
-                data-theme={isDark ? "dark" : "light"}
+                className="relative w-screen h-screen overflow-hidden"
+                style={{ backgroundColor: "var(--background)" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
