@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ExternalLink, ClipboardList, BookOpen, Building } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import SectionHeading from "./SectionHeading";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-Lewy7Hs2KY2GAPVNgUiHwD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-light-Yuw2okRBVT6i8Mn6NYWwwg.webp";
@@ -45,8 +46,7 @@ export default function ResourcesSection() {
 
       <div className="container relative z-10 py-20 md:py-32" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="mb-16">
-          <p className="text-primary text-sm tracking-[0.2em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>Social Resources</p>
-          <h2 className="text-3xl md:text-5xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>社会资源</h2>
+          <SectionHeading sectionId="resources" />
         </motion.div>
 
         <div className="mb-16">

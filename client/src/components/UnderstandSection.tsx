@@ -13,7 +13,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useIsMobile } from "@/hooks/useMobile";
 import FuzzyText from "./FuzzyText";
-import GlitchText from "./GlitchText";
+import SectionHeading from "./SectionHeading";
 import TrueFocus from "./TrueFocus";
 import DecryptedText from "./DecryptedText";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
@@ -667,21 +667,13 @@ export default function UnderstandSection() {
           transition={{ duration: 0.8, delay: delay(0) }}
           className="mb-16"
         >
-          <p className="text-primary text-sm tracking-[0.2em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>Understanding Dyslexia</p>
-          <GlitchText
-            as="h2"
-            respectSimulation
-            className="text-3xl md:text-5xl text-foreground"
-            style={{ fontFamily: "'Noto Serif SC', serif" }}
-          >
-            了解阅读障碍
-          </GlitchText>
+          <SectionHeading sectionId="understand" />
         </motion.div>
 
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-6">
             <Brain className="w-5 h-5 text-primary" />
-            <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>模拟体验</h3>
+            <SectionHeading sectionId="understand:sim" />
           </div>
           <p className="text-muted-foreground text-base mb-6 max-w-2xl" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
             点击下方按钮，感受阅读障碍儿童在阅读时可能经历的视觉拥挤与认知过载。
@@ -692,7 +684,7 @@ export default function UnderstandSection() {
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-6">
             <Brain className="w-5 h-5 text-primary" />
-            <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>一道乘法题，归零了整个世界</h3>
+            <SectionHeading sectionId="understand:math" />
           </div>
           <ReadingMechanism />
         </div>
@@ -700,7 +692,7 @@ export default function UnderstandSection() {
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-6">
             <Languages className="w-5 h-5 text-primary" />
-            <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>汉语的特殊性</h3>
+            <SectionHeading sectionId="understand:cn" />
           </div>
           <ChineseSpecificity />
         </div>

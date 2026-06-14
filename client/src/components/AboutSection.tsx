@@ -5,6 +5,7 @@
 import { motion } from "framer-motion";
 import { Info } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import SectionHeading from "./SectionHeading";
 
 export default function AboutSection() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
@@ -16,8 +17,7 @@ export default function AboutSection() {
 
       <div className="container relative z-10 py-20 md:py-32" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="mb-16">
-          <p className="text-primary text-sm tracking-[0.2em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}>About Us</p>
-          <h2 className="text-3xl md:text-5xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>关于我们</h2>
+          <SectionHeading sectionId="about" />
         </motion.div>
 
         <div className="max-w-3xl">
