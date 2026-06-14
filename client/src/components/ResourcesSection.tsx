@@ -58,7 +58,9 @@ export default function ResourcesSection() {
 
   // FlowingMenu 配色（深浅双轨，贴近 token 体系）
   // 行底 bg / 静态文字 / 行间线 / marquee 高亮 / marquee 文字
-  const flowBg = theme === "dark" ? "oklch(0.20 0.025 250)" : "oklch(0.93 0.02 75)";
+  // bg 改为 transparent:底色交给每张 .menu__item 自己(用 var(--card)),
+  // 让错位卡片像参差的纸片浮在 section 背景上,而不是一整块矩形色块。
+  const flowBg = "transparent";
   const flowText = theme === "dark" ? "oklch(0.92 0.01 90)" : "oklch(0.25 0.04 50)";
   const flowBorder = theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
   const flowMarqueeBg = theme === "dark" ? "oklch(0.72 0.14 70)" : "oklch(0.55 0.14 70)";
@@ -73,7 +75,13 @@ export default function ResourcesSection() {
       <div className="absolute inset-0 opacity-8">
         <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-700" style={{ backgroundImage: `url(${sectionBg})` }} />
       </div>
-      <div className="absolute inset-0 bg-background/94 transition-colors duration-500" />
+      {/* 还原为显式 #F9F4EC 纸色覆盖层(暗色用 --background 暗调),
+          跟下面卡片的 #F0E6DA 拉开颜色对比,卡片边界由对比度决定,
+          不再依赖透明度(color-mix 跟浅背景对比度太低,几乎看不出层次)。 */}
+      <div
+        className="absolute inset-0 transition-colors duration-500"
+        style={{ backgroundColor: theme === "dark" ? "oklch(0.15 0.02 250)" : "#F9F4EC" }}
+      />
 
       <div className="container relative z-10 py-20 md:py-32" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="mb-16">

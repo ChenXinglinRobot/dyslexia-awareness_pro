@@ -9,7 +9,8 @@
   flex-direction: column;
   height: 100%;
   margin: 0;
-  padding: 0;
+  /* 横向留出 3vw 呼吸空间,供卡片左右错位时不被边缘裁掉 */
+  padding: 0 3vw;
 }
 
 .menu__item {
@@ -18,10 +19,53 @@
   overflow: hidden;
   text-align: center;
   border-top: 1px solid;
+  /* 卡片底色:#F0E6DA — 比 section 背景(#F9F4EC)略深一档,
+     用颜色对比勾出卡片边界,不再用透明度(对比度太低看不出层次) */
+  background-color: #F0E6DA;
+  /* 投影给纸片一点立体感 */
+  box-shadow: 0 3px 10px oklch(0 0 0 / 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.menu__item:hover {
+  box-shadow: 0 8px 24px oklch(0 0 0 / 0.12);
+  transform: translateY(-2px);
 }
 
 .menu__item:first-child {
   border-top: none;
+}
+
+/* 每张卡独立调整:左右两侧 margin 都参与变化,避免右边缘齐平。
+   颜色统一为 #F0E6DA,靠位置错位制造层次。 */
+.menu__item:nth-child(1) {
+  margin-left: 0.5vw;
+  margin-right: 4.5vw;
+}
+.menu__item:nth-child(2) {
+  margin-left: 2.5vw;
+  margin-right: 2vw;
+}
+.menu__item:nth-child(3) {
+  margin-left: 5vw;
+  margin-right: 0vw;
+}
+.menu__item:nth-child(4) {
+  margin-left: 3.5vw;
+  margin-right: 1.5vw;
+}
+.menu__item:nth-child(5) {
+  margin-left: 1.5vw;
+  margin-right: 3vw;
+}
+.menu__item:nth-child(6) {
+  margin-left: 0.5vw;
+  margin-right: 4vw;
+}
+
+/* Dark mode: 卡片用 --card (oklch 0.20 0.025 250),比 --background 略浅一档 */
+.dark .menu__item {
+  background-color: var(--card);
 }
 
 .menu__item-link {
