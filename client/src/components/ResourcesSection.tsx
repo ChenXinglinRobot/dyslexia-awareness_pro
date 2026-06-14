@@ -44,7 +44,7 @@ function detectWebGL2(): boolean {
 
 export default function ResourcesSection() {
   const { theme } = useTheme();
-  const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
+  const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.2 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
 
   const [gameMenuOpen, setGameMenuOpen] = useState(false);
@@ -118,7 +118,7 @@ export default function ResourcesSection() {
                 href={inst.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -60 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: delay(index) }}
                 className="bg-card border border-border p-5 hover:border-primary/50 transition-all card-hover block"
