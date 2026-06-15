@@ -5,13 +5,13 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, ClipboardList, BookOpen, Building, Gamepad2, Sparkles } from "lucide-react";
+import { ExternalLink, ClipboardList, BookOpen, Building, Gamepad2 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import SectionHeading from "./SectionHeading";
 import FlowingMenu from "./FlowingMenu";
 import GameInterventionExplorer from "./GameInterventionExplorer";
-import { Button } from "./ui/button";
+import GameGrid from "./GameGrid";
 import { institutions } from "@/data/institutions";
 import { gameInterventions } from "@/data/gameInterventions";
 
@@ -163,18 +163,7 @@ export default function ResourcesSection() {
             <Gamepad2 className="w-5 h-5 text-primary" />
             <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>游戏化干预</h3>
           </div>
-          <p className="text-muted-foreground text-sm mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            以下为面向阅读障碍的国外游戏化干预资源。点击按钮进入球面探索，可拖拽旋转、悬停查看详情。
-          </p>
-
-          {gameInterventions.length > 0 ? (
-            <Button size="lg" className="gap-2" onClick={() => setGameMenuOpen(true)}>
-              <Sparkles className="w-4 h-4" />
-              探索游戏化干预
-            </Button>
-          ) : (
-            <p className="text-muted-foreground text-sm">游戏化干预资源正在筹备中。</p>
-          )}
+          <GameGrid items={gameInterventions} />
         </div>
 
         {/* ===================== 参考文献 ===================== */}
