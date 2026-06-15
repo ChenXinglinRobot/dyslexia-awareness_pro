@@ -6,15 +6,11 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope, InfoIcon } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import CircularGallery from "./CircularGallery";
 import { famousDyslexics } from "@/data/famousDyslexics";
 import FamousDyslexicsModal from "./FamousDyslexicsModal";
 import SectionHeading from "./SectionHeading";
-
-const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-TcCGm2ayK8j4zP26qRa3WD.webp";
-const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-light-NvKmNJuEMR3fiRz3FNaBFi.webp";
 
 function TypographyAdjuster() {
   const [fontSize, setFontSize] = useState(16);
@@ -64,9 +60,7 @@ function TypographyAdjuster() {
 }
 
 export default function ActionSection() {
-  const { theme } = useTheme();
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
-  const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
   const [maskOpen, setMaskOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -85,11 +79,7 @@ export default function ActionSection() {
   return (
     <section id="action" className="relative overflow-hidden">
       <div className="divider-glow" />
-
-      <div className="absolute inset-0 opacity-8">
-        <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-700" style={{ backgroundImage: `url(${sectionBg})` }} />
-      </div>
-      <div className="absolute inset-0 bg-background/92 transition-colors duration-500" />
+      <div className="absolute inset-0 bg-background transition-colors duration-500" />
 
       <div className="container relative z-10 py-20 md:py-32" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="mb-16">
@@ -176,14 +166,51 @@ export default function ActionSection() {
         </div>
 
         {/* 优势视角 */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: delay(8) }} className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: delay(8) }} className="mb-16 md:mb-24">
+          <div className="flex items-center gap-3 mb-8 md:mb-12">
             <Sparkles className="w-5 h-5 text-primary" />
             <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>优势视角</h3>
           </div>
-          <div className="bg-gradient-to-br from-primary/10 to-destructive/5 border border-primary/30 p-8 md:p-12 transition-colors duration-500">
-            <p className="text-foreground text-lg md:text-xl leading-relaxed" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 500 }}>
-              阅读障碍不只意味着困难。许多阅读障碍者在艺术、空间科学、创新思维与审辨性思维上拥有独特天赋。科普的终点不是怜悯，而是欣赏与赋能。
+          <div className="max-w-3xl">
+            <p
+              className="text-foreground/80 mb-8 md:mb-10"
+              style={{
+                fontFamily: "'Noto Serif SC', serif",
+                fontWeight: 400,
+                fontSize: "clamp(1.0625rem, 0.5vw + 0.95rem, 1.3125rem)",
+                lineHeight: 1.85,
+                textWrap: "pretty",
+              }}
+            >
+              阅读障碍不只意味着困难。许多阅读障碍者在艺术、空间科学、创新思维与审辨性思维上拥有独特天赋。
+            </p>
+            <div className="flex items-center gap-4 mb-6 md:mb-8" aria-hidden>
+              <span className="block w-10 md:w-14 h-px bg-primary/70" />
+            </div>
+            <p
+              className="text-foreground"
+              style={{
+                fontFamily: "'Noto Serif SC', serif",
+                fontWeight: 600,
+                fontSize: "clamp(1.375rem, 2.2vw + 0.5rem, 2.125rem)",
+                lineHeight: 1.55,
+                letterSpacing: "0.015em",
+                textWrap: "balance",
+              }}
+            >
+              理解始于欣赏，支持带来可能。
+            </p>
+            <p
+              className="text-foreground/90 mt-3 md:mt-5"
+              style={{
+                fontFamily: "'Noto Serif SC', serif",
+                fontWeight: 500,
+                fontSize: "clamp(1.1875rem, 1.4vw + 0.55rem, 1.625rem)",
+                lineHeight: 1.6,
+                textWrap: "balance",
+              }}
+            >
+              请看见天赋，陪伴他们走得更远。
             </p>
           </div>
         </motion.div>

@@ -4,16 +4,25 @@
 
 import { motion } from "framer-motion";
 import { Info } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import SectionHeading from "./SectionHeading";
 
+const ABOUT_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-TcCGm2ayK8j4zP26qRa3WD.webp";
+const ABOUT_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-action-light-NvKmNJuEMR3fiRz3FNaBFi.webp";
+
 export default function AboutSection() {
+  const { theme } = useTheme();
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
+  const sectionBg = theme === "dark" ? ABOUT_BG_DARK : ABOUT_BG_LIGHT;
 
   return (
     <section id="about" className="relative overflow-hidden">
       <div className="divider-glow" />
-      <div className="absolute inset-0 bg-secondary/30 transition-colors duration-500" />
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-700" style={{ backgroundImage: `url(${sectionBg})` }} />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/65 to-background/90 transition-colors duration-500" />
 
       <div className="container relative z-10 py-20 md:py-32" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="mb-16">

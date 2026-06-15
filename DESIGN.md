@@ -245,8 +245,11 @@ The Amber Glow utility (`box-shadow: 0 0 30px oklch(0.72 0.14 70 / 0.3), 0 0 60p
 
 ### Background Imagery
 
-- Per-section background photos via CloudFront CDN, paired (dark + light variant). Sections overlay the image with `bg-background/94` to keep contrast readable while letting the photo bleed through faintly.
-- Hero background uses a more saturated overlay (`0.55–0.88` alpha) to protect right-aligned heading text.
+- Per-section background photos via CloudFront CDN, paired (dark + light variant).
+- **AboutSection** uses `bg-gradient-to-b from-background/30 via-background/65 to-background/90` — top of section lets the photo bleed through (~70%), bottom stays opaque (~10%) to protect body text. Image layer renders at 100% opacity; the gradient alone controls visibility. The image's wide/short aspect ratio suits AboutSection's compact horizontal layout.
+- **Hero** uses `bg-gradient-to-l from-/via-/to-` overlay (0.25→0.55→0.88 alpha) to protect right-aligned heading text.
+- **ActionSection** has no background image — uses solid `bg-background` to keep focus on the typography adjuster, simulator controls, and CircularGallery.
+- Other sections (Resources, Understand) overlay the image with `bg-background/94` to keep contrast readable while letting the photo bleed through faintly.
 - 9 local JPG portraits in `client/public/famous-dyslexics/` for the Action section's CircularGallery.
 
 ## 6. Do's and Don'ts
