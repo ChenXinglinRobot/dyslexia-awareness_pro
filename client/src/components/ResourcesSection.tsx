@@ -1,11 +1,13 @@
 /* ============================================================
    ResourcesSection — 社会资源
-   4 个子区：研究机构（FlowingMenu）/ 筛查线索 / 游戏化干预（全屏 GameInterventionExplorer）/ 参考文献
+   4 个子区：医疗与研究资源（三 Tab + FlowingMenu + 详情 sheet）
+   / 筛查线索 / 游戏化干预（Bento 网格 + 球面探索）/ 参考文献
    ============================================================ */
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ClipboardList, BookOpen, Building, Gamepad2 } from "lucide-react";
+import { ClipboardList, BookOpen, Building, Gamepad2, Sparkles } from "lucide-react";
+import { Button } from "./ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import SectionHeading from "./SectionHeading";
@@ -135,9 +137,17 @@ export default function ResourcesSection() {
 
         {/* ===================== 游戏化干预 ===================== */}
         <div className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <Gamepad2 className="w-5 h-5 text-primary" />
-            <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>游戏化干预</h3>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <Gamepad2 className="w-5 h-5 text-primary" />
+              <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>游戏化干预</h3>
+            </div>
+            {gameInterventions.length > 0 && (
+              <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setGameMenuOpen(true)}>
+                <Sparkles className="w-3.5 h-3.5" />
+                球面探索
+              </Button>
+            )}
           </div>
           <GameGrid items={gameInterventions} />
         </div>
