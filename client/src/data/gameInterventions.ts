@@ -1,49 +1,123 @@
 /* ============================================================
    gameInterventions — 游戏化干预资源
    供 ResourcesSection 中 Dialog → InfiniteMenu 使用
-   形状严格匹配 InfiniteMenu.MenuItem：{ image, link, title, description }
+   形状兼容 InfiniteMenu.MenuItem：{ image, link, title, description }
    image 必须 1:1 正方形，≥ 800x800；先全部用 picsum 占位
+
+   旧字段 image / link / title / description 保持不变（兼容 InfiniteMenu）
+   新字段 id / region / language / skills / ageRange / cost / isResearchBacked / type
+   冗余共存，Window 4 整合时统一清理
    ============================================================ */
 
-export interface GameIntervention {
-  image: string;
-  link: string;
-  title: string;
-  description: string;
-}
+import type { GameIntervention } from "@/types/resources";
 
 export const gameInterventions: GameIntervention[] = [
   {
+    // ── 新字段 ──
+    id: "phoneme-trail",
+    type: "game",
+    region: "international",
+    language: "zh-CN",
+    skills: ["音素意识", "拼音"],
+    ageRange: [6, 12],
+    cost: "free",
+    isResearchBacked: false,
+    // ── BaseResource 字段 ──
+    name: "音素追踪",
+    desc: "通过音素切分与重组训练，强化汉语拼音—字形—语义映射。",
+    url: "https://example.com/phoneme-trail",
+    logo: "https://picsum.photos/seed/phoneme-trail/800/800",
+    // ── 旧字段兼容（MenuItem = { image, link, title, description }) ──
     image: "https://picsum.photos/seed/phoneme-trail/800/800",
     link: "https://example.com/phoneme-trail",
     title: "音素追踪",
     description: "通过音素切分与重组训练，强化汉语拼音—字形—语义映射。",
   },
   {
+    id: "char-radical",
+    type: "game",
+    region: "international",
+    language: "zh-CN",
+    skills: ["字形识别", "偏旁部首"],
+    ageRange: [6, 12],
+    cost: "free",
+    isResearchBacked: false,
+    name: "汉字部件拼装",
+    desc: "拆解—重组偏旁部首，提升字形识别速度与结构化记忆。",
+    url: "https://example.com/char-radical",
+    logo: "https://picsum.photos/seed/char-radical/800/800",
     image: "https://picsum.photos/seed/char-radical/800/800",
     link: "https://example.com/char-radical",
     title: "汉字部件拼装",
     description: "拆解—重组偏旁部首，提升字形识别速度与结构化记忆。",
   },
   {
+    id: "reading-flow",
+    type: "game",
+    region: "international",
+    language: "zh-CN",
+    skills: ["朗读流畅度", "阅读速度"],
+    ageRange: [6, 12],
+    cost: "free",
+    isResearchBacked: false,
+    name: "朗读流畅度跑酷",
+    desc: "限时朗读闯关，记录速度与错读率，针对性强化节奏感。",
+    url: "https://example.com/reading-flow",
+    logo: "https://picsum.photos/seed/reading-flow/800/800",
     image: "https://picsum.photos/seed/reading-flow/800/800",
     link: "https://example.com/reading-flow",
     title: "朗读流畅度跑酷",
     description: "限时朗读闯关，记录速度与错读率，针对性强化节奏感。",
   },
   {
+    id: "dict-spell",
+    type: "game",
+    region: "international",
+    language: "zh-CN",
+    skills: ["听写", "错字归因"],
+    ageRange: [6, 12],
+    cost: "free",
+    isResearchBacked: false,
+    name: "听写闯关",
+    desc: "多模态听写输入（语音/手写），针对错字归因与反复练习。",
+    url: "https://example.com/dict-spell",
+    logo: "https://picsum.photos/seed/dict-spell/800/800",
     image: "https://picsum.photos/seed/dict-spell/800/800",
     link: "https://example.com/dict-spell",
     title: "听写闯关",
     description: "多模态听写输入（语音/手写），针对错字归因与反复练习。",
   },
   {
+    id: "working-mem",
+    type: "game",
+    region: "international",
+    language: "zh-CN",
+    skills: ["工作记忆", "多任务切换"],
+    ageRange: [6, 12],
+    cost: "free",
+    isResearchBacked: false,
+    name: "工作记忆塔防",
+    desc: "短时序列记忆与多任务切换，间接提升阅读理解容量。",
+    url: "https://example.com/working-mem",
+    logo: "https://picsum.photos/seed/working-mem/800/800",
     image: "https://picsum.photos/seed/working-mem/800/800",
     link: "https://example.com/working-mem",
     title: "工作记忆塔防",
     description: "短时序列记忆与多任务切换，间接提升阅读理解容量。",
   },
   {
+    id: "multisense",
+    type: "game",
+    region: "international",
+    language: "zh-CN",
+    skills: ["多感官编码", "字词识别"],
+    ageRange: [6, 12],
+    cost: "free",
+    isResearchBacked: false,
+    name: "多感官字词",
+    desc: "视听触多通道编码，配合图—音—形—义配对，巩固识字。",
+    url: "https://example.com/multisense",
+    logo: "https://picsum.photos/seed/multisense/800/800",
     image: "https://picsum.photos/seed/multisense/800/800",
     link: "https://example.com/multisense",
     title: "多感官字词",
