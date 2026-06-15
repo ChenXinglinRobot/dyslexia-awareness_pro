@@ -5,15 +5,16 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, ClipboardList, BookOpen, Building, Gamepad2 } from "lucide-react";
+import { ClipboardList, BookOpen, Building, Gamepad2 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import SectionHeading from "./SectionHeading";
-import FlowingMenu from "./FlowingMenu";
 import GameInterventionExplorer from "./GameInterventionExplorer";
 import GameGrid from "./GameGrid";
-import { institutions } from "@/data/institutions";
+import { hospitals, researchInstitutes } from "@/data/institutions";
+import { onlineResources } from "@/data/onlineResources";
 import { gameInterventions } from "@/data/gameInterventions";
+import ResourceTabs from "./ResourceTabs";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-Lewy7Hs2KY2GAPVNgUiHwD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-light-Yuw2okRBVT6i8Mn6NYWwwg.webp";
@@ -66,9 +67,6 @@ export default function ResourcesSection() {
   const flowMarqueeBg = theme === "dark" ? "oklch(0.72 0.14 70)" : "oklch(0.55 0.14 70)";
   const flowMarqueeText = theme === "dark" ? "oklch(0.15 0.02 250)" : "oklch(0.98 0.005 80)";
 
-  // 把 institutions 转成 FlowingMenu 形状
-  const flowItems = institutions.map((i) => ({ link: i.url, text: i.name, image: i.image }));
-
   return (
     <section id="resources" className="relative overflow-hidden">
       <div className="divider-glow" />
@@ -88,49 +86,27 @@ export default function ResourcesSection() {
           <SectionHeading sectionId="resources" />
         </motion.div>
 
-        {/* ===================== 研究机构与医疗资源 ===================== */}
+        {/* ===================== 医疗与研究资源（三 Tab） ===================== */}
         <div className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-2">
             <Building className="w-5 h-5 text-primary" />
-            <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>研究机构与医疗资源</h3>
+            <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>医疗与研究资源</h3>
           </div>
-
-          {/* 桌面端：FlowingMenu 行式 — 透传 useScrollReveal 状态让桌面卡片与手机 fallback 同源入场 */}
-          <div className="hidden md:block" style={{ height: "min(45vh, 420px)" }}>
-            <FlowingMenu
-              items={flowItems}
-              speed={8}
-              bgColor={flowBg}
-              textColor={flowText}
-              marqueeBgColor={flowMarqueeBg}
-              marqueeTextColor={flowMarqueeText}
-              borderColor={flowBorder}
-              inView={inView}
-              delay={delay}
-            />
-          </div>
-
-          {/* 移动端 fallback：保留原 grid 卡片 */}
-          <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {institutions.map((inst, index) => (
-              <motion.a
-                key={inst.name}
-                href={inst.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -60 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: delay(index) }}
-                className="bg-card border border-border p-5 hover:border-primary/50 transition-all card-hover block"
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <h4 className="text-foreground text-sm font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>{inst.name}</h4>
-                  <ExternalLink className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
-                </div>
-                <p className="text-muted-foreground text-xs leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>{inst.desc}</p>
-              </motion.a>
-            ))}
-          </div>
+          <p className="text-muted-foreground text-sm mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+            家长挂号入口 / 研究者实验室入口 / 一线信息源 3 类入口
+          </p>
+          <ResourceTabs
+            hospitals={hospitals}
+            institutes={researchInstitutes}
+            onlineResources={onlineResources}
+            inView={inView}
+            delay={delay}
+            flowBg={flowBg}
+            flowText={flowText}
+            flowBorder={flowBorder}
+            flowMarqueeBg={flowMarqueeBg}
+            flowMarqueeText={flowMarqueeText}
+          />
         </div>
 
         {/* ===================== 筛查线索清单 ===================== */}
