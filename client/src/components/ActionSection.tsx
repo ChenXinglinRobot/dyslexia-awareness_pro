@@ -5,7 +5,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope, InfoIcon } from "lucide-react";
+import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope, InfoIcon, ExternalLink } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import CircularGallery from "./CircularGallery";
 import { famousDyslexics } from "@/data/famousDyslexics";
@@ -184,6 +184,27 @@ export default function ActionSection() {
             >
               阅读障碍不只意味着困难。许多阅读障碍者在艺术、空间科学、创新思维与审辨性思维上拥有独特天赋。
             </p>
+
+            {/*
+              延展观看 — whatisdyslexia.org 短片
+              位置:在第一段与分隔线之间,叙事顺序 = 理论 → 短片印证 → 升华金句
+              形态刻意避开按钮:这节视觉调性是诗化排版,按钮会破坏节奏;
+              用内联弱化链接(text-muted-foreground → hover:text-primary),颜色全走 token,
+              日 / 夜间模式自动适配。
+              文案「这部短片,给了阅读障碍另一种讲法」特意避开"重新定义"这类英→中直译腔。
+            */}
+            <a
+              href="https://whatisdyslexia.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="在 whatisdyslexia.org 观看短片(英文页面,新窗口打开)"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+              style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+            >
+              <span>这部短片，给了阅读障碍另一种讲法</span>
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+            </a>
+
             <div className="flex items-center gap-4 mb-6 md:mb-8" aria-hidden>
               <span className="block w-10 md:w-14 h-px bg-primary/70" />
             </div>

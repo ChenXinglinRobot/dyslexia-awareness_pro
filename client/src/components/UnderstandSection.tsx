@@ -7,7 +7,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check } from "lucide-react";
+import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check, ExternalLink } from "lucide-react";
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -605,25 +605,57 @@ function MythsVsFacts() {
   ];
 
   return (
-    <div ref={ref} className="space-y-4">
-      {items.map((item, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, x: -20 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5, delay: delay(index) }}
-          className="flex flex-col md:flex-row gap-4 bg-card border border-border p-5 transition-colors duration-500"
+    <div ref={ref} className="space-y-6">
+      <div className="space-y-4">
+        {items.map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: delay(index) }}
+            className="flex flex-col md:flex-row gap-4 bg-card border border-border p-5 transition-colors duration-500"
+          >
+            <div className="flex items-start gap-3 flex-1">
+              <XIcon className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+              <p className="text-destructive line-through text-base" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>{item.myth}</p>
+            </div>
+            <div className="flex items-start gap-3 flex-1">
+              <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <p className="text-foreground text-base" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>{item.fact}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/*
+        外部延伸阅读 — 哈佛大学教育学院 Gaab 实验室的「30 条阅读障碍误区」英文专题页。
+        按钮样式沿用本节其它按钮的 border-primary / text-primary / hover:bg-primary/10 token,
+        所有颜色都走 var(--primary),自动适配日 / 夜间模式(在 .dark 下 primary 会更亮)。
+      */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, delay: delay(items.length) }}
+        className="flex flex-col items-center gap-3 pt-2"
+      >
+        <p
+          className="text-xs text-muted-foreground text-center"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
         >
-          <div className="flex items-start gap-3 flex-1">
-            <XIcon className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
-            <p className="text-destructive line-through text-base" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>{item.myth}</p>
-          </div>
-          <div className="flex items-start gap-3 flex-1">
-            <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-            <p className="text-foreground text-base" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>{item.fact}</p>
-          </div>
-        </motion.div>
-      ))}
+          以上只是最常见的 3 条 · 哈佛大学教育学院 Gaab 实验室整理了约 30 条完整误区
+        </p>
+        <a
+          href="https://www.gaablab.com/dyslexia-myths"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="在 Gaab 实验室网站查看完整误区清单(英文页面,新窗口打开)"
+          className="inline-flex items-center gap-2 text-xs px-5 py-2.5 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+        >
+          查看完整误区清单
+          <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+        </a>
+      </motion.div>
     </div>
   );
 }
