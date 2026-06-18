@@ -7,7 +7,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Eye, AlertTriangle, Brain, Languages, X as XIcon, Check, ExternalLink } from "lucide-react";
+import { Eye, AlertTriangle, Brain, Languages, Focus, X as XIcon, Check, ExternalLink } from "lucide-react";
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -15,6 +15,7 @@ import { useIsMobile } from "@/hooks/useMobile";
 import FuzzyText from "./FuzzyText";
 import SectionHeading from "./SectionHeading";
 import TrueFocus from "./TrueFocus";
+import TextPressure from "./TextPressure";
 import DecryptedText from "./DecryptedText";
 import CoordinatePlane from "./CoordinatePlane";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
@@ -134,6 +135,111 @@ function DyslexiaSimulator() {
           </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ============ 视觉拥挤效应 ============
+
+function CrowdingSimulation() {
+  const { enabled: simEnabled } = useSimulation();
+  const isMobile = useIsMobile();
+  const [showCrowding, setShowCrowding] = useState(false);
+  const [crowdIntensity, setCrowdIntensity] = useState(0.6);
+  const [letterSpacing, setLetterSpacing] = useState(0);
+
+  // 总开关关掉时,强制收起,文字回到清晰(与逐字解码体验一致)
+  useEffect(() => {
+    if (!simEnabled) setShowCrowding(false);
+  }, [simEnabled]);
+
+  const intensityPct = Math.round(crowdIntensity * 100);
+
+  return (
+    <div className="space-y-4">
+      {simEnabled && !showCrowding && (
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          onClick={() => setShowCrowding(true)}
+          className="mx-auto flex items-center gap-2 text-xs px-4 py-2 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+        >
+          启动视觉拥挤体验
+        </motion.button>
+      )}
+
+      {simEnabled && showCrowding && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
+        >
+          <p className="sr-only">
+            视觉拥挤效应模拟：移动鼠标（或拖动手指）注视任意一个字，只有它清晰，周围的字挤作一团；拉大字间距可缓解拥挤。
+          </p>
+          <p
+            className="text-xs text-muted-foreground text-center mb-6"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+          >
+            {isMobile
+              ? "拖动手指 — 只有指尖处的字清晰，周围挤作一团"
+              : "移动鼠标注视任意一个字 — 只有它清晰，周围挤作一团"}
+          </p>
+
+          {/* TextPressure crowding 模式: 注视点清晰, 外围 scaleX 重叠 + 加重 */}
+          <div className="flex justify-center items-center min-h-[140px] text-3xl md:text-4xl mb-8">
+            <TextPressure
+              mode="crowding"
+              text="盯着这一个字 周围的字全挤在了一起"
+              intensity={crowdIntensity}
+              focusRadius={50}
+              letterSpacing={letterSpacing}
+              textColor="var(--foreground)"
+            />
+          </div>
+
+          {/* 两条滑块: 拥挤强度 + 字间距缓解 */}
+          <div className="space-y-4 max-w-md mx-auto">
+            <div className="flex items-center gap-4">
+              <span className="text-xs text-muted-foreground w-16 shrink-0">拥挤强度</span>
+              <input
+                type="range" min="20" max="100" value={intensityPct}
+                onChange={(e) => setCrowdIntensity(Number(e.target.value) / 100)}
+                className="flex-1 h-1 bg-border rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
+                aria-label="拥挤强度"
+              />
+              <span className="text-xs text-primary w-10 text-right" style={{ fontFamily: "'Space Grotesk'" }}>{intensityPct}%</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-xs text-muted-foreground w-16 shrink-0">字间距</span>
+              <input
+                type="range" min="0" max="24" value={letterSpacing}
+                onChange={(e) => setLetterSpacing(Number(e.target.value))}
+                className="flex-1 h-1 bg-border rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
+                aria-label="字间距"
+              />
+              <span className="text-xs text-primary w-10 text-right" style={{ fontFamily: "'Space Grotesk'" }}>{letterSpacing}px</span>
+            </div>
+            <p
+              className="text-xs text-muted-foreground text-center pt-1"
+              style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+            >
+              拉大字间距 → 拥挤消解：这正是“无障碍排版”能够帮到阅读障碍者的原因。
+            </p>
+          </div>
+
+          <button
+            onClick={() => setShowCrowding(false)}
+            className="mx-auto mt-8 block text-xs text-muted-foreground hover:text-foreground transition-colors"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+          >
+            收起
+          </button>
+        </motion.div>
+      )}
     </div>
   );
 }
@@ -695,6 +801,17 @@ export default function UnderstandSection() {
             点击下方按钮，感受阅读障碍儿童在阅读时可能经历的视觉拥挤与认知过载。
           </p>
           <DyslexiaSimulator />
+        </div>
+
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-6">
+            <Focus className="w-5 h-5 text-primary" />
+            <SectionHeading sectionId="understand:crowd" />
+          </div>
+          <p className="text-muted-foreground text-base mb-6 max-w-2xl" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+            注视任意一个字 —— 只有它清晰，周围的字会挤作一团。试着拉大字间距，拥挤便会消解：这正是“无障碍排版”能够帮到阅读障碍者的原因。
+          </p>
+          <CrowdingSimulation />
         </div>
 
         <div className="mb-20">

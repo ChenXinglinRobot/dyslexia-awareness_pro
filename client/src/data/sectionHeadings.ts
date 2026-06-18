@@ -74,6 +74,7 @@ export const SECTION_HEADINGS = [
     enEffect: "shuffle",
   },
   { sectionId: "understand:sim",  cn: "模拟体验",                  level: "sub" },
+  { sectionId: "understand:crowd", cn: "视觉拥挤效应",             level: "sub" },
   { sectionId: "understand:math", cn: "一道乘法题，归零了整个世界", level: "sub" },
   { sectionId: "understand:cn",   cn: "汉语的特殊性",              level: "sub" },
 ] as const satisfies readonly SectionHeadingEntry[];
