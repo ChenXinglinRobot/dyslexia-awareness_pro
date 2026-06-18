@@ -323,8 +323,9 @@ export default function ActionSection() {
       <div className="container relative z-10 pb-20 md:pb-32">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: delay(14) }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8 }}
           className="mb-16 md:mb-24"
         >
           <div className="mb-8 flex items-center gap-3 md:mb-12">
@@ -400,8 +401,9 @@ export default function ActionSection() {
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: delay(15) }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8 }}
           className="relative z-0 mb-16 md:mb-24"
         >
           <div className="mb-6 flex items-center gap-3">
@@ -520,8 +522,9 @@ export default function ActionSection() {
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 1, delay: delay(17) }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1 }}
           className="py-12 text-center"
         >
           <p
