@@ -21,6 +21,9 @@ export interface CardSwapProps {
   delay?: number;
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
+  activeIndex?: number;
+  autoSwap?: boolean;
+  containerClassName?: string;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
   children: ReactNode;
@@ -71,6 +74,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
   delay = 5000,
   pauseOnHover = false,
   onCardClick,
+  activeIndex,
+  autoSwap = true,
+  containerClassName,
   skewAmount = 6,
   easing = 'elastic',
   children
@@ -104,8 +110,45 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (typeof activeIndex !== 'number') return;
+
     const total = refs.length;
-    refs.forEach((r, i) => placeNow(r.current!, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
+    if (!total) return;
+
+    const normalizedActive = Math.max(0, Math.min(activeIndex, total - 1));
+    const nextOrder = [
+      normalizedActive,
+      ...Array.from({ length: total }, (_, i) => i).filter(i => i !== normalizedActive)
+    ];
+
+    order.current = nextOrder;
+    tlRef.current?.kill();
+    nextOrder.forEach((idx, slotIndex) => {
+      const el = refs[idx].current;
+      if (!el) return;
+      gsap.to(el, {
+        ...makeSlot(slotIndex, cardDistance, verticalDistance, total),
+        xPercent: -50,
+        yPercent: -50,
+        skewY: skewAmount,
+        transformOrigin: 'center center',
+        duration: 0.45,
+        ease: easing === 'elastic' ? 'elastic.out(0.6,0.9)' : 'power1.inOut',
+        force3D: true
+      });
+    });
+  }, [activeIndex, cardDistance, verticalDistance, easing, refs, skewAmount]);
+
+  useEffect(() => {
+    const total = refs.length;
+    const baseOrder = order.current.length === total
+      ? order.current
+      : Array.from({ length: total }, (_, i) => i);
+    order.current = baseOrder;
+    baseOrder.forEach((idx, i) => {
+      const el = refs[idx].current;
+      if (el) placeNow(el, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
+    });
 
     const swap = () => {
       if (order.current.length < 2) return;
@@ -165,6 +208,10 @@ const CardSwap: React.FC<CardSwapProps> = ({
       });
     };
 
+    if (!autoSwap) {
+      return () => clearInterval(intervalRef.current);
+    }
+
     swap();
     intervalRef.current = window.setInterval(swap, delay);
 
@@ -187,7 +234,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
     }
     return () => clearInterval(intervalRef.current);
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+  }, [autoSwap, cardDistance, verticalDistance, delay, pauseOnHover, refs, skewAmount, easing]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement<CardProps>(child)
@@ -204,7 +251,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   );
 
   return (
-    <div ref={container} className="card-swap-container" style={{ width, height }}>
+    <div ref={container} className={`card-swap-container ${containerClassName ?? ''}`.trim()} style={{ width, height }}>
       {rendered}
     </div>
   );

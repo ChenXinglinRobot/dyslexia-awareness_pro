@@ -5,12 +5,13 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Heart, Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, Home as HomeIcon, GraduationCap, Stethoscope, InfoIcon, ExternalLink } from "lucide-react";
+import { Building2, Sparkles, SlidersHorizontal, Clock, MessageCircle, GraduationCap, Stethoscope, InfoIcon, ExternalLink } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import CircularGallery from "./CircularGallery";
 import { famousDyslexics } from "@/data/famousDyslexics";
 import FamousDyslexicsModal from "./FamousDyslexicsModal";
 import SectionHeading from "./SectionHeading";
+import RoleActionCards from "./RoleActionCards";
 
 function TypographyAdjuster() {
   const [fontSize, setFontSize] = useState(16);
@@ -86,31 +87,7 @@ export default function ActionSection() {
           <SectionHeading sectionId="action" />
         </motion.div>
 
-        {/* 个人可以 */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <HomeIcon className="w-5 h-5 text-primary" />
-            <h3 className="text-xl md:text-2xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>个人可以</h3>
-          </div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(1) }}
-            className="bg-card border border-border p-6 mb-4 transition-colors duration-500">
-            <div className="flex items-center gap-2 mb-3">
-              <Heart className="w-4 h-4 text-primary" />
-              <h4 className="text-foreground text-base font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>家庭与教养陪伴</h4>
-            </div>
-            <p className="text-foreground/80 text-sm leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-              了解病因学基础，面对现实并宽容失败；改善早期家庭阅读环境；着重挖掘孩子在创造性思维与空间想象力等高层次问题解决上的独特优势。
-            </p>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(2) }}
-            className="bg-primary/8 border border-primary/30 p-6 text-center transition-colors duration-500">
-            <p className="text-primary text-lg" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 500 }}>
-              以及最朴素的三件事：不催促、不嘲笑、尽早评估。
-            </p>
-          </motion.div>
-        </div>
+        <RoleActionCards inView={inView} delay={delay} />
 
         {/* 社会可以 */}
         <div className="mb-16">
