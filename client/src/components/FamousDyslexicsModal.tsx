@@ -14,9 +14,34 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
     <div className="card-famous" key={person.name}>
       <img src={person.image} alt={person.name} className="card-famous-image" />
       <div className="card-famous-info">
-        <h3 className="card-famous-name">{person.name}</h3>
-        <p className="card-famous-field">{person.field}</p>
+        <div className="card-famous-heading">
+          <div>
+            <h3 className="card-famous-name">{person.name}</h3>
+            <p className="card-famous-field">{person.field}</p>
+          </div>
+          {person.evidenceLabel && <span className="card-famous-evidence">{person.evidenceLabel}</span>}
+        </div>
         <p className="card-famous-desc">{person.description}</p>
+        <div className="card-famous-detail-list">
+          {person.difficulty && (
+            <section className="card-famous-detail">
+              <h4>面对过什么文字/学习困难</h4>
+              <p>{person.difficulty}</p>
+            </section>
+          )}
+          {person.supportOrPath && (
+            <section className="card-famous-detail">
+              <h4>如何被支持或找到替代路径</h4>
+              <p>{person.supportOrPath}</p>
+            </section>
+          )}
+          {person.limitation && (
+            <section className="card-famous-detail card-famous-detail-warning">
+              <h4>这个案例不能说明什么</h4>
+              <p>{person.limitation}</p>
+            </section>
+          )}
+        </div>
       </div>
     </div>
   ));
@@ -29,10 +54,16 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
       >
         <SheetHeader className="pb-4 border-b border-border">
           <SheetTitle className="text-lg md:text-xl" style={{ fontFamily: "'Noto Serif SC', serif" }}>
-            阅读障碍名人介绍
+            他们也曾面对文字困难
           </SheetTitle>
           <p className="text-sm text-muted-foreground" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-            拖动卡片查看更多名人 · 点击也可翻页
+            以下人物案例仅用于说明：阅读困难不定义一个人的全部。部分历史人物缺乏现代标准下的诊断记录，应谨慎理解。
+          </p>
+          <p
+            className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-100"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+          >
+            阅读障碍不等于天才，也不意味着一定会拥有某种特殊能力。
           </p>
         </SheetHeader>
         <div className="stack-wrapper py-6 famous-stack">

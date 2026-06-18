@@ -32,13 +32,13 @@ const ROLE_ACTIONS: RoleAction[] = [
   {
     key: "parent",
     title: "我是家长",
-    quote: "先看见孩子的努力，再寻找合适的方法。",
+    quote: "先看见困难发生在哪里，再和孩子一起寻找支持。",
     actions: [
-      "观察孩子是否长期存在认字慢、听写难、阅读费力等表现",
-      "避免把困难简单归因为懒惰、粗心或态度不好",
-      "必要时寻求学校心理老师、特教老师或专业机构评估",
+      "观察认字、听写、朗读、作业和考试中反复出现的困难",
+      "记录困难出现的情境和持续时间，再与班主任或语文老师沟通",
+      "必要时寻求学校心理老师、特教资源或儿童发展相关专业评估",
     ],
-    avoid: "不要用罚抄和加量阅读来“逼好”",
+    avoid: "不要用罚抄、加量阅读或反复责备来“逼好”孩子",
     icon: Home,
     accent: "oklch(0.62 0.15 68)",
     imageSrc:
@@ -51,13 +51,13 @@ const ROLE_ACTIONS: RoleAction[] = [
   {
     key: "teacher",
     title: "我是教师",
-    quote: "不是降低标准，而是提供更公平的抵达方式。",
+    quote: "公平不是所有人走同一条路，而是每个人都有抵达方式。",
     actions: [
-      "允许学生使用更大字号、分段文本或朗读辅助材料",
-      "减少无意义抄写，关注真正的理解和表达",
-      "在考试和作业中提供合理便利，如延长时间、口头回答或减少机械书写负担",
+      "提供合理便利，如延长时间、分段材料、口头回答或大字号文本",
+      "减少机械抄写，把精力留给识字、阅读理解和真实表达",
+      "用多种方式了解学生是否理解内容，而不只看朗读速度和书写量",
     ],
-    avoid: "不要强迫孩子当众朗读来“锻炼胆量”",
+    avoid: "不要公开羞辱，或强迫学生当众朗读来“锻炼胆量”",
     icon: GraduationCap,
     accent: "oklch(0.55 0.12 210)",
     imageSrc:
@@ -74,10 +74,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     quote: "一句嘲笑会变成墙，一次理解也可以变成桥。",
     actions: [
       "不嘲笑读错、读慢或写错字的同学",
-      "在小组任务中允许对方用擅长的方式参与",
-      "当看到别人取笑时，可以温和制止或寻求老师帮助",
+      "不把同学叫作“笨”“懒”或“拖后腿”",
+      "在小组任务中允许朗读、整理、绘图、讲述等多样参与方式",
     ],
-    avoid: "不要给同学贴“笨”“懒”“拖后腿”的标签",
+    avoid: "不要把阅读速度当成评价一个人的全部标准",
     icon: UsersRound,
     accent: "oklch(0.58 0.13 150)",
     imageSrc:
@@ -90,13 +90,13 @@ const ROLE_ACTIONS: RoleAction[] = [
   {
     key: "student",
     title: "我是学生本人",
-    quote: "你不是笨，你只是需要不同的阅读路径。",
+    quote: "读得慢不等于想得慢，你可以把困难说出来。",
     actions: [
-      "告诉可信任的大人：哪些文字任务让你特别吃力",
-      "尝试使用朗读、分段阅读、标记关键词等辅助方法",
-      "记住：读得慢不代表你想得慢，写错字不代表你没有能力",
+      "告诉可信任的大人：哪些文字任务最吃力，什么时候最容易卡住",
+      "尝试朗读辅助、分段阅读、关键词标记或先听后读等方式",
+      "记住读得慢不代表你想得慢，写错字也不代表你没有能力",
     ],
-    avoid: "不要把所有困难都归咎于“我不够好”",
+    avoid: "不要把所有困难都归咎于“我不够好”或独自硬扛",
     icon: UserRound,
     accent: "oklch(0.60 0.16 25)",
     imageSrc:
@@ -121,7 +121,7 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
       className="h-full bg-card border border-border p-5 md:p-6 shadow-sm transition-colors duration-500"
       style={{ ["--role-accent" as string]: role.accent }}
     >
-      <div className="flex items-center justify-between gap-4 mb-5">
+      <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
           <span className="grid size-10 place-items-center border border-border bg-background/70 text-[color:var(--role-accent)]">
             <Icon className="size-5" />
@@ -141,10 +141,10 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
       </div>
 
       <p
-        className="text-foreground mb-5"
+        className="text-foreground mb-4"
         style={{
           fontFamily: "'Noto Serif SC', serif",
-          fontSize: compact ? "1.125rem" : "clamp(1.125rem, 0.65vw + 1rem, 1.45rem)",
+          fontSize: compact ? "1.0625rem" : "clamp(1.125rem, 0.65vw + 1rem, 1.45rem)",
           fontWeight: 600,
           lineHeight: 1.65,
           textWrap: "balance",
@@ -153,7 +153,7 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
         {role.quote}
       </p>
 
-      <ul className="space-y-3 mb-5">
+      <ul className="space-y-2.5 mb-4">
         {role.actions.map((item) => (
           <li key={item} className="flex items-start gap-3">
             <CheckCircle2
@@ -189,15 +189,6 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
           </div>
         </div>
       </div>
-
-      {!compact && (
-        <div className="mt-5 pt-4 border-t border-border/70 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
-          <span style={{ fontFamily: "'Noto Serif SC', serif" }}>衬线：适合放慢语气，承接一句提醒。</span>
-          <span style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            非衬线：适合行动清单，让步骤更容易扫读。
-          </span>
-        </div>
-      )}
     </article>
   );
 }

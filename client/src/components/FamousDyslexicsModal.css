@@ -7,3 +7,118 @@
 .famous-stack.stack-wrapper {
   height: min(calc(100vh - 220px), 680px);
 }
+
+.famous-stack .card-famous {
+  position: relative;
+  isolation: isolate;
+}
+
+.famous-stack .card-famous::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to bottom, rgba(8, 8, 10, 0.1) 0%, rgba(8, 8, 10, 0.55) 42%, rgba(8, 8, 10, 0.96) 100%),
+    radial-gradient(circle at top left, rgba(245, 158, 11, 0.24), transparent 42%);
+  pointer-events: none;
+}
+
+.famous-stack .card-famous-image {
+  z-index: 0;
+}
+
+.famous-stack .card-famous-info {
+  z-index: 2;
+  max-height: 76%;
+  padding: 1.25rem;
+  overflow-y: auto;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.72) 72%, transparent 100%);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251, 191, 36, 0.6) rgba(255, 255, 255, 0.08);
+}
+
+.famous-stack .card-famous-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.famous-stack .card-famous-name {
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  line-height: 1.2;
+}
+
+.famous-stack .card-famous-evidence {
+  flex: 0 0 auto;
+  max-width: 8.5rem;
+  border: 1px solid rgba(251, 191, 36, 0.42);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  color: #fde68a;
+  background: rgba(120, 53, 15, 0.42);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.famous-stack .card-famous-desc {
+  margin-bottom: 0.8rem;
+}
+
+.famous-stack .card-famous-detail-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.famous-stack .card-famous-detail {
+  border-left: 2px solid rgba(165, 180, 252, 0.7);
+  padding-left: 0.65rem;
+}
+
+.famous-stack .card-famous-detail-warning {
+  border-left-color: rgba(251, 191, 36, 0.86);
+}
+
+.famous-stack .card-famous-detail h4 {
+  margin: 0 0 0.2rem;
+  color: rgba(255, 255, 255, 0.96);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.famous-stack .card-famous-detail p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.84);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .famous-stack.stack-wrapper {
+    height: min(calc(100vh - 250px), 620px);
+    min-height: 430px;
+  }
+
+  .famous-stack .card-famous-info {
+    max-height: 82%;
+    padding: 1rem;
+  }
+
+  .famous-stack .card-famous-heading {
+    display: block;
+  }
+
+  .famous-stack .card-famous-evidence {
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 0.45rem;
+  }
+}
