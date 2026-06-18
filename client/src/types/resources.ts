@@ -12,6 +12,10 @@ export interface BaseResource {
   logo?: string;
   url: string;
   type: ResourceType;
+  // ── 图片回退 ──
+  logoFallback?: string; // 主图加载失败的回退
+  heroImage?: string;
+  heroImageFallback?: string;
   // ── 旧字段兼容 ──
   image?: string; // FlowingMenu / InfiniteMenu 必需
 }
