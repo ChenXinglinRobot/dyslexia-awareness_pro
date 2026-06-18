@@ -39,8 +39,8 @@ interface Quadrant {
 const QUADRANTS: ReadonlyArray<Quadrant> = [
   { id: "tl", cx: 100, cy: 100, condition: "识别- 理解+", title: "阅读障碍", isProtagonist: true, sub: "本站主角" },
   { id: "tr", cx: 300, cy: 100, condition: "识别+ 理解+", title: "正常发展" },
-  { id: "bl", cx: 100, cy: 300, condition: "识别- 理解-", title: "全面发展落后" },
-  { id: "br", cx: 300, cy: 300, condition: "识别+ 理解-", title: "特定理解困难", note: "[待核实术语]" },
+  { id: "bl", cx: 100, cy: 300, condition: "识别- 理解-", title: "全面落后" },
+  { id: "br", cx: 300, cy: 300, condition: "识别+ 理解-", title: "理解困难" },
 ];
 
 // 入场顺序: TR → BR → BL → TL(主角压轴,最后登场,让 amber 戏剧性更集中)

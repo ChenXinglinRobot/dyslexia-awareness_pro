@@ -26,7 +26,7 @@ const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/3105196637350956
 
 // ============ 模拟体验 ============
 
-const sampleText = "今天的语文课，老师让我们大声朗读课文。我站起来，看着书上的字，它们好像在跳舞，我认不出来它们的顺序。同学们都笑了，老师叹了口气。我不是不努力，我只是看到的世界和你们不一样。";
+const sampleText = "今天的语文课，老师让我们大声朗读课文。我站起来，看着书上的字，它们好像在跳舞，我认不出来它们的顺序。同学们都笑了，老师叹了口气。我很努力，我只是看见的文字和你们不一样。";
 
 function DyslexiaSimulator() {
   // 单一真相源:模拟开关与强度全部从 SimulationContext 读取

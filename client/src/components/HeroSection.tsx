@@ -15,10 +15,14 @@ import SideRays from "./SideRays/SideRays";
 const HERO_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/hero-bg-L6admPuuAYFKMwipXMbsMf.webp";
 const HERO_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/hero-bg-light-MbtzYKLaXMW8jVkJmGGCGP.webp";
 
+const RAYS_MOUNT_DELAY_MS = 2100;
+const RAYS_FADE_MS = 900;
+const RAYS_FADE_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
+
 // 打字机 taglines
 const taglines = [
   "文字应该向每个人敞开",
-  "不是不努力，只是看见的世界不一样",
+  "他们不是不努力，只是大脑处理文字的方式不一样",
   "理解，是给他们最温柔的礼物",
 ];
 
@@ -80,19 +84,109 @@ export default function HeroSection() {
     document.querySelector("#understand")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // 滚动检测：只在前半屏显示光效
-  const [showRays, setShowRays] = useState(true);
+  // 滚动检测：只在前半屏允许光效加载
+  const [heroRaysAllowed, setHeroRaysAllowed] = useState(true);
+  const [raysMounted, setRaysMounted] = useState(false);
+  const [raysVisible, setRaysVisible] = useState(false);
+  const mountDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idleCallbackRef = useRef<number | null>(null);
+  const fallbackIdleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const visibleFrameRef = useRef<number | null>(null);
+  const unmountDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowRays(window.scrollY < window.innerHeight * 0.5);
+      setHeroRaysAllowed(window.scrollY < window.innerHeight * 0.5);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const isDark = theme === "dark";
   const heroBg = isDark ? HERO_BG_DARK : HERO_BG_LIGHT;
+  const canShowRays = isDark && heroRaysAllowed;
+
+  useEffect(() => {
+    const clearPendingMount = () => {
+      if (mountDelayRef.current) {
+        clearTimeout(mountDelayRef.current);
+        mountDelayRef.current = null;
+      }
+      if (idleCallbackRef.current !== null) {
+        window.cancelIdleCallback?.(idleCallbackRef.current);
+        idleCallbackRef.current = null;
+      }
+      if (fallbackIdleRef.current) {
+        clearTimeout(fallbackIdleRef.current);
+        fallbackIdleRef.current = null;
+      }
+      if (visibleFrameRef.current !== null) {
+        cancelAnimationFrame(visibleFrameRef.current);
+        visibleFrameRef.current = null;
+      }
+    };
+
+    if (!canShowRays) {
+      clearPendingMount();
+      setRaysVisible(false);
+      if (unmountDelayRef.current) clearTimeout(unmountDelayRef.current);
+      unmountDelayRef.current = setTimeout(() => {
+        setRaysMounted(false);
+        unmountDelayRef.current = null;
+      }, RAYS_FADE_MS);
+      return () => clearPendingMount();
+    }
+
+    if (unmountDelayRef.current) {
+      clearTimeout(unmountDelayRef.current);
+      unmountDelayRef.current = null;
+    }
+
+    if (raysMounted) {
+      visibleFrameRef.current = requestAnimationFrame(() => {
+        setRaysVisible(true);
+        visibleFrameRef.current = null;
+      });
+      return () => clearPendingMount();
+    }
+
+    mountDelayRef.current = setTimeout(() => {
+      mountDelayRef.current = null;
+
+      const mountRays = () => {
+        setRaysMounted(true);
+        visibleFrameRef.current = requestAnimationFrame(() => {
+          setRaysVisible(true);
+          visibleFrameRef.current = null;
+        });
+      };
+
+      if ("requestIdleCallback" in window) {
+        idleCallbackRef.current = window.requestIdleCallback(() => {
+          idleCallbackRef.current = null;
+          mountRays();
+        });
+      } else {
+        fallbackIdleRef.current = setTimeout(() => {
+          fallbackIdleRef.current = null;
+          mountRays();
+        }, 80);
+      }
+    }, RAYS_MOUNT_DELAY_MS);
+
+    return () => clearPendingMount();
+  }, [canShowRays, raysMounted]);
+
+  useEffect(() => {
+    return () => {
+      if (mountDelayRef.current) clearTimeout(mountDelayRef.current);
+      if (idleCallbackRef.current !== null) window.cancelIdleCallback?.(idleCallbackRef.current);
+      if (fallbackIdleRef.current) clearTimeout(fallbackIdleRef.current);
+      if (visibleFrameRef.current !== null) cancelAnimationFrame(visibleFrameRef.current);
+      if (unmountDelayRef.current) clearTimeout(unmountDelayRef.current);
+    };
+  }, []);
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
@@ -114,10 +208,13 @@ export default function HeroSection() {
       }`} />
 
       {/* 光效 — 只在首屏显示，仅暗色模式 */}
-      {isDark && (
+      {raysMounted && (
         <div
-          className="absolute inset-0 z-0 transition-opacity duration-500"
-          style={{ opacity: showRays ? 0.8 : 0 }}
+          className="absolute inset-0 z-0"
+          style={{
+            opacity: raysVisible ? 0.8 : 0,
+            transition: `opacity ${RAYS_FADE_MS}ms ${RAYS_FADE_EASING}`,
+          }}
         >
           <SideRays
             origin="top-right"
@@ -162,15 +259,18 @@ export default function HeroSection() {
               <GlitchText
                 as="h1"
                 respectSimulation
-                dataText={"他们不是不努力\n只是看见的世界\n不一样"}
+                dataText={"他们不是不努力\n只是大脑处理文字的\n方式不一样"}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
                 style={{ fontFamily: "'Noto Serif SC', serif" }}
               >
                 他们不是
                 <span className="text-primary">不努力</span>
                 <br />
-                只是看见的世界
+                只是
+                <span className="text-primary">大脑处理文字</span>
+                的
                 <br />
+                方式
                 <span className={isDark ? "text-[oklch(0.65_0.18_25)]" : "text-[oklch(0.55_0.18_25)]"}>不一样</span>
               </GlitchText>
             </motion.div>
