@@ -92,7 +92,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const animationRef = useRef<gsap.core.Tween | null>(null);
   const [repetitions, setRepetitions] = useState(4);
 
-  const animationDefaults: gsap.TweenVars = { duration: 0.6, ease: 'expo' };
+  const animationDefaults: gsap.TweenVars = { duration: 0.32, ease: 'power3.out' };
 
   const distMetric = (x: number, y: number, x2: number, y2: number): number => {
     const xDiff = x - x2;
@@ -186,7 +186,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       style={{ borderColor, borderTopWidth: isFirst ? 0 : undefined }}
       initial={{ opacity: 0, x: -60 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: (delay ?? ((i: number) => i * 0.1))(index) }}
+      transition={{ duration: 0.38, delay: (delay ?? ((i: number) => i * 0.075))(index) }}
     >
       <a
         className="menu__item-link"

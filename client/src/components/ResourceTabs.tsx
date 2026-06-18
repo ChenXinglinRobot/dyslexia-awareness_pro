@@ -123,8 +123,9 @@ export default function ResourceTabs({
         style={{ height: flowMenuHeight }}
       >
         <FlowingMenu
+          key={activeTab}
           items={flowItems}
-          speed={8}
+          speed={5}
           bgColor={flowBg}
           textColor={flowText}
           marqueeBgColor={flowMarqueeBg}
@@ -139,7 +140,7 @@ export default function ResourceTabs({
       <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
         {tabData.map((res, index) => (
           <motion.div
-            key={res.id}
+            key={`${activeTab}-${res.id}`}
             initial={{ opacity: 0, x: -60 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: delay?.(index) ?? index * 0.1 }}
