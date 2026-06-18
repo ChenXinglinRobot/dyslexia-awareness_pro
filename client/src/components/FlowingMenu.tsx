@@ -8,6 +8,7 @@ interface MenuItemData {
   link: string;
   text: string;
   image: string;
+  imageFallback?: string;
 }
 
 interface FlowingMenuProps {
@@ -74,6 +75,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   link,
   text,
   image,
+  imageFallback,
   speed,
   textColor,
   marqueeBgColor,
@@ -181,7 +183,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
     <motion.div
       className="menu__item"
       ref={itemRef}
-      style={{ borderColor, borderTop: isFirst ? 'none' : undefined }}
+      style={{ borderColor, borderTopWidth: isFirst ? 0 : undefined }}
       initial={{ opacity: 0, x: -60 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: (delay ?? ((i: number) => i * 0.1))(index) }}
@@ -201,7 +203,22 @@ const MenuItem: React.FC<MenuItemProps> = ({
             {[...Array(repetitions)].map((_, idx) => (
               <div className="marquee__part" key={idx} style={{ color: marqueeTextColor }}>
                 <span>{text}</span>
-                <div className="marquee__img" style={{ backgroundImage: `url(${image})` }} />
+                <div className="marquee__img">
+                  <img
+                    src={image}
+                    alt=""
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (imageFallback && target.dataset.fallbackApplied !== "true") {
+                        target.dataset.fallbackApplied = "true";
+                        target.src = imageFallback;
+                      } else {
+                        target.style.visibility = "hidden";
+                      }
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>

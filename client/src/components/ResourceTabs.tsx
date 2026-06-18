@@ -65,10 +65,12 @@ export default function ResourceTabs({
       tabData.map((i) => ({
         link: `#resource-${i.id}`,
         text: i.name,
-        image: i.image || i.logo || "",
+        image: i.logo || i.image || "",
+        imageFallback: i.logoFallback,
       })),
     [tabData],
   );
+  const flowMenuHeight = Math.min(820, Math.max(460, flowItems.length * 74));
 
   /* ── FlowingMenu 点击拦截 ── */
   const handleFlowingMenuClick = (e: React.MouseEvent) => {
@@ -118,7 +120,7 @@ export default function ResourceTabs({
       <div
         onClick={handleFlowingMenuClick}
         className="hidden md:block"
-        style={{ height: "min(45vh, 420px)" }}
+        style={{ height: flowMenuHeight }}
       >
         <FlowingMenu
           items={flowItems}

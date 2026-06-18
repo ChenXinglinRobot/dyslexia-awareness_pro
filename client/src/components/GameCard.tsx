@@ -22,6 +22,10 @@ const descCls = "text-muted-foreground text-xs";
 
 export default function GameCard({ item, variant = "default", className }: GameCardProps) {
   const isFeatured = variant === "featured";
+  const imageClass = cn(
+    "w-full object-contain p-4 drop-shadow-sm",
+    isFeatured ? "h-48 md:h-full" : "aspect-[4/3]",
+  );
 
   return (
     <div
@@ -49,10 +53,15 @@ export default function GameCard({ item, variant = "default", className }: GameC
           <img
             src={item.image}
             alt={item.name}
-            className={cn(
-              "w-full object-cover",
-              isFeatured ? "h-48 md:h-full" : "aspect-[4/3]",
-            )}
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (item.logoFallback && target.src !== item.logoFallback) {
+                target.src = item.logoFallback;
+              } else {
+                target.src = `https://picsum.photos/seed/${item.id}/800/800`;
+              }
+            }}
+            className={imageClass}
             loading="lazy"
           />
         </div>

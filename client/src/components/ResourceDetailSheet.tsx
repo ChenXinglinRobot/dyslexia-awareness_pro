@@ -24,7 +24,6 @@ interface ResourceDetailSheetProps {
 const isHospital = (r: Resource): r is Hospital => r.type === "hospital";
 const isInstitute = (r: Resource): r is ResearchInstitute => r.type === "institute";
 const isOnline = (r: Resource): r is OnlineResource => r.type === "online-resource";
-
 /* ── shared style tokens ── */
 const focusRowCls =
   "text-primary bg-primary/5 border border-primary/20 rounded-md px-3 py-2";
@@ -45,13 +44,22 @@ export default function ResourceDetailSheet({
 }: ResourceDetailSheetProps) {
   if (!resource) return null;
 
-  const image = resource.image || resource.logo;
+  const image = resource.heroImage || resource.image || resource.logo;
+  const imageIsHero = Boolean(resource.heroImage);
+  const imageFallbacks = [
+    resource.heroImageFallback,
+    resource.logoFallback,
+    `https://picsum.photos/seed/${resource.id}/800/800`,
+  ].filter(Boolean) as string[];
+  const imageClass = `w-full h-40 rounded-md ${
+    imageIsHero ? "object-cover" : "object-contain p-4 drop-shadow-sm"
+  } bg-muted`;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-xl bg-background/95 backdrop-blur-sm overflow-hidden"
+        className="w-full gap-0 sm:max-w-xl bg-background/95 backdrop-blur-sm overflow-hidden"
       >
         {/* ── Header ── */}
         <SheetHeader className="pb-4 border-b border-border">
@@ -74,13 +82,24 @@ export default function ResourceDetailSheet({
         </SheetHeader>
 
         {/* ── Body ── */}
-        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+        <div className="flex-1 overflow-y-auto px-4 py-3 flex flex-col gap-3">
           {/* Image */}
           {image && (
             <img
               src={image}
               alt={resource.name}
-              className="w-full h-40 object-cover rounded-md bg-muted"
+              onError={(e) => {
+                const target = e.currentTarget;
+                const fallbackIndex = Number(target.dataset.fallbackIndex || 0);
+                const fallback = imageFallbacks[fallbackIndex];
+                if (fallback) {
+                  target.dataset.fallbackIndex = String(fallbackIndex + 1);
+                  target.src = fallback;
+                } else {
+                  target.style.display = "none";
+                }
+              }}
+              className={imageClass}
               loading="lazy"
             />
           )}
@@ -160,7 +179,7 @@ export default function ResourceDetailSheet({
         </div>
 
         {/* ── Footer ── */}
-        <SheetFooter>
+        <SheetFooter className="border-t border-border bg-background/95">
           <div className="flex flex-wrap gap-2">
             {isHospital(resource) && (
               <>
