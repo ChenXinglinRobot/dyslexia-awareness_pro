@@ -6,6 +6,8 @@
    选择器多一层祖先以保证仅在本 modal 生效，不动 Stack 原始组件。 */
 .famous-stack.stack-wrapper {
   height: min(calc(100vh - 220px), 680px);
+  /* wrapper 自身裁切：旋转/缩放后的卡片甩出边界时不会污染 Sheet 外区域 */
+  overflow: hidden;
 }
 
 .famous-stack .card-famous {

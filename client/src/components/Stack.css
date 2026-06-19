@@ -29,6 +29,13 @@
   justify-content: center;
 }
 
+/* Counter the visual drift from transformOrigin: 90% 90% + scale.
+   Uses the independent translate property so Framer Motion's inline
+   transform shorthand does not override it. */
+.card-rotate .card {
+  translate: -50% -50%;
+}
+
 .card img {
   pointer-events: none;
   user-select: none;

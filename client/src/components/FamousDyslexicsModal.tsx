@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Stack from "./Stack";
 import { famousDyslexics } from "@/data/famousDyslexics";
@@ -10,6 +11,20 @@ interface FamousDyslexicsModalProps {
 }
 
 export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDyslexicsModalProps) {
+  // Delay Stack mount until Sheet slide-in animation finishes (duration-500),
+  // so Framer Motion's drag projection measures against the final layout — not
+  // mid-animation — avoiding the large incorrect transform offsets.
+  const [stackReady, setStackReady] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => setStackReady(true), 550);
+      return () => clearTimeout(timer);
+    } else {
+      setStackReady(false);
+    }
+  }, [open]);
+
   const cards = famousDyslexics.map((person) => (
     <div className="card-famous" key={person.name}>
       <img src={person.image} alt={person.name} className="card-famous-image" />
@@ -67,13 +82,19 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
           </p>
         </SheetHeader>
         <div className="stack-wrapper py-6 famous-stack">
-          <Stack
-            cards={cards}
-            randomRotation={false}
-            sensitivity={150}
-            sendToBackOnClick={true}
-            animationConfig={{ stiffness: 260, damping: 20 }}
-          />
+          {stackReady ? (
+            <Stack
+              cards={cards}
+              randomRotation={false}
+              sensitivity={150}
+              sendToBackOnClick={true}
+              animationConfig={{ stiffness: 260, damping: 20 }}
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full min-h-[300px]">
+              <div className="w-8 h-8 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin" />
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>
