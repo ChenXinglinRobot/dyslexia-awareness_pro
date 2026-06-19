@@ -8,6 +8,9 @@
   height: min(calc(100vh - 220px), 680px);
   /* wrapper 自身裁切：旋转/缩放后的卡片甩出边界时不会污染 Sheet 外区域 */
   overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
 }
 
 .famous-stack .card-famous {
@@ -107,6 +110,9 @@
   .famous-stack.stack-wrapper {
     height: min(calc(100vh - 250px), 620px);
     min-height: 430px;
+    width: 100%;
+    max-width: 320px;
+    margin-inline: auto;
   }
 
   .famous-stack .card-famous-info {

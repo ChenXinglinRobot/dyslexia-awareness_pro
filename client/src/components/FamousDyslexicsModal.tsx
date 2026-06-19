@@ -75,7 +75,7 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
             以下人物案例仅用于说明：阅读困难不定义一个人的全部。部分历史人物缺乏现代标准下的诊断记录，应谨慎理解。
           </p>
           <p
-            className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-100"
+            className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-900 dark:text-amber-100"
             style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
           >
             阅读障碍不等于天才，也不意味着一定会拥有某种特殊能力。
