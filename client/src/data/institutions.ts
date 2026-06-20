@@ -11,40 +11,7 @@
 import type { Hospital, ResearchInstitute } from "@/types/resources";
 
 export const hospitals: Hospital[] = [
-  {
-    id: "pku-sixth-hospital",
-    type: "hospital",
-    city: "北京",
-    dyslexiaUnit: "儿童心理卫生中心门诊",
-    officialUrl: "https://www.pkuh6.cn/",
-    unitUrl: "https://www.pkuh6.cn/Html/Departments/Main/Index_21207.html",
-    acceptAge: "0-18岁",
-    heroImage: "/social-resource/hospital/pku-sixth-hospital-campus.jpg",
-    // ── 旧字段 ──
-    name: "北京大学第六医院",
-    desc: "国内重要精神专科，儿童心理卫生中心提供学习障碍与注意缺陷多动障碍评估。",
-    url: "https://www.pkuh6.cn/",
-    image: "/social-resource/hospital/pku-sixth-hospital.png",
-    logo: "/social-resource/hospital/pku-sixth-hospital.png",
-    logoFallback: "https://picsum.photos/seed/pku-sixth-hospital/800/800",
-  },
-  {
-    id: "shanghai-mental-health-center",
-    type: "hospital",
-    city: "上海",
-    dyslexiaUnit: "儿少科发展性学习障碍门诊",
-    officialUrl: "https://www.smhc.org.cn/",
-    unitUrl: "https://www.smhc.org.cn/lczl/tsks/esk.htm",
-    acceptAge: "18岁以下",
-    heroImage: "/social-resource/hospital/shanghai-mental-health-center-campus.jpg",
-    // ── 旧字段 ──
-    name: "上海市精神卫生中心",
-    desc: "国家精神疾病医学中心儿少科，提供学习障碍、神经发育与心理行为问题评估。",
-    url: "https://www.smhc.org.cn/",
-    image: "/social-resource/hospital/shanghai-mental-health-center.png",
-    logo: "/social-resource/hospital/shanghai-mental-health-center.png",
-    logoFallback: "https://picsum.photos/seed/shanghai-mental-health-center/800/800",
-  },
+  /* ── 国内儿童医院（前面） ── */
   {
     id: "fudan-childrens-hospital",
     type: "hospital",
@@ -80,40 +47,6 @@ export const hospitals: Hospital[] = [
     logoFallback: "https://picsum.photos/seed/beijing-childrens-hospital/800/800",
   },
   {
-    id: "zssy-child-development-center",
-    type: "hospital",
-    city: "广州",
-    dyslexiaUnit: "儿童发育行为中心",
-    officialUrl: "https://zssy.com.cn/",
-    unitUrl: "https://www.zssy.com.cn/node/14067",
-    acceptAge: "0-16岁",
-    heroImage: "/social-resource/hospital/zssy-child-development-center-campus.jpg",
-    // ── 旧字段 ──
-    name: "中山大学附属第三医院",
-    desc: "国内首个儿童发育行为障碍专业诊疗机构，评估多动症、语言发育迟缓与学习障碍。",
-    url: "https://zssy.com.cn/",
-    image: "/social-resource/hospital/zssy-child-development-center.png",
-    logo: "/social-resource/hospital/zssy-child-development-center.png",
-    logoFallback: "https://picsum.photos/seed/zssy-child-development-center/800/800",
-  },
-  {
-    id: "beijing-chaoyang-hospital",
-    type: "hospital",
-    city: "北京",
-    dyslexiaUnit: "临床心理科",
-    officialUrl: "https://www.bjcyh.com.cn/",
-    unitUrl: "https://www.bjcyh.com.cn/Html/Departments/Main/Index_212.html",
-    acceptAge: "6-18岁",
-    heroImage: "/social-resource/hospital/beijing-chaoyang-hospital-campus.jpg",
-    // ── 旧字段 ──
-    name: "首都医科大学附属北京朝阳医院",
-    desc: "临床心理科面向青少年心理、情绪与学习相关困扰提供就诊评估入口。",
-    url: "https://www.bjcyh.com.cn/",
-    image: "/social-resource/hospital/beijing-chaoyang-hospital.png",
-    logo: "/social-resource/hospital/beijing-chaoyang-hospital.png",
-    logoFallback: "https://picsum.photos/seed/beijing-chaoyang-hospital/800/800",
-  },
-  {
     id: "shenzhen-childrens-hospital-futian",
     type: "hospital",
     city: "深圳",
@@ -147,6 +80,80 @@ export const hospitals: Hospital[] = [
     logo: "/social-resource/hospital/shanghai-childrens-medical-center.png",
     logoFallback: "https://picsum.photos/seed/shanghai-childrens-medical-center/800/800",
   },
+
+  /* ── 其他国内综合医院（中部） ── */
+  {
+    id: "zssy-child-development-center",
+    type: "hospital",
+    city: "广州",
+    dyslexiaUnit: "儿童发育行为中心",
+    officialUrl: "https://zssy.com.cn/",
+    unitUrl: "https://www.zssy.com.cn/node/14067",
+    acceptAge: "0-16岁",
+    heroImage: "/social-resource/hospital/zssy-child-development-center-campus.jpg",
+    // ── 旧字段 ──
+    name: "中山大学附属第三医院",
+    desc: "国内首个儿童发育行为障碍专业诊疗机构，评估多动症、语言发育迟缓与学习障碍。",
+    url: "https://zssy.com.cn/",
+    image: "/social-resource/hospital/zssy-child-development-center.png",
+    logo: "/social-resource/hospital/zssy-child-development-center.png",
+    logoFallback: "https://picsum.photos/seed/zssy-child-development-center/800/800",
+  },
+  {
+    id: "beijing-chaoyang-hospital",
+    type: "hospital",
+    city: "北京",
+    dyslexiaUnit: "临床心理科",
+    officialUrl: "https://www.bjcyh.com.cn/",
+    unitUrl: "https://www.bjcyh.com.cn/Html/Departments/Main/Index_212.html",
+    acceptAge: "6-18岁",
+    heroImage: "/social-resource/hospital/beijing-chaoyang-hospital-campus.jpg",
+    // ── 旧字段 ──
+    name: "首都医科大学附属北京朝阳医院",
+    desc: "临床心理科面向青少年心理、情绪与学习相关困扰提供就诊评估入口。",
+    url: "https://www.bjcyh.com.cn/",
+    image: "/social-resource/hospital/beijing-chaoyang-hospital.png",
+    logo: "/social-resource/hospital/beijing-chaoyang-hospital.png",
+    logoFallback: "https://picsum.photos/seed/beijing-chaoyang-hospital/800/800",
+  },
+
+  /* ── 精神专科医院（后面） ── */
+  {
+    id: "pku-sixth-hospital",
+    type: "hospital",
+    city: "北京",
+    dyslexiaUnit: "儿童心理卫生中心门诊",
+    officialUrl: "https://www.pkuh6.cn/",
+    unitUrl: "https://www.pkuh6.cn/Html/Departments/Main/Index_21207.html",
+    acceptAge: "0-18岁",
+    heroImage: "/social-resource/hospital/pku-sixth-hospital-campus.jpg",
+    // ── 旧字段 ──
+    name: "北京大学第六医院",
+    desc: "国内重要精神专科，儿童心理卫生中心提供学习障碍与注意缺陷多动障碍评估。",
+    url: "https://www.pkuh6.cn/",
+    image: "/social-resource/hospital/pku-sixth-hospital.png",
+    logo: "/social-resource/hospital/pku-sixth-hospital.png",
+    logoFallback: "https://picsum.photos/seed/pku-sixth-hospital/800/800",
+  },
+  {
+    id: "shanghai-mental-health-center",
+    type: "hospital",
+    city: "上海",
+    dyslexiaUnit: "儿少科发展性学习障碍门诊",
+    officialUrl: "https://www.smhc.org.cn/",
+    unitUrl: "https://www.smhc.org.cn/lczl/tsks/esk.htm",
+    acceptAge: "18岁以下",
+    heroImage: "/social-resource/hospital/shanghai-mental-health-center-campus.jpg",
+    // ── 旧字段 ──
+    name: "上海市精神卫生中心",
+    desc: "国家精神疾病医学中心儿少科，提供学习障碍、神经发育与心理行为问题评估。",
+    url: "https://www.smhc.org.cn/",
+    image: "/social-resource/hospital/shanghai-mental-health-center.png",
+    logo: "/social-resource/hospital/shanghai-mental-health-center.png",
+    logoFallback: "https://picsum.photos/seed/shanghai-mental-health-center/800/800",
+  },
+
+  /* ── 国外医院（最后） ── */
   {
     id: "child-mind-institute",
     type: "hospital",
@@ -202,24 +209,6 @@ export const hospitals: Hospital[] = [
 
 export const researchInstitutes: ResearchInstitute[] = [
   {
-    id: "cas-psychology-bi",
-    type: "institute",
-    city: "北京",
-    dyslexiaLab: "毕鸿燕教授团队",
-    labUrl: "https://psych.cas.cn/sourcedb/cn/expert/200908/t20090826_6369803.html",
-    officialUrl: "https://www.psych.ac.cn/",
-    focusAreas: ["汉字认知", "视觉加工", "听觉加工", "学习困难"],
-    institutionDesc: "中国科学院心理研究所是国内心理学基础研究与应用研究的国家级科研机构。",
-    heroImage: "/social-resource/institute/cas-psychology-bi-campus.jpg",
-    // ── 旧字段 ──
-    name: "中国科学院心理研究所",
-    desc: "研究汉字认知、视觉与听觉加工机制，为中文阅读障碍识别和干预提供依据。",
-    url: "https://psych.cas.cn/sourcedb/cn/expert/200908/t20090826_6369803.html",
-    image: "/social-resource/institute/cas-psychology-bi.png",
-    logo: "/social-resource/institute/cas-psychology-bi.png",
-    logoFallback: "https://picsum.photos/seed/cas-psychology-bi/800/800",
-  },
-  {
     id: "bnu-learning-lab",
     type: "institute",
     city: "北京",
@@ -254,6 +243,24 @@ export const researchInstitutes: ResearchInstitute[] = [
     image: "/social-resource/institute/pku-meng-lab.png",
     logo: "/social-resource/institute/pku-meng-lab.png",
     logoFallback: "https://picsum.photos/seed/pku-meng-lab/800/800",
+  },
+  {
+    id: "cas-psychology-bi",
+    type: "institute",
+    city: "北京",
+    dyslexiaLab: "毕鸿燕教授团队",
+    labUrl: "https://psych.cas.cn/sourcedb/cn/expert/200908/t20090826_6369803.html",
+    officialUrl: "https://www.psych.ac.cn/",
+    focusAreas: ["汉字认知", "视觉加工", "听觉加工", "学习困难"],
+    institutionDesc: "中国科学院心理研究所是国内心理学基础研究与应用研究的国家级科研机构。",
+    heroImage: "/social-resource/institute/cas-psychology-bi-campus.jpg",
+    // ── 旧字段 ──
+    name: "中国科学院心理研究所",
+    desc: "研究汉字认知、视觉与听觉加工机制，为中文阅读障碍识别和干预提供依据。",
+    url: "https://psych.cas.cn/sourcedb/cn/expert/200908/t20090826_6369803.html",
+    image: "/social-resource/institute/cas-psychology-bi.png",
+    logo: "/social-resource/institute/cas-psychology-bi.png",
+    logoFallback: "https://picsum.photos/seed/cas-psychology-bi/800/800",
   },
   {
     id: "ntnu-lee-team",
