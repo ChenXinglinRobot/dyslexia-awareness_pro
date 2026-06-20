@@ -20,6 +20,9 @@ import DecryptedText from "./DecryptedText";
 import CoordinatePlane from "./CoordinatePlane";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
@@ -639,6 +642,12 @@ function ReadingMechanism() {
 
 function ChineseSpecificity() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.1 });
+  const [fontLightboxOpen, setFontLightboxOpen] = useState(false);
+  const { theme } = useTheme();
+  const fontImageSrc =
+    theme === "dark"
+      ? "/typography/font-morphology-serif-vs-sans-dark.webp"
+      : "/typography/font-morphology-serif-vs-sans.webp";
 
   const awarenessItems = [
     { title: "复合意识", example: "长颈鹿、梅花鹿 →「短颈鳄」？", desc: "理解词语由语素组合而成的规则。" },
@@ -695,6 +704,58 @@ function ChineseSpecificity() {
           小学一至三年级，是阅读障碍筛查与早期干预的黄金期。
         </p>
       </motion.div>
+
+      {/* 字体形态对比：衬线 vs 非衬线（拉丁 Zi + 汉字 字） */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: delay(6) }}
+        className="bg-card border border-border p-6"
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-primary text-lg font-bold" style={{ fontFamily: "'Space Grotesk'" }}>※</span>
+          <h4 className="text-foreground text-base font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>
+            字体形态：衬线 vs 非衬线
+          </h4>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setFontLightboxOpen(true)}
+          aria-label="点击放大图片：衬线与非衬线字体形态对比"
+          className="block w-full cursor-zoom-in overflow-hidden rounded-sm border border-border/50 transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-card"
+        >
+          <img
+            src={fontImageSrc}
+            alt="拉丁字母 Zi 与汉字 字 在衬线体（Times New Roman / 宋体）与非衬线体（微软雅黑）下的笔画形态对比，标注包括衬线装饰、笔画粗细对比、转角对比、端点形态等特征"
+            loading="lazy"
+            className="mx-auto block h-auto w-full max-w-3xl"
+          />
+        </button>
+
+        <p
+          className="text-muted-foreground text-sm text-center mt-4 max-w-2xl mx-auto"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+        >
+          衬线（serif）的笔画末端有装饰、转折处粗细对比更强，
+          适合文学标题与情绪表达；非衬线（sans-serif）笔画更均匀、端点平直，
+          在屏幕小字号下更清晰。汉字的横竖端点与撇捺形态也遵循同样的对比逻辑。
+        </p>
+      </motion.div>
+
+      <Lightbox
+        open={fontLightboxOpen}
+        close={() => setFontLightboxOpen(false)}
+        plugins={[Zoom]}
+        slides={[
+          {
+            src: fontImageSrc,
+            alt: "拉丁字母 Zi 与汉字 字 在衬线体（Times New Roman / 宋体）与非衬线体（微软雅黑）下的笔画形态对比，标注包括衬线装饰、笔画粗细对比、转角对比、端点形态等特征",
+            width: 1448,
+            height: 1086,
+          },
+        ]}
+      />
     </div>
   );
 }

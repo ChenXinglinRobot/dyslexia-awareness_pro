@@ -31,31 +31,6 @@ interface ControlGroupProps<T extends string> {
   onChange: (value: T) => void;
 }
 
-const comparisonCards = [
-  {
-    title: "衬线体：更像书页，适合情绪性标题与文学表达",
-    sample: "阅读障碍的孩子并非不聪明，他们只是需要一个更友好的阅读环境。",
-    note: "衬线体有笔画收尾和传统书页感，适合用于标题、金句和人文表达。但在屏幕小字号或低对比度场景中，部分读者可能觉得更费力。",
-    className: "font-serif",
-    style: { fontFamily: "'Noto Serif SC', serif" },
-  },
-  {
-    title: "非衬线体：笔画更均匀，适合说明文字与操作信息",
-    sample: "阅读障碍的孩子并非不聪明，他们只是需要一个更友好的阅读环境。",
-    note: "非衬线体笔画较均匀，屏幕显示更清晰，适合行动清单、按钮、说明文字和长段科普信息。",
-    className: "font-sans",
-    style: { fontFamily: "'Noto Sans SC', sans-serif" },
-  },
-  {
-    title: "友好排版：不只换字体，更要调整空间",
-    sample:
-      "阅读障碍的孩子并非不聪明。\n\n他们只是需要一个更友好的阅读环境：\n更清晰的字体，\n更合适的字号，\n更宽松的行距，\n以及更少的羞辱和责备。",
-    note: "真正影响阅读体验的，往往不是单一字体，而是字号、字距、行距、段落长度、颜色对比和信息密度的组合。",
-    className: "font-sans",
-    style: { fontFamily: "'Noto Sans SC', sans-serif" },
-  },
-];
-
 const sampleParagraphs = [
   "阅读障碍是一种以儿童阅读能力显著落后为主要表现的神经发育性障碍，不是懒惰，也通常不是单纯视力问题。",
   "支持需要从观察线索开始，再结合学校沟通、专业评估和个性化方案，让孩子在更清晰的路径中学习。",
@@ -255,60 +230,6 @@ export default function ReadabilityLab() {
           >
             字体和排版不能“治疗”阅读障碍，但清晰、稳定、可调节的文本设计，可能帮助一些读者减少阅读负担。
           </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="mb-12"
-        >
-          <div className="mb-5 flex items-center gap-3">
-            <Type className="h-5 w-5 text-primary" />
-            <h3
-              className="text-xl text-foreground md:text-2xl"
-              style={{ fontFamily: "'Noto Serif SC', serif" }}
-            >
-              同一段文字，不同字体会带来不同阅读感受
-            </h3>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {comparisonCards.map((card, index) => (
-              <motion.article
-                key={card.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="flex min-h-full flex-col border border-border bg-card p-5 transition-colors duration-500"
-              >
-                <h4
-                  className="mb-4 text-sm font-medium leading-6 text-foreground"
-                  style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-                >
-                  {card.title}
-                </h4>
-                <div className="mb-4 flex min-h-32 items-center border border-border bg-background p-5">
-                  <p
-                    className={`whitespace-pre-line text-foreground/90 ${card.className}`}
-                    style={card.style}
-                  >
-                    {card.sample}
-                  </p>
-                </div>
-                <p
-                  className="text-sm leading-7 text-muted-foreground"
-                  style={{
-                    fontFamily: "'Noto Sans SC', sans-serif",
-                    fontWeight: 300,
-                  }}
-                >
-                  {card.note}
-                </p>
-              </motion.article>
-            ))}
-          </div>
         </motion.div>
 
         <div className="mb-6 flex flex-col gap-1.5 lg:mb-10">
