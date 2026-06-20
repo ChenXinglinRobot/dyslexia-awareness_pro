@@ -29,11 +29,20 @@
   justify-content: center;
 }
 
-/* Counter the visual drift from transformOrigin: 90% 90% + scale.
-   Uses the independent translate property so Framer Motion's inline
-   transform shorthand does not override it. */
-.card-rotate .card {
-  translate: -50% -50%;
+/* Counter CardSwap.css's global .card leaking into Stack.
+   CardSwap uses position: absolute + top/left 50% for its own centering,
+   but that shifts Stack's cards to the wrong origin and adds unwanted
+   border/background/backface-visibility. Scope overrides to .card-rotate
+   context so CardSwap is unaffected. */
+.card-rotate .card,
+.card-rotate-disabled .card {
+  position: relative;
+  top: auto;
+  left: auto;
+  border: none;
+  background: transparent;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
 }
 
 .card img {

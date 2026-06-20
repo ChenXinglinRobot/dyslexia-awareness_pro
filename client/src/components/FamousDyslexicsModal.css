@@ -6,8 +6,9 @@
    选择器多一层祖先以保证仅在本 modal 生效，不动 Stack 原始组件。 */
 .famous-stack.stack-wrapper {
   height: min(calc(100vh - 220px), 680px);
-  /* wrapper 自身裁切：旋转/缩放后的卡片甩出边界时不会污染 Sheet 外区域 */
-  overflow: hidden;
+  /* SheetContent already has overflow-hidden; wrapper-level clipping
+     was overly restrictive and cut off the fan-shaped card edges. */
+  overflow: visible;
   width: 100%;
   max-width: 380px;
   margin-inline: auto;
@@ -24,7 +25,14 @@
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(to bottom, rgba(8, 8, 10, 0.1) 0%, rgba(8, 8, 10, 0.55) 42%, rgba(8, 8, 10, 0.96) 100%),
+    /* 压低上半段黑度，让人物脸部可辨；文字可读性由 .card-famous-info 自带渐变保证 */
+    linear-gradient(
+      to bottom,
+      rgba(8, 8, 10, 0)    0%,
+      rgba(8, 8, 10, 0.2) 55%,
+      rgba(8, 8, 10, 0.65) 80%,
+      rgba(8, 8, 10, 0.96) 100%
+    ),
     radial-gradient(circle at top left, rgba(245, 158, 11, 0.24), transparent 42%);
   pointer-events: none;
 }
