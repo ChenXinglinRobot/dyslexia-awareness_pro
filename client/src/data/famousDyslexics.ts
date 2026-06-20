@@ -22,7 +22,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "Steven Spielberg",
     field: "电影导演",
-    image: "/famous-dyslexics/spielberg.jpg",
+    image: "/famous-dyslexics/spielberg.webp",
     description: "电影导演、制片人，创作了《E.T.外星人》《侏罗纪公园》《辛德勒的名单》等作品，用镜头把想象、冒险与人性的重量带给一代又一代观众。",
     evidenceLabel: "公开自述",
     featured: true,
@@ -33,7 +33,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "General Patton",
     field: "军事人物",
-    image: "/famous-dyslexics/patton.jpg",
+    image: "/famous-dyslexics/patton.webp",
     description: "美国陆军将领，二战期间指挥装甲部队作战，以果断、强悍和极具行动力的军事风格闻名。",
     evidenceLabel: "传记提及",
     featured: true,
@@ -44,7 +44,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "Bill Gates",
     field: "科技企业家",
-    image: "/famous-dyslexics/gates.jpg",
+    image: "/famous-dyslexics/gates.webp",
     description: "微软联合创始人，推动个人电脑进入普通人的生活；离开公司一线后，也长期投入教育、公共健康和公益事业。",
     evidenceLabel: "资料提及",
     evidenceNote: "疑似阅读障碍",
@@ -56,7 +56,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "George W. Bush",
     field: "政治人物",
-    image: "/famous-dyslexics/bush-w.jpg",
+    image: "/famous-dyslexics/bush-w.webp",
     description: "美国第43任总统，曾任得克萨斯州州长，在任内经历重大公共事件，也长期参与公共服务与社会议题。",
     evidenceLabel: "媒体报道",
     evidenceNote: "疑似阅读障碍",
@@ -68,7 +68,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "George H. W. Bush",
     field: "政治人物",
-    image: "/famous-dyslexics/bush-hw.jpg",
+    image: "/famous-dyslexics/bush-hw.webp",
     description: "美国第41任总统，曾任副总统、中央情报局局长和驻联合国代表，一生横跨外交、安全与公共服务领域。",
     evidenceLabel: "资料提及",
     evidenceNote: "疑似阅读障碍",
@@ -80,7 +80,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "Michael Phelps",
     field: "游泳运动员",
-    image: "/famous-dyslexics/phelps.jpg",
+    image: "/famous-dyslexics/phelps.webp",
     description: "奥运游泳冠军，凭借长期训练、惊人专注和强大毅力，成为世界泳坛最具代表性的运动员之一。",
     evidenceLabel: "资料提及",
     evidenceNote: "疑似阅读障碍",
@@ -92,7 +92,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "Albert Einstein",
     field: "物理学家",
-    image: "/famous-dyslexics/einstein.jpg",
+    image: "/famous-dyslexics/einstein.webp",
     description: "物理学家，提出相对论，也因光电效应研究获得诺贝尔物理学奖；他的思想改变了人类理解时间、空间和宇宙的方式。",
     evidenceLabel: "历史资料推测",
     evidenceNote: "疑似阅读障碍",
@@ -104,7 +104,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "Pablo Picasso",
     field: "艺术家",
-    image: "/famous-dyslexics/picasso.jpg",
+    image: "/famous-dyslexics/picasso.webp",
     description: "艺术家，现代艺术的重要代表人物之一，与立体主义密切相关；他的绘画、雕塑和视觉实验改变了人们观看世界的方式。",
     evidenceLabel: "历史资料推测",
     evidenceNote: "疑似阅读障碍",
@@ -116,7 +116,7 @@ export const famousDyslexics: FamousDyslexic[] = [
   {
     name: "Winston Churchill",
     field: "政治人物",
-    image: "/famous-dyslexics/churchill.jpg",
+    image: "/famous-dyslexics/churchill.webp",
     description: "英国首相、作家、演说家，在二战关键时期以坚定演讲和政治领导力鼓舞英国，也曾获得诺贝尔文学奖。",
     evidenceLabel: "历史资料推测",
     evidenceNote: "疑似阅读障碍",

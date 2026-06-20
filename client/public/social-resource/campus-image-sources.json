@@ -4,7 +4,7 @@
       "id": "pku-sixth-hospital",
       "kind": "hospital",
       "name": "北京大学第六医院",
-      "file": "client/public/social-resource/hospital/pku-sixth-hospital-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/pku-sixth-hospital-campus.jpg",
       "size": [
         1600,
         900
@@ -16,7 +16,7 @@
       "id": "shanghai-mental-health-center",
       "kind": "hospital",
       "name": "上海市精神卫生中心",
-      "file": "client/public/social-resource/hospital/shanghai-mental-health-center-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/shanghai-mental-health-center-campus.jpg",
       "size": [
         1600,
         900
@@ -28,7 +28,7 @@
       "id": "fudan-childrens-hospital",
       "kind": "hospital",
       "name": "复旦大学附属儿科医院",
-      "file": "client/public/social-resource/hospital/fudan-childrens-hospital-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/fudan-childrens-hospital-campus.jpg",
       "size": [
         1600,
         900
@@ -40,7 +40,7 @@
       "id": "beijing-childrens-hospital",
       "kind": "hospital",
       "name": "北京儿童医院",
-      "file": "client/public/social-resource/hospital/beijing-childrens-hospital-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/beijing-childrens-hospital-campus.jpg",
       "size": [
         1600,
         900
@@ -52,7 +52,7 @@
       "id": "zssy-child-development-center",
       "kind": "hospital",
       "name": "中山大学附属第三医院",
-      "file": "client/public/social-resource/hospital/zssy-child-development-center-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/zssy-child-development-center-campus.jpg",
       "size": [
         1600,
         900
@@ -64,7 +64,7 @@
       "id": "beijing-chaoyang-hospital",
       "kind": "hospital",
       "name": "北京朝阳医院",
-      "file": "client/public/social-resource/hospital/beijing-chaoyang-hospital-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/beijing-chaoyang-hospital-campus.jpg",
       "size": [
         1600,
         900
@@ -76,7 +76,7 @@
       "id": "shenzhen-childrens-hospital-futian",
       "kind": "hospital",
       "name": "深圳市儿童医院福田院区",
-      "file": "client/public/social-resource/hospital/shenzhen-childrens-hospital-futian-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/shenzhen-childrens-hospital-futian-campus.jpg",
       "size": [
         1600,
         900
@@ -88,7 +88,7 @@
       "id": "shanghai-childrens-medical-center",
       "kind": "hospital",
       "name": "上海儿童医学中心",
-      "file": "client/public/social-resource/hospital/shanghai-childrens-medical-center-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/shanghai-childrens-medical-center-campus.jpg",
       "size": [
         1600,
         900
@@ -100,7 +100,7 @@
       "id": "child-mind-institute",
       "kind": "hospital",
       "name": "Child Mind Institute",
-      "file": "client/public/social-resource/hospital/child-mind-institute-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/child-mind-institute-campus.jpg",
       "size": [
         1600,
         900
@@ -112,7 +112,7 @@
       "id": "boston-childrens-hospital",
       "kind": "hospital",
       "name": "Boston Children's Hospital",
-      "file": "client/public/social-resource/hospital/boston-childrens-hospital-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/boston-childrens-hospital-campus.jpg",
       "size": [
         1600,
         900
@@ -124,7 +124,7 @@
       "id": "mayo-clinic",
       "kind": "hospital",
       "name": "Mayo Clinic",
-      "file": "client/public/social-resource/hospital/mayo-clinic-campus.jpg",
+      "file": "client/public-originals/social-resource/hospital/mayo-clinic-campus.jpg",
       "size": [
         1600,
         900
@@ -136,7 +136,7 @@
       "id": "cas-psychology-bi",
       "kind": "institute",
       "name": "中国科学院心理研究所",
-      "file": "client/public/social-resource/institute/cas-psychology-bi-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/cas-psychology-bi-campus.jpg",
       "size": [
         1600,
         900
@@ -148,7 +148,7 @@
       "id": "bnu-learning-lab",
       "kind": "institute",
       "name": "北京师范大学",
-      "file": "client/public/social-resource/institute/bnu-learning-lab-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/bnu-learning-lab-campus.jpg",
       "size": [
         1600,
         900
@@ -160,7 +160,7 @@
       "id": "pku-meng-lab",
       "kind": "institute",
       "name": "北京大学",
-      "file": "client/public/social-resource/institute/pku-meng-lab-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/pku-meng-lab-campus.jpg",
       "size": [
         1600,
         900
@@ -172,7 +172,7 @@
       "id": "ntnu-lee-team",
       "kind": "institute",
       "name": "台湾师范大学",
-      "file": "client/public/social-resource/institute/ntnu-lee-team-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/ntnu-lee-team-campus.jpg",
       "size": [
         1600,
         900
@@ -184,7 +184,7 @@
       "id": "cuhk-mcbride-team",
       "kind": "institute",
       "name": "香港中文大学",
-      "file": "client/public/social-resource/institute/cuhk-mcbride-team-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/cuhk-mcbride-team-campus.jpg",
       "size": [
         1600,
         900
@@ -196,7 +196,7 @@
       "id": "harvard-gaab-lab",
       "kind": "institute",
       "name": "Harvard University",
-      "file": "client/public/social-resource/institute/harvard-gaab-lab-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/harvard-gaab-lab-campus.jpg",
       "size": [
         1600,
         900
@@ -208,7 +208,7 @@
       "id": "yale-dyslexia-center",
       "kind": "institute",
       "name": "Yale University",
-      "file": "client/public/social-resource/institute/yale-dyslexia-center-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/yale-dyslexia-center-campus.jpg",
       "size": [
         1600,
         900
@@ -220,7 +220,7 @@
       "id": "ucsf-ucb-schwab-center",
       "kind": "institute",
       "name": "UC Berkeley",
-      "file": "client/public/social-resource/institute/ucsf-ucb-schwab-center-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/ucsf-ucb-schwab-center-campus.jpg",
       "size": [
         1600,
         900
@@ -232,7 +232,7 @@
       "id": "ucsf-dyslexia-center",
       "kind": "institute",
       "name": "UCSF",
-      "file": "client/public/social-resource/institute/ucsf-dyslexia-center-campus.jpg",
+      "file": "client/public-originals/social-resource/institute/ucsf-dyslexia-center-campus.jpg",
       "size": [
         1600,
         900

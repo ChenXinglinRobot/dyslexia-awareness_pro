@@ -46,7 +46,7 @@ const ROLE_ACTIONS: RoleAction[] = [
     imageAlt: "家长正在给孩子读书",
     imageCredit: "Unsplash / parent and child reading",
     imageHref: "https://unsplash.com/s/photos/parent-and-child-reading",
-    fallbackSrc: "/action-roles/parent.jpg",
+    fallbackSrc: "/action-roles/parent.webp",
   },
   {
     key: "teacher",
@@ -66,7 +66,7 @@ const ROLE_ACTIONS: RoleAction[] = [
     imageCredit: "Unsplash / teacher reading",
     imageHref:
       "https://unsplash.com/ko/s/%EC%82%AC%EC%A7%84/%EC%9C%A0%EC%B9%98%EC%9B%90-%EA%B5%90%EC%82%AC",
-    fallbackSrc: "/action-roles/teacher.jpg",
+    fallbackSrc: "/action-roles/teacher.webp",
   },
   {
     key: "peer",
@@ -85,7 +85,7 @@ const ROLE_ACTIONS: RoleAction[] = [
     imageAlt: "学生们一起阅读和学习",
     imageCredit: "Unsplash / children reading",
     imageHref: "https://unsplash.com/s/photos/children-reading",
-    fallbackSrc: "/action-roles/peer.jpg",
+    fallbackSrc: "/action-roles/peer.webp",
   },
   {
     key: "student",
@@ -104,7 +104,7 @@ const ROLE_ACTIONS: RoleAction[] = [
     imageAlt: "学生在桌前独立完成文字任务",
     imageCredit: "Unsplash / child learning",
     imageHref: "https://unsplash.com/s/photos/kid-tablet",
-    fallbackSrc: "/action-roles/student.jpg",
+    fallbackSrc: "/action-roles/student.webp",
   },
 ];
 

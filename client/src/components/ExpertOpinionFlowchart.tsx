@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, FileText } from "lucide-react";
 
-const FLOWCHART_SRC = "/expert-opinion/dyslexia-diagnosis-flow.jpg";
+const FLOWCHART_SRC = "/expert-opinion/dyslexia-diagnosis-flow.webp";
 
 export default function ExpertOpinionFlowchart() {
   return (

@@ -467,8 +467,8 @@ export default function ActionSection() {
 
         <div className="mb-16 flex justify-center">
           <a
-            href="/expert-opinion/dyslexia-diagnosis-flow.jpg"
-            download="dyslexia-diagnosis-flow.jpg"
+            href="/expert-opinion/dyslexia-diagnosis-flow.webp"
+            download="dyslexia-diagnosis-flow.webp"
             className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 active:scale-95"
             style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
           >
