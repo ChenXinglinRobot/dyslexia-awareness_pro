@@ -35,12 +35,12 @@
 
 .famous-stack .card-famous-info {
   z-index: 2;
-  max-height: 76%;
+  max-height: 78%;
   padding: 1.25rem;
   overflow-y: auto;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.72) 72%, transparent 100%);
   scrollbar-width: thin;
-  scrollbar-color: rgba(251, 191, 36, 0.6) rgba(255, 255, 255, 0.08);
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
 }
 
 .famous-stack .card-famous-heading {
@@ -57,15 +57,15 @@
 }
 
 .famous-stack .card-famous-evidence {
-  flex: 0 0 auto;
-  max-width: 8.5rem;
-  border: 1px solid rgba(251, 191, 36, 0.42);
+  flex: 0 1 auto;
+  max-width: 8.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 999px;
-  padding: 0.2rem 0.55rem;
-  color: #fde68a;
-  background: rgba(120, 53, 15, 0.42);
+  padding: 0.16rem 0.45rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.28);
   font-family: 'Noto Sans SC', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   line-height: 1.35;
   text-align: center;
 }
@@ -82,10 +82,6 @@
 .famous-stack .card-famous-detail {
   border-left: 2px solid rgba(165, 180, 252, 0.7);
   padding-left: 0.65rem;
-}
-
-.famous-stack .card-famous-detail-warning {
-  border-left-color: rgba(251, 191, 36, 0.86);
 }
 
 .famous-stack .card-famous-detail h4 {

@@ -102,6 +102,7 @@ export default function ActionSection() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const [maskOpen, setMaskOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const displayedFamousDyslexics = famousDyslexics.filter((person) => person.featured !== false);
 
   const handleOpenModal = () => {
     setMaskOpen(true);
@@ -348,12 +349,8 @@ export default function ActionSection() {
                 textWrap: "pretty",
               }}
             >
-              <p>阅读障碍首先意味着真实的阅读困难，它不应该被浪漫化。</p>
               <p>
-                但当一个人长期用不同方式理解信息、解决问题、表达自己时，也可能发展出独特的观察方式、创造力、空间想象力或韧性。
-              </p>
-              <p>
-                我们要做的，不是把阅读障碍包装成“天才标签”，而是在支持困难的同时，看见每个孩子真实的优势。
+                阅读障碍首先是真实的困难，这一点我们从未回避，也不会被美化。但困难不是全部——当一个人长期用不同方式理解信息、解决问题、表达自己，也可能因此发展出独特的观察力、创造力或韧性。我们要做的，不是把阅读障碍包装成能力光环，而是在正视困难的同时，看见每个孩子真实的优势。
               </p>
             </div>
 
@@ -411,7 +408,7 @@ export default function ActionSection() {
               className="text-xl text-foreground md:text-2xl"
               style={{ fontFamily: "'Noto Serif SC', serif" }}
             >
-              他们也曾面对文字困难
+              确诊或疑似阅读障碍的名人
             </h3>
           </div>
 
@@ -420,7 +417,7 @@ export default function ActionSection() {
             {/* CircularGallery：absolute 填满容器 */}
             <div className="absolute inset-0">
               <CircularGallery
-                items={famousDyslexics.map(person => ({
+                items={displayedFamousDyslexics.map(person => ({
                   image: person.image,
                   text: person.name,
                 }))}
@@ -431,7 +428,7 @@ export default function ActionSection() {
                 disabled={maskOpen}
               />
             </div>
-            {/* mask：单独 z-20，不遮挡下面的 fallback 列表 */}
+            {/* mask：单独 z-20，只覆盖画廊区域 */}
             <motion.div
               initial={{ x: "-100%" }}
               animate={maskOpen ? { x: "0%" } : { x: "-100%" }}
@@ -442,53 +439,13 @@ export default function ActionSection() {
             />
           </div>
 
-          {/* 非 WebGL fallback：始终可见的人物列表，不依赖 canvas/字体 */}
-          <ul className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-            {famousDyslexics.map(person => (
-              <li
-                key={person.name}
-                className="flex items-center gap-3 border border-border bg-card/60 p-3"
-              >
-                <img
-                  src={person.image}
-                  alt={person.name}
-                  loading="lazy"
-                  className="size-12 shrink-0 rounded-full object-cover md:size-14"
-                />
-                <div className="min-w-0">
-                  <p
-                    className="truncate text-sm text-foreground md:text-base"
-                    style={{ fontFamily: "'Noto Serif SC', serif" }}
-                  >
-                    {person.name}
-                  </p>
-                  <p
-                    className="truncate text-xs text-muted-foreground"
-                    style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-                  >
-                    {person.field}
-                  </p>
-                  {person.evidenceLabel && (
-                    <p
-                      className="mt-0.5 truncate text-[10px] uppercase tracking-wider text-primary/80"
-                      style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-                    >
-                      {person.evidenceLabel}
-                    </p>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-
           <div
             className="mx-auto max-w-3xl space-y-3 text-center text-sm leading-7 text-muted-foreground"
             style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
           >
             <p>
-              以下人物案例仅用于说明：阅读困难不定义一个人的全部。部分历史人物缺乏现代标准下的诊断记录，应谨慎理解。
+              这些故事来自公开自述、媒体、传记或历史资料，希望给孩子和家长一点鼓励——但我们不神化困难，也不让困难定义一个人。
             </p>
-            <p>阅读障碍不等于天才，也不意味着一定会拥有某种特殊能力。</p>
           </div>
           <div className="mt-5 flex justify-center">
             <button
