@@ -116,6 +116,14 @@ export default function ResourceTabs({
         ))}
       </div>
 
+      {/* ── 免责与时效性声明 ── */}
+      <p
+        className="text-xs text-muted-foreground mb-3"
+        style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+      >
+        信息截至 2026 年 6 月，机构状态与门诊安排可能随时间变化，请以官方页面为准。收录仅为信息提供，不代表对任何机构的背书或推荐。
+      </p>
+
       {/* ── 桌面端：FlowingMenu 行式 ── */}
       <div
         onClick={handleFlowingMenuClick}

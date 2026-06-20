@@ -24,9 +24,13 @@ interface ResourceDetailSheetProps {
 const isHospital = (r: Resource): r is Hospital => r.type === "hospital";
 const isInstitute = (r: Resource): r is ResearchInstitute => r.type === "institute";
 const isOnline = (r: Resource): r is OnlineResource => r.type === "online-resource";
+
 /* ── shared style tokens ── */
 const focusRowCls =
   "text-primary bg-primary/5 border border-primary/20 rounded-md px-3 py-2";
+
+const sectionLabelCls =
+  "text-xs text-muted-foreground tracking-wider mb-1.5 select-none";
 
 const linkBtn = (href: string, label: string) => (
   <a href={href} target="_blank" rel="noopener noreferrer">
@@ -44,22 +48,24 @@ export default function ResourceDetailSheet({
 }: ResourceDetailSheetProps) {
   if (!resource) return null;
 
-  const image = resource.heroImage || resource.image || resource.logo;
-  const imageIsHero = Boolean(resource.heroImage);
-  const imageFallbacks = [
-    resource.heroImageFallback,
+  // ── Logo (FlowingMenu 图 / 机构徽标) ──
+  const logoSrc = resource.image || resource.logo;
+  const logoFallbacks = [
     resource.logoFallback,
     `https://picsum.photos/seed/${resource.id}/800/800`,
   ].filter(Boolean) as string[];
-  const imageClass = `w-full h-40 rounded-md ${
-    imageIsHero ? "object-cover" : "object-contain p-4 drop-shadow-sm"
-  } bg-muted`;
+
+  // ── Hero image (建筑/校园照片) ──
+  const heroSrc = resource.heroImage;
+  const heroFallbacks = [
+    resource.heroImageFallback,
+  ].filter(Boolean) as string[];
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full gap-0 sm:max-w-xl bg-background/95 backdrop-blur-sm overflow-hidden"
+        className="w-full gap-0 sm:max-w-lg bg-background/95 backdrop-blur-sm overflow-hidden"
       >
         {/* ── Header ── */}
         <SheetHeader className="pb-4 border-b border-border">
@@ -83,15 +89,15 @@ export default function ResourceDetailSheet({
 
         {/* ── Body ── */}
         <div className="flex-1 overflow-y-auto px-4 py-3 flex flex-col gap-3">
-          {/* Image */}
-          {image && (
+          {/* ── Logo (机构徽标) ── */}
+          {logoSrc && (
             <img
-              src={image}
+              src={logoSrc}
               alt={resource.name}
               onError={(e) => {
                 const target = e.currentTarget;
                 const fallbackIndex = Number(target.dataset.fallbackIndex || 0);
-                const fallback = imageFallbacks[fallbackIndex];
+                const fallback = logoFallbacks[fallbackIndex];
                 if (fallback) {
                   target.dataset.fallbackIndex = String(fallbackIndex + 1);
                   target.src = fallback;
@@ -99,82 +105,164 @@ export default function ResourceDetailSheet({
                   target.style.display = "none";
                 }
               }}
-              className={imageClass}
+              className="w-full h-40 rounded-md object-contain p-4 drop-shadow-sm bg-muted"
               loading="lazy"
             />
           )}
 
-          {/* Description */}
-          <p
-            className="text-sm"
-            style={{
-              fontFamily: "'Noto Sans SC', sans-serif",
-              fontWeight: 300,
-            }}
-          >
-            {resource.desc}
-          </p>
-
-          {/* ── Focus row by type ── */}
-          {isHospital(resource) && (
-            <div className={focusRowCls}>
-              <p className="text-sm font-medium">🏥 {resource.dyslexiaUnit}</p>
-              {resource.acceptAge && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  接诊年龄：{resource.acceptAge}
-                </p>
-              )}
+          {/* ── Institute: 机构介绍 ── */}
+          {isInstitute(resource) && resource.institutionDesc && (
+            <div>
+              <p className={sectionLabelCls}>🏛️ 机构介绍</p>
+              <p
+                className="text-sm"
+                style={{
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                  fontWeight: 300,
+                }}
+              >
+                {resource.institutionDesc}
+              </p>
             </div>
           )}
 
+          {/* ── Institute: 研究团队 ── */}
           {isInstitute(resource) && (
-            <div className={focusRowCls}>
-              <p className="text-sm font-medium">🔬 {resource.dyslexiaLab}</p>
-              {resource.focusAreas && resource.focusAreas.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-1.5">
-                  {resource.focusAreas.map((f) => (
-                    <span
-                      key={f}
-                      className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary"
-                    >
-                      {f}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {isOnline(resource) && (
-            <div className={focusRowCls}>
-              <p className="text-sm font-medium">👤 {resource.expert}</p>
-              {resource.expertAffiliation && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  {resource.expertAffiliation}
-                </p>
-              )}
-              <div className="flex gap-2 mt-1.5 text-xs text-muted-foreground">
-                <span>{resource.platform}</span>
-                {resource.updateFrequency && (
-                  <>
-                    <span>·</span>
-                    <span>{resource.updateFrequency}</span>
-                  </>
+            <div className="border-t border-border/50 pt-3">
+              <p className={sectionLabelCls}>🔬 研究团队</p>
+              <div className={focusRowCls}>
+                <p className="text-sm font-medium">{resource.dyslexiaLab}</p>
+                {resource.focusAreas && resource.focusAreas.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {resource.focusAreas.map((f) => (
+                      <span
+                        key={f}
+                        className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary"
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
-              {resource.focus && resource.focus.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-1.5">
-                  {resource.focus.map((f) => (
-                    <span
-                      key={f}
-                      className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary"
-                    >
-                      {f}
-                    </span>
-                  ))}
-                </div>
-              )}
+              <p
+                className="text-sm mt-2"
+                style={{
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                  fontWeight: 300,
+                }}
+              >
+                {resource.desc}
+              </p>
             </div>
+          )}
+
+          {/* ── Hospital ── */}
+          {isHospital(resource) && (
+            <>
+              {/* 建筑照片（门诊介绍上方） */}
+              {heroSrc && (
+                <img
+                  src={heroSrc}
+                  alt={`${resource.name} 建筑`}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    const fallbackIndex = Number(target.dataset.fallbackIndex || 0);
+                    const fallback = heroFallbacks[fallbackIndex];
+                    if (fallback) {
+                      target.dataset.fallbackIndex = String(fallbackIndex + 1);
+                      target.src = fallback;
+                    } else {
+                      target.style.display = "none";
+                    }
+                  }}
+                  className="w-full h-72 rounded-md object-cover bg-muted"
+                  loading="lazy"
+                />
+              )}
+              <p
+                className="text-sm"
+                style={{
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                  fontWeight: 300,
+                }}
+              >
+                {resource.desc}
+              </p>
+              <div className={focusRowCls}>
+                <p className="text-sm font-medium">🏥 {resource.dyslexiaUnit}</p>
+                {resource.acceptAge && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    接诊年龄：{resource.acceptAge}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* ── Online ── */}
+          {isOnline(resource) && (
+            <>
+              <p
+                className="text-sm"
+                style={{
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                  fontWeight: 300,
+                }}
+              >
+                {resource.desc}
+              </p>
+              <div className={focusRowCls}>
+                <p className="text-sm font-medium">👤 {resource.expert}</p>
+                {resource.expertAffiliation && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {resource.expertAffiliation}
+                  </p>
+                )}
+                <div className="flex gap-2 mt-1.5 text-xs text-muted-foreground">
+                  <span>{resource.platform}</span>
+                  {resource.updateFrequency && (
+                    <>
+                      <span>·</span>
+                      <span>{resource.updateFrequency}</span>
+                    </>
+                  )}
+                </div>
+                {resource.focus && resource.focus.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {resource.focus.map((f) => (
+                      <span
+                        key={f}
+                        className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary"
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* ── Hero image (研究机构校园照片) ── */}
+          {heroSrc && isInstitute(resource) && (
+            <img
+              src={heroSrc}
+              alt={`${resource.name} 校园`}
+              onError={(e) => {
+                const target = e.currentTarget;
+                const fallbackIndex = Number(target.dataset.fallbackIndex || 0);
+                const fallback = heroFallbacks[fallbackIndex];
+                if (fallback) {
+                  target.dataset.fallbackIndex = String(fallbackIndex + 1);
+                  target.src = fallback;
+                } else {
+                  target.style.display = "none";
+                }
+              }}
+              className="w-full h-72 rounded-md object-cover bg-muted"
+              loading="lazy"
+            />
           )}
         </div>
 

@@ -30,7 +30,7 @@ hospitals:
     desc: 国内重要精神专科，儿童心理卫生中心提供学习障碍与注意缺陷多动障碍评估。
     acceptAge: 0-18岁
     officialUrl: https://www.pkuh6.cn/
-    unitUrl: https://www.pkuh6.cn/Html/Departments/Main/Index_21207.html
+    unitUrl: https://www.pkuh6.cn/Html/Departments/Main/Index_251.html
     appointment: 北大六院公众号或 114 平台
     sourceStatus: 工作簿链接已保留，官方页面已抽样核验
     counts: "name 8/30, desc 33/80, dyslexiaUnit 10/25"
@@ -95,43 +95,43 @@ hospitals:
     id: beijing-chaoyang-hospital
     name: 首都医科大学附属北京朝阳医院
     city: 北京
-    dyslexiaUnit: 临床心理科学习障碍门诊
-    officialUnitName: 学习障碍门诊（临床心理科）
-    desc: 临床心理科设学习障碍相关门诊，提供青少年心理、情绪与学习困难评估。
+    dyslexiaUnit: 临床心理科
+    officialUnitName: 临床心理科
+    desc: 临床心理科面向青少年心理、情绪与学习相关困扰提供就诊评估入口。
     acceptAge: 6-18岁
     officialUrl: https://www.bjcyh.com.cn/
     unitUrl: https://www.bjcyh.com.cn/Html/Departments/Main/Index_212.html
     appointment: 朝阳医院 APP 或微信公众号
     sourceStatus: 工作簿链接已保留，官方页面已抽样核验
-    counts: "name 14/30, desc 30/80, dyslexiaUnit 11/25"
+    counts: "name 14/30, desc 31/80, dyslexiaUnit 5/25"
 
   - rank: 7
-    id: shenzhen-childrens-hospital-longhua
-    name: 深圳市儿童医院（龙华院区）
+    id: shenzhen-childrens-hospital-futian
+    name: 深圳市儿童医院（福田院区）
     city: 深圳
     dyslexiaUnit: 儿童保健与心理健康中心
     officialUnitName: 儿童保健与心理健康中心临床心理部
-    desc: 儿童保健与心理健康中心开展发育筛查，识别阅读和语言偏离并转介干预。
+    desc: 儿童保健与心理健康中心设学习困难等门诊，提供阅读障碍评估、语言发育与读写能力训练。
     acceptAge: 0-17岁
     officialUrl: http://www.szkid.com.cn/
     unitUrl: http://www.szkid.com.cn/jyfw/zkjs/ftyq/lcqt/etbjyxljkzx/
     appointment: 深圳市儿童医院公众号
     sourceStatus: 工作簿链接已保留
-    counts: "name 11/30, desc 31/80, dyslexiaUnit 11/25"
+    counts: "name 13/30, desc 41/80, dyslexiaUnit 11/25"
 
   - rank: 8
     id: shanghai-childrens-medical-center
     name: 上海交通大学医学院附属上海儿童医学中心
     city: 上海
-    dyslexiaUnit: 发育行为儿科
-    officialUnitName: 发育行为儿科
-    desc: 发育行为儿科评估注意缺陷多动、语言发育、睡眠和学习相关困难。
-    acceptAge: 学龄期至成人
+    dyslexiaUnit: 临床心理科
+    officialUnitName: 临床心理科
+    desc: 临床心理科服务心理、行为问题儿童青少年，专家专长含ADHD与特定学习障碍。
+    acceptAge: 儿童及青少年
     officialUrl: https://www.scmc.com.cn/
-    unitUrl: https://www.scmc.com.cn/list/1436.html
+    unitUrl: https://www.scmc.com.cn/list/1665.html
     appointment: 上海儿童医学中心微信号
     sourceStatus: 工作簿链接已保留
-    counts: "name 19/30, desc 27/80, dyslexiaUnit 6/25"
+    counts: "name 19/30, desc 37/80, dyslexiaUnit 5/25"
 
   - rank: 9
     id: child-mind-institute
@@ -140,7 +140,7 @@ hospitals:
     dyslexiaUnit: Gund Learning Center
     officialUnitName: The Gund Learning & Diagnostic Center
     desc: 提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。
-    acceptAge: 5-26岁
+    acceptAge: 1-26岁
     officialUrl: https://childmind.org/
     unitUrl: https://childmind.org/care/areas-of-expertise/learning-and-development-center/
     appointment: 官网提交预约请求
@@ -167,13 +167,13 @@ hospitals:
     city: 罗切斯特（美国）
     dyslexiaUnit: 发育行为儿科
     officialUnitName: Developmental Behavioral Pediatrics
-    desc: 提供学习障碍科普与儿童健康服务入口，适合作为复杂读写困难就诊参考。
+    desc: 儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。
     acceptAge: 婴儿至18岁
     officialUrl: https://www.mayoclinic.org/
-    unitUrl: https://www.mayoclinic.org/healthy-lifestyle/childrens-health/in-depth/learning-disorders/art-20046105
-    appointment: 官网患者入口在线预约
-    sourceStatus: 工作簿链接已保留，官方页面已抽样核验
-    counts: "name 14/30, desc 31/80, dyslexiaUnit 6/25"
+    unitUrl: https://www.mayoclinic.org/departments-centers/developmental-behavioral-pediatrics/overview/ovc-20559968
+    appointment: 855-MAYO-KID 或官网在线预约
+    sourceStatus: 已找到发育行为儿科门诊页；Dyslexia 页为健康库说明
+    counts: "name 17/30, desc 38/80, dyslexiaUnit 6/25"
 ```
 
 ## 逐条审核记录
@@ -232,31 +232,31 @@ hospitals:
 
 【原版】开展青少年情绪障碍团体治疗、失眠团体治疗、沙盘治疗、心理咨询/治疗门诊等；开展抑郁、焦虑、失眠等专病门诊、青少年情绪障碍门诊、学习障碍门诊、互联网门诊、MDT、联络会诊、综合医院病房会诊创新服务模式等。
 
-【改版】临床心理科设学习障碍相关门诊，提供青少年心理、情绪与学习困难评估。
+【改版】临床心理科面向青少年心理、情绪与学习相关困扰提供就诊评估入口。
 
-【字数】name: 14/30，desc: 30/80，dyslexiaUnit: 11/25
+【字数】name: 14/30，desc: 31/80，dyslexiaUnit: 5/25
 
-【改动说明】删去与阅读障碍关系较弱的治疗项目和 MDT 细节，聚焦临床心理科、学习障碍门诊和青少年评估。
+【改动说明】考虑到当前主科室页可确认“临床心理科”，详细介绍页曾列学习障碍门诊，但可能存在时效变化，因此前台文案改为更自然的学习相关困扰就诊评估入口说明。
 
-### 7. 深圳市儿童医院（龙华院区）
+### 7. 深圳市儿童医院（福田院区）
 
 【原版】基于不同年龄体格生长及神经心理发育特点定制筛查套餐，确诊阅读及语言发育偏离并转介干预。
 
-【改版】儿童保健与心理健康中心开展发育筛查，识别阅读和语言偏离并转介干预。
+【改版】儿童保健与心理健康中心设学习困难等门诊，提供阅读障碍评估、语言发育与读写能力训练。
 
-【字数】name: 11/30，desc: 31/80，dyslexiaUnit: 11/25
+【字数】name: 13/30，desc: 41/80，dyslexiaUnit: 11/25
 
-【改动说明】保留筛查、阅读和语言偏离、转介干预；把“定制筛查套餐”改为更中性的“开展发育筛查”。
+【改动说明】门诊页面包屑对应福田院区；栏目 JSON 中临床心理部、专病门诊与特色医疗均支持学习困难、阅读障碍、语言发育与读写能力训练相关描述。
 
 ### 8. 上海交通大学医学院附属上海儿童医学中心
 
 【原版】科室诊疗范围包括精神发育迟缓、语言发育障碍、童年孤独症、注意缺陷多动障碍、喂养困难、营养不良、非器质性遗尿症、睡眠障碍、抽动障碍、佝偻病等等。
 
-【改版】发育行为儿科评估注意缺陷多动、语言发育、睡眠和学习相关困难。
+【改版】临床心理科服务心理、行为问题儿童青少年，专家专长含ADHD与特定学习障碍。
 
-【字数】name: 19/30，desc: 27/80，dyslexiaUnit: 6/25
+【字数】name: 19/30，desc: 37/80，dyslexiaUnit: 5/25
 
-【改动说明】删除与阅读障碍关联较弱的疾病清单，保留发育行为儿科和对学习困难常见共病的评估方向。
+【改动说明】根据人工复核，将入口从发育行为儿科换为临床心理科；新页面说明服务儿童、青少年心理行为问题，专家专长包含 ADHD 与特定学习障碍，更贴近阅读障碍相关就诊需求。
 
 ### 9. Child Mind Institute
 
@@ -282,8 +282,8 @@ hospitals:
 
 【原版】评估复杂性学习障碍（Dyslexia/Dysgraphia）。关注环境毒素、早产、遗传等高危因素导致的读写困难与多重共病。
 
-【改版】提供学习障碍科普与儿童健康服务入口，适合作为复杂读写困难就诊参考。
+【改版】儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。
 
-【字数】name: 14/30，desc: 31/80，dyslexiaUnit: 6/25
+【字数】name: 17/30，desc: 38/80，dyslexiaUnit: 6/25
 
-【改动说明】原链接更偏学习障碍科普页面，不是明确专病门诊页，因此降低医疗承诺强度，改为“就诊参考”。
+【改动说明】改用 Mayo Clinic Children's 下的 Developmental Behavioral Pediatrics 门诊页；该页明确写到评估儿童和青少年的学习与社交发展问题，并可由发育行为儿科、神经心理、语言、听力等团队参与。Dyslexia 页面保留为健康库参考，不写成独立阅读障碍门诊。

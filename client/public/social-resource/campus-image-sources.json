@@ -1,0 +1,245 @@
+{
+  "downloaded": [
+    {
+      "id": "pku-sixth-hospital",
+      "kind": "hospital",
+      "name": "北京大学第六医院",
+      "file": "client/public/social-resource/hospital/pku-sixth-hospital-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://zh.wikipedia.org/wiki/%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6%E7%AC%AC%E5%85%AD%E5%8C%BB%E9%99%A2",
+      "image_url": "selected from article images"
+    },
+    {
+      "id": "shanghai-mental-health-center",
+      "kind": "hospital",
+      "name": "上海市精神卫生中心",
+      "file": "client/public/social-resource/hospital/shanghai-mental-health-center-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://zh.wikipedia.org/wiki/%E4%B8%8A%E6%B5%B7%E5%B8%82%E7%B2%BE%E7%A5%9E%E5%8D%AB%E7%94%9F%E4%B8%AD%E5%BF%83",
+      "image_url": "selected from article images"
+    },
+    {
+      "id": "fudan-childrens-hospital",
+      "kind": "hospital",
+      "name": "复旦大学附属儿科医院",
+      "file": "client/public/social-resource/hospital/fudan-childrens-hospital-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://shmc.fudan.edu.cn/news/2025/0601/c1891a145644/page.htm",
+      "image_url": "selected from page images"
+    },
+    {
+      "id": "beijing-childrens-hospital",
+      "kind": "hospital",
+      "name": "北京儿童医院",
+      "file": "client/public/social-resource/hospital/beijing-childrens-hospital-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://zh.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E5%8C%BB%E7%A7%91%E5%A4%A7%E5%AD%A6%E9%99%84%E5%B1%9E%E5%8C%97%E4%BA%AC%E5%84%BF%E7%AB%A5%E5%8C%BB%E9%99%A2",
+      "image_url": "selected from article images"
+    },
+    {
+      "id": "zssy-child-development-center",
+      "kind": "hospital",
+      "name": "中山大学附属第三医院",
+      "file": "client/public/social-resource/hospital/zssy-child-development-center-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%B1%B1%E5%A4%A7%E5%AD%A6%E9%99%84%E5%B1%9E%E7%AC%AC%E4%B8%89%E5%8C%BB%E9%99%A2",
+      "image_url": "selected from article images"
+    },
+    {
+      "id": "beijing-chaoyang-hospital",
+      "kind": "hospital",
+      "name": "北京朝阳医院",
+      "file": "client/public/social-resource/hospital/beijing-chaoyang-hospital-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://zh.wikipedia.org/wiki/%E9%A6%96%E9%83%BD%E5%8C%BB%E7%A7%91%E5%A4%A7%E5%AD%A6%E9%99%84%E5%B1%9E%E5%8C%97%E4%BA%AC%E6%9C%9D%E9%98%B3%E5%8C%BB%E9%99%A2",
+      "image_url": "selected from article images"
+    },
+    {
+      "id": "shenzhen-childrens-hospital-futian",
+      "kind": "hospital",
+      "name": "深圳市儿童医院福田院区",
+      "file": "client/public/social-resource/hospital/shenzhen-childrens-hospital-futian-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://zh.wikipedia.org/wiki/%E6%B7%B1%E5%9C%B3%E5%B8%82%E5%84%BF%E7%AB%A5%E5%8C%BB%E9%99%A2",
+      "image_url": "selected from article images"
+    },
+    {
+      "id": "shanghai-childrens-medical-center",
+      "kind": "hospital",
+      "name": "上海儿童医学中心",
+      "file": "client/public/social-resource/hospital/shanghai-childrens-medical-center-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://news.sjtu.edu.cn/jdyw/20250531/211191.html",
+      "image_url": "https://news.sjtu.edu.cn/resource/upload/202505/20250531_211146_488.png"
+    },
+    {
+      "id": "child-mind-institute",
+      "kind": "hospital",
+      "name": "Child Mind Institute",
+      "file": "client/public/social-resource/hospital/child-mind-institute-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://www.skolnick.com/all-projects/childmindinstitute",
+      "image_url": "https://images.squarespace-cdn.com/content/v1/5fb7f8641935362b3f7e3fc7/1742407621878-WELCFMCFASIWNVTJOMNA/Skolnick_CMI_WEB-1_EDITED.jpg"
+    },
+    {
+      "id": "boston-childrens-hospital",
+      "kind": "hospital",
+      "name": "Boston Children's Hospital",
+      "file": "client/public/social-resource/hospital/boston-childrens-hospital-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:Boston_Childrens_Hospital_Hunnewell_Building.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Boston_Childrens_Hospital_Hunnewell_Building.jpg?width=960"
+    },
+    {
+      "id": "mayo-clinic",
+      "kind": "hospital",
+      "name": "Mayo Clinic",
+      "file": "client/public/social-resource/hospital/mayo-clinic-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:GondaBldg.JPG",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/GondaBldg.JPG?width=960"
+    },
+    {
+      "id": "cas-psychology-bi",
+      "kind": "institute",
+      "name": "中国科学院心理研究所",
+      "file": "client/public/social-resource/institute/cas-psychology-bi-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:Institute_of_Psychology,_CAS_(20231121123939).jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Institute_of_Psychology%2C_CAS_%2820231121123939%29.jpg?width=960"
+    },
+    {
+      "id": "bnu-learning-lab",
+      "kind": "institute",
+      "name": "北京师范大学",
+      "file": "client/public/social-resource/institute/bnu-learning-lab-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:BNU_Gate.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/BNU_Gate.jpg?width=960"
+    },
+    {
+      "id": "pku-meng-lab",
+      "kind": "institute",
+      "name": "北京大学",
+      "file": "client/public/social-resource/institute/pku-meng-lab-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:West_Gate_of_Peking_University.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/West_Gate_of_Peking_University.jpg?width=960"
+    },
+    {
+      "id": "ntnu-lee-team",
+      "kind": "institute",
+      "name": "台湾师范大学",
+      "file": "client/public/social-resource/institute/ntnu-lee-team-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:NTNU_Administration_Building_2024_01.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/NTNU_Administration_Building_2024_01.jpg?width=960"
+    },
+    {
+      "id": "cuhk-mcbride-team",
+      "kind": "institute",
+      "name": "香港中文大学",
+      "file": "client/public/social-resource/institute/cuhk-mcbride-team-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:2023%E5%B9%B48%E6%9C%88-%E4%B8%AD%E5%A4%A7%E8%88%AA%E6%8B%8D.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/2023%E5%B9%B48%E6%9C%88-%E4%B8%AD%E5%A4%A7%E8%88%AA%E6%8B%8D.jpg?width=960"
+    },
+    {
+      "id": "harvard-gaab-lab",
+      "kind": "institute",
+      "name": "Harvard University",
+      "file": "client/public/social-resource/institute/harvard-gaab-lab-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:HarvardYard.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/HarvardYard.jpg?width=960"
+    },
+    {
+      "id": "yale-dyslexia-center",
+      "kind": "institute",
+      "name": "Yale University",
+      "file": "client/public/social-resource/institute/yale-dyslexia-center-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:Old_Campus,_Yale_University_(2).jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Old_Campus%2C_Yale_University_%282%29.jpg?width=960"
+    },
+    {
+      "id": "ucsf-ucb-schwab-center",
+      "kind": "institute",
+      "name": "UC Berkeley",
+      "file": "client/public/social-resource/institute/ucsf-ucb-schwab-center-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sather_Gate_at_University_of_California,_Berkeley,_California_LCCN2013633500_(edited).jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Sather_Gate_at_University_of_California%2C_Berkeley%2C_California_LCCN2013633500_%28edited%29.jpg?width=960"
+    },
+    {
+      "id": "ucsf-dyslexia-center",
+      "kind": "institute",
+      "name": "UCSF",
+      "file": "client/public/social-resource/institute/ucsf-dyslexia-center-campus.jpg",
+      "size": [
+        1600,
+        900
+      ],
+      "source_page": "https://commons.wikimedia.org/wiki/File:UCSF-Mission_Bay_Campus.jpg",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/UCSF-Mission_Bay_Campus.jpg?width=960"
+    }
+  ],
+  "skipped": []
+}

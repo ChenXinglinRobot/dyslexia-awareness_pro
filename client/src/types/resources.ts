@@ -38,6 +38,7 @@ export interface ResearchInstitute extends BaseResource {
   labUrl?: string;
   officialUrl: string;
   focusAreas?: string[];
+  institutionDesc?: string; // 机构/高校自身介绍
   // ── 收窄为必填（实际数据都有，FlowingMenu.MenuItemData 要求 string） ──
   image: string;
 }
