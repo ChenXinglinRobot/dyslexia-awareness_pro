@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
 import { useMemo, useState } from "react";
+import { cn } from "@/lib/utils";
 
 type FontChoice = "serif" | "sans";
 type ScaleChoice = "small" | "default" | "large";
@@ -102,6 +103,78 @@ function ControlGroup<T extends string>({
   );
 }
 
+/**
+ * Compact horizontal control for mobile portrait — one row per option,
+ * with a min label, a thin connecting line, 2-3 dots, and a max label.
+ * Dots always sit at 0% / 50% / 100% so rows line up vertically.
+ * Stacks 6 rows ≈ 216 px tall.
+ */
+function CompactDotsRow<T extends string>({
+  icon,
+  label,
+  options,
+  value,
+  onChange,
+}: ControlGroupProps<T>) {
+  // 2-stop controls render only the ends; 3-stop adds the middle.
+  const positions: { left: string; option: Option<T> }[] =
+    options.length === 2
+      ? [
+          { left: "0%", option: options[0] },
+          { left: "100%", option: options[1] },
+        ]
+      : [
+          { left: "0%", option: options[0] },
+          { left: "50%", option: options[1] },
+          { left: "100%", option: options[2] },
+        ];
+
+  return (
+    <div className="flex items-center justify-between gap-2 py-1">
+      <div className="flex w-14 shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
+        <span className="text-primary" aria-hidden>
+          {icon}
+        </span>
+        <span>{label}</span>
+      </div>
+      <span
+        className="w-10 shrink-0 text-right text-[10px] text-muted-foreground"
+        style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+      >
+        {options[0].label}
+      </span>
+      <div className="relative h-4 flex-1">
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-muted-foreground/40"
+        />
+        {positions.map(({ left, option }) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onChange(option.value)}
+            aria-pressed={option.value === value}
+            aria-label={`${label}：${option.label}`}
+            style={{ left }}
+            className={cn(
+              "absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 transition-all duration-200",
+              option.value === value
+                ? "scale-110 border-primary bg-primary shadow-md ring-2 ring-primary/30"
+                : "border-muted-foreground/50 bg-background hover:border-muted-foreground/80"
+            )}
+          />
+        ))}
+      </div>
+      <span
+        className="w-12 shrink-0 text-left text-[10px] text-muted-foreground"
+        style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+      >
+        {options[options.length - 1].label}
+      </span>
+    </div>
+  );
+}
+
 export default function ReadabilityLab() {
   const [fontChoice, setFontChoice] = useState<FontChoice>("sans");
   const [fontSize, setFontSize] = useState<ScaleChoice>("default");
@@ -148,7 +221,7 @@ export default function ReadabilityLab() {
     paragraph === "long" ? sampleParagraphs.join("") : sampleParagraphs;
 
   return (
-    <section className="relative overflow-hidden bg-background py-20 md:py-28 transition-colors duration-500">
+    <section className="relative bg-background py-20 md:py-28 pb-24 md:pb-28 transition-colors duration-500">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <div className="container relative z-10">
         <motion.div
@@ -238,6 +311,27 @@ export default function ReadabilityLab() {
           </div>
         </motion.div>
 
+        <div className="mb-6 flex flex-col gap-1.5 lg:mb-10">
+          <div className="flex items-center gap-2">
+            <SlidersHorizontal className="h-4 w-4 text-primary" />
+            <h3
+              className="text-xl text-foreground md:text-2xl"
+              style={{ fontFamily: "'Noto Serif SC', serif" }}
+            >
+              调一调文本参数
+            </h3>
+          </div>
+          <p
+            className="pl-6 text-sm leading-6 text-muted-foreground"
+            style={{
+              fontFamily: "'Noto Sans SC', sans-serif",
+              fontWeight: 300,
+            }}
+          >
+            左右拨一拨，看看哪种排版最适合
+          </p>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -245,17 +339,8 @@ export default function ReadabilityLab() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="grid gap-6 lg:grid-cols-[0.95fr_1.25fr]"
         >
-          <div className="border border-border bg-card p-5 md:p-6">
-            <div className="mb-5 flex items-center gap-2">
-              <SlidersHorizontal className="h-4 w-4 text-primary" />
-              <h3
-                className="text-base text-foreground"
-                style={{ fontFamily: "'Noto Serif SC', serif" }}
-              >
-                调一调文本参数
-              </h3>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+          <div className="border border-border bg-card p-4 md:p-6">
+            <div className="hidden gap-4 lg:grid lg:grid-cols-1">
               <ControlGroup
                 icon={<Type className="h-3.5 w-3.5" />}
                 label="字体"
@@ -321,9 +406,76 @@ export default function ReadabilityLab() {
                 onChange={setContrast}
               />
             </div>
+
+            <div className="lg:hidden">
+              <CompactDotsRow
+                icon={<Type className="h-3.5 w-3.5" />}
+                label="字体"
+                options={[
+                  { label: "衬线", value: "serif" },
+                  { label: "非衬线", value: "sans" },
+                ]}
+                value={fontChoice}
+                onChange={setFontChoice}
+              />
+              <CompactDotsRow
+                icon={<CaseSensitive className="h-3.5 w-3.5" />}
+                label="字号"
+                options={[
+                  { label: "小", value: "small" },
+                  { label: "默认", value: "default" },
+                  { label: "大", value: "large" },
+                ]}
+                value={fontSize}
+                onChange={setFontSize}
+              />
+              <CompactDotsRow
+                icon={<Baseline className="h-3.5 w-3.5" />}
+                label="字距"
+                options={[
+                  { label: "紧凑", value: "tight" },
+                  { label: "默认", value: "default" },
+                  { label: "宽松", value: "loose" },
+                ]}
+                value={letterSpacing}
+                onChange={setLetterSpacing}
+              />
+              <CompactDotsRow
+                icon={<AlignLeft className="h-3.5 w-3.5" />}
+                label="行距"
+                options={[
+                  { label: "紧凑", value: "tight" },
+                  { label: "默认", value: "default" },
+                  { label: "宽松", value: "loose" },
+                ]}
+                value={lineHeight}
+                onChange={setLineHeight}
+              />
+              <CompactDotsRow
+                icon={<Pilcrow className="h-3.5 w-3.5" />}
+                label="段落"
+                options={[
+                  { label: "长段", value: "long" },
+                  { label: "分段", value: "split" },
+                ]}
+                value={paragraph}
+                onChange={setParagraph}
+              />
+              <CompactDotsRow
+                icon={<Contrast className="h-3.5 w-3.5" />}
+                label="对比度"
+                options={[
+                  { label: "低", value: "low" },
+                  { label: "标准", value: "standard" },
+                  { label: "高", value: "high" },
+                ]}
+                value={contrast}
+                onChange={setContrast}
+              />
+            </div>
           </div>
 
-          <div className="border border-border bg-card p-5 md:p-6">
+          <div className="sticky bottom-4 border border-border bg-card p-3 md:p-6 lg:static">
             <div className="mb-4 flex items-center justify-between gap-4">
               <h3
                 className="text-base text-foreground"
@@ -339,7 +491,7 @@ export default function ReadabilityLab() {
               </span>
             </div>
             <div
-              className={`min-h-80 border border-border p-5 transition-colors duration-300 md:p-7 ${contrastClass}`}
+              className={`min-h-32 md:min-h-80 border border-border p-3 transition-colors duration-300 md:p-7 ${contrastClass}`}
             >
               {Array.isArray(previewText) ? (
                 <div className="space-y-5">
