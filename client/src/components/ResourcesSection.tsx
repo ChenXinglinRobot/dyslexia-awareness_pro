@@ -150,6 +150,14 @@ export default function ResourcesSection() {
             )}
           </div>
           <GameGrid items={gameInterventions} />
+
+          {/* ── 收录声明 ── */}
+          <p
+            className="text-xs text-muted-foreground mt-4"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+          >
+            收录信息仅供参考，不代表对任何机构的背书或推荐。
+          </p>
         </div>
 
         {/* ===================== 参考文献 ===================== */}
