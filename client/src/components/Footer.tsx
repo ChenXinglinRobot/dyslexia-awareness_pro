@@ -24,8 +24,8 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <img src={LOGO_URL} alt="字向每人" className="w-7 h-7 rounded-sm" />
-              <span className="text-base font-medium text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>字向每人</span>
+              <img src={LOGO_URL} alt="阅见不同" className="w-7 h-7 rounded-sm" />
+              <span className="text-base font-medium text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>阅见不同</span>
             </div>
             <p className="text-muted-foreground text-xs leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               打破认知壁垒，建立真正的共情。
@@ -57,8 +57,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-border">
-          <p className="text-muted-foreground/60 text-xs text-center" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            &copy; 2024 字向每人 &middot; Words For Everyone
+          <p className="text-muted-foreground/60 text-xs text-center">
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif" }}>&copy; 2026 </span>
+            <span style={{ fontFamily: "'Noto Serif SC', serif" }}>阅见不同</span>
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif" }}> &middot; Words For Everyone</span>
           </p>
         </div>
       </div>

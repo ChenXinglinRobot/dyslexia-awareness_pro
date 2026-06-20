@@ -258,12 +258,12 @@ export default function Navbar() {
           onClick={() => scrollTo("#hero")}
           className="flex items-center gap-2.5 group"
         >
-          <img src={LOGO_URL} alt="字向每人" className="w-8 h-8 rounded-sm" />
+          <img src={LOGO_URL} alt="阅见不同" className="w-8 h-8 rounded-sm" />
           <span
             className="text-lg font-medium tracking-wide text-foreground"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
           >
-            字向每人
+            阅见不同
           </span>
         </button>
 

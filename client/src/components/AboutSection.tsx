@@ -33,7 +33,7 @@ export default function AboutSection() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(1) }} className="mb-12">
             <h3 className="text-xl text-foreground mb-4" style={{ fontFamily: "'Noto Serif SC', serif" }}>项目使命</h3>
             <p className="text-foreground/80 text-base leading-relaxed mb-4" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-              我们相信，打破认知壁垒的第一步不是告知，而是亲历。「字向每人」致力于通过沉浸式的交互体验，让每一位访客真正理解阅读障碍者所面对的世界——不是怜悯，而是共情；不是标签，而是理解。
+              我们相信，打破认知壁垒的第一步不是告知，而是亲历。「阅见不同」致力于通过沉浸式的交互体验，让每一位访客真正理解阅读障碍者所面对的世界——不是怜悯，而是共情；不是标签，而是理解。
             </p>
             <p className="text-foreground/80 text-base leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               我们希望每一位来到这里的人，都能经历这样一段心理旅程：亲历困难、理解机制、看到希望、走向欣赏与赋能。文字应该向每个人敞开——这是我们的信念，也是这个站点存在的意义。
