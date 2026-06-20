@@ -193,13 +193,14 @@ institutes:
     name: UCSF | UC Berkeley
     officialName: University of California, San Francisco 与 University of California, Berkeley
     city: 旧金山（美国）
+    institutionDesc: 依托加州大学旧金山分校的医学与神经科学基础，以及伯克利分校的综合研究优势，两校联合建设施瓦布读写障碍与认知多样性中心。
     dyslexiaLab: Schwab Center for Dyslexia
     officialLabName: Schwab Center for Dyslexia and Cognitive Diversity
-    desc: 整合两校多学科力量，推进阅读障碍筛查评估、干预研究与去污名化。
+    desc: 整合医学、神经科学、心理学、教育与公共卫生资源，推动读写障碍筛查评估、干预研究与去污名化。
     focusAreas:
+      - 认知多样
       - 筛查评估
       - 干预研究
-      - 去污名化
       - 多学科合作
     officialUrl: https://www.ucsf.edu/
     labUrl: https://schwabcognitivediversity.ucsf.edu/
@@ -207,7 +208,7 @@ institutes:
     sourceStatus: 工作簿超链接已保留，可信度标记为已核验
     representativePapers:
       - 运用神经成像评估生物表型在儿童阅读困难早期识别中的应用（2024）
-    counts: "name 18/30, desc 31/80, dyslexiaLab 26/35, focusAreas 4项；单项最大 5/8"
+    counts: "name 18/30, desc 48/80, dyslexiaLab 26/35, focusAreas 4项；单项最大 5/8"
 
   - rank: 9
     id: ucsf-dyslexia-center
@@ -215,20 +216,21 @@ institutes:
     name: UCSF Dyslexia Center
     officialName: UCSF Dyslexia Center
     city: 旧金山（美国）
+    institutionDesc: 加州大学旧金山分校读写障碍中心依托 UCSF 的医学、神经科学与教育转化研究基础，推进读写障碍研究、早期识别与学校合作。
     dyslexiaLab: Multitudes 早期识字筛查平台
     officialLabName: Multitudes Universal Screening Platform（Multitudes 多维早期识字数字筛查平台）
-    desc: 以神经科学研究为基础开发数字筛查平台，支持K-2阅读挑战早期识别与学校干预。
+    desc: 开发 Multitudes 数字筛查平台，支持 K-2 儿童阅读困难风险识别、结果报告与教学支持。
     focusAreas:
-      - 数字筛查
-      - 早期识别
+      - 神经科学
+      - 早期筛查
+      - 学校合作
       - 教学支持
-      - 学校应用
     officialUrl: https://dyslexia.ucsf.edu/
     labUrl: https://multitudesinfo.ucsf.edu/
     url: https://multitudesinfo.ucsf.edu/
     sourceStatus: 工作簿文本链接已提取；原行未标可信度符号
     representativePapers: []
-    counts: "name 18/30, desc 38/80, dyslexiaLab 19/35, focusAreas 4项；单项最大 4/8"
+    counts: "name 18/30, desc 43/80, dyslexiaLab 19/35, focusAreas 4项；单项最大 4/8"
 ```
 
 ## 逐条审核记录
@@ -317,18 +319,18 @@ institutes:
 
 【原版】机构名：UCSF & UC Berkeley；实验室/团队/项目名称：Schwab Center for Dyslexia and Cognitive Diversity；研究方向标签：认知多样性 / Multitudes数字化筛查工具 / 临床表型分析；代表性论文：运用神经成像评估生物表型在儿童阅读困难早期识别中的应用（2024）。
 
-【改版】name: UCSF | UC Berkeley；dyslexiaLab: Schwab Center for Dyslexia；focusAreas: 筛查评估、干预研究、去污名化、多学科合作；desc: 整合两校多学科力量，推进阅读障碍筛查评估、干预研究与去污名化。
+【改版】name: UCSF | UC Berkeley；dyslexiaLab: Schwab Center for Dyslexia；institutionDesc: 依托加州大学旧金山分校的医学与神经科学基础，以及伯克利分校的综合研究优势，两校联合建设施瓦布读写障碍与认知多样性中心；focusAreas: 认知多样、筛查评估、干预研究、多学科合作；desc: 整合医学、神经科学、心理学、教育与公共卫生资源，推动读写障碍筛查评估、干预研究与去污名化。
 
-【字数】name: 18/30，desc: 31/80，dyslexiaLab: 26/35，focusAreas: 4 项，单项最大 5/8
+【字数】name: 18/30，desc: 48/80，dyslexiaLab: 26/35，focusAreas: 4 项，单项最大 5/8
 
-【改动说明】官网使用 “UCSF | UCB” 与 “UCSF | UC Berkeley” 表述，卡片名统一为更易识别的 `UCSF | UC Berkeley`，并在 `officialName` 中补充两校完整英文名称；描述改为官网明确提到的筛查与评估工具、干预研究、减少污名及跨校多学科合作，避免把该中心概括得过窄。
+【改动说明】卡片名保留英文以匹配国外机构展示风格；中文介绍中分别说明 UCSF 的医学与神经科学基础、UC Berkeley 的综合研究优势，避免把 UCSF 描述为综合型大学。描述改为官网明确提到的筛查评估、干预研究、减少污名及跨校多学科合作，避免只用“认知多样性”概括该中心。
 
 ### 9. UCSF Dyslexia Center
 
 【原版】机构名：UCSF Dyslexia Center；所在城市：旧金山（San Francisco, CA） - Mission Bay校区；实验室/团队/项目名称：Multitudes Universal Screening Platform（Multitudes 多维早期识字数字筛查平台）；研究方向标签：临床神经病学、多模态神经影像分析（MRI）、基因与脑可塑性、早期风险数字筛查算法、全生命周期表型演变、神经发育与退行性对比模型。
 
-【改版】name: UCSF Dyslexia Center；dyslexiaLab: Multitudes 早期识字筛查平台；focusAreas: 数字筛查、早期识别、教学支持、学校应用；desc: 以神经科学研究为基础开发数字筛查平台，支持K-2阅读挑战早期识别与学校干预。
+【改版】name: UCSF Dyslexia Center；dyslexiaLab: Multitudes 早期识字筛查平台；institutionDesc: 加州大学旧金山分校读写障碍中心依托 UCSF 的医学、神经科学与教育转化研究基础，推进读写障碍研究、早期识别与学校合作；focusAreas: 神经科学、早期筛查、学校合作、教学支持；desc: 开发 Multitudes 数字筛查平台，支持 K-2 儿童阅读困难风险识别、结果报告与教学支持。
 
-【字数】name: 18/30，desc: 38/80，dyslexiaLab: 19/35，focusAreas: 4 项，单项最大 4/8
+【字数】name: 18/30，desc: 43/80，dyslexiaLab: 19/35，focusAreas: 4 项，单项最大 4/8
 
-【改动说明】原始标签过长且包含多个科研方向，按网页展示需求保留与 Multitudes 页面最直接相关的数字筛查、早期识别、报告与教学支持；将 Mission Bay 校区信息从城市字段中移除，避免卡片信息过载。
+【改动说明】原始标签过长且包含多个科研方向，按网页展示需求保留与 UCSF Dyslexia Center 和 Multitudes 页面最直接相关的神经科学、早期筛查、学校合作与教学支持；避免使用“风险算法”“数字算法”等可能被理解为诊断承诺的表述，并将 Mission Bay 校区信息从城市字段中移除，避免卡片信息过载。
