@@ -28,20 +28,55 @@ onlineResources:
     id: rainbow-reading-lab
     type: online-resource
     name: 虹阅读实验室
-    desc: 李虹教授团队分享汉语阅读障碍鉴别、文本可读性与阶梯阅读干预方法。
-    url: "微信内搜索: RainbowReading_47"
+    desc: 北师大李虹教授团队打造，深耕文本可读性研究与分级阅读体系建设。专注于儿童阅读障碍的早期识别与科学干预，致力于为面临读写困难的儿童及家庭提供专业的科普知识与实用的支持策略。
+    url: https://mp.weixin.qq.com/s/2oc4Ar3j8WzNMlHAvcXOsg
     platform: 微信公众号
-    expert: 李虹 · 北京师范大学教授
+    expert: 李虹 · 北京师范大学教授 央视纪录片《我不是笨小孩》学术顾问
     expertAffiliation: 北京师范大学心理学部
     focus:
-      - 汉语阅读
-      - 文本可读
-      - 阶梯阅读
-    updateFrequency: 周更
-    sourceStatus: Excel 标记可信；主页列未提供 hyperlink target，保留单元格内微信搜索信息
-    counts: "name 6/30, desc 30/80, expert 10/40, expertAffiliation 10/30, platform 5/12, updateFrequency 2/8, focus 3项且均 <= 8"
+      - 文本可读性
+      - 分级阅读
+      - 家庭支持
+      - 早期识别
+    updateFrequency: 不定期更新
+    sourceStatus: Excel 标记可信；主页列原为“微信内搜索: RainbowReading_47”；已补充用户指定的代表文章直链
+    counts: "name 6/30, desc 85/80, expert 31/40, expertAffiliation 10/30, platform 5/12, updateFrequency 5/8, focus 4项且均 <= 8"
 
   - rank: 2
+    id: feimili-family
+    type: online-resource
+    name: 飞米力
+    desc: 家庭成长社区·专注阅读障碍（读写困难）科普与读困家庭支持，让读困不困、有爱无碍，一起学习恰当用力、平衡梦想与现实。
+    url: https://mp.weixin.qq.com/s/ySTzhRxBF3P6ErVSHMe3fg
+    platform: 微信公众号
+    expert: 郑枫 · 写作者、影视节目导演、飞米力主理人（前凤凰卫视编导）
+    focus:
+      - 阅读障碍
+      - 学习困难
+      - 家庭支持
+      - 读困科普
+    updateFrequency: 双周更
+    sourceStatus: 用户新增；引用公众号任一文章链接作为关注入口；图片已落盘至 client/public/social-resource/online/feimili-family.jpg
+    counts: "name 3/30, desc 57/80, expert 31/40, updateFrequency 3/8, focus 4项且均 <= 8"
+
+  - rank: 3
+    id: xue-ai-hui
+    type: online-resource
+    name: 学爱会
+    desc: 中国内地首家聚焦学习困难（读写困难/ADHD）议题的公益性社会团体，以公众教育、校园支持与家庭支持为核心，倡导「与困难同行，让天赋自由」，推动学困群体友好成长空间与教育公平。
+    url: https://mp.weixin.qq.com/s/U_OVAq87VuApaIOcVdhtRg
+    platform: 微信公众号
+    expert: 许倩 · 深圳市学习困难关爱协会会长、国家二级心理咨询
+    focus:
+      - 读写困难
+      - ADHD
+      - 学困科普
+      - 家长支持
+    updateFrequency: 双周更
+    sourceStatus: 用户新增；引用学爱会公众号任一文章链接作为关注入口；图片已落盘至 client/public/social-resource/online/xue-ai-hui.jpg
+    counts: "name 3/30, desc 86/80（略超 6 字符，按用户确认保留）, expert 27/40, updateFrequency 3/8, focus 4项且均 <= 8"
+
+  - rank: 4
     id: multitudes-newsletter
     type: online-resource
     name: Multitudes Newsletter
@@ -58,7 +93,7 @@ onlineResources:
     sourceStatus: Excel 标记可信；引用标记为 [cite: 11, 70]
     counts: "name 20/30, desc 36/80, expert 22/40, expertAffiliation 17/30, platform 10/12, updateFrequency 2/8, focus 3项且均 <= 8"
 
-  - rank: 3
+  - rank: 5
     id: dyslexia-powerup
     type: online-resource
     name: Dyslexia Powerup资源站
@@ -75,7 +110,7 @@ onlineResources:
     sourceStatus: Excel 标记可信；引用标记为 [cite: 72]
     counts: "name 18/30, desc 27/80, expert 4/40, expertAffiliation 8/30, platform 4/12, updateFrequency 4/8, focus 3项且均 <= 8"
 
-  - rank: 4
+  - rank: 6
     id: international-dyslexia-association
     type: online-resource
     name: 国际读写障碍协会（IDA）
@@ -92,7 +127,7 @@ onlineResources:
     sourceStatus: Excel 标记可信；引用标记为 [cite: 66, 72]
     counts: "name 11/30, desc 36/80, expert 8/40, expertAffiliation 8/30, platform 5/12, updateFrequency 4/8, focus 3项且均 <= 8"
 
-  - rank: 5
+  - rank: 7
     id: made-by-dyslexia
     type: online-resource
     name: Made by Dyslexia
@@ -109,7 +144,7 @@ onlineResources:
     sourceStatus: Excel 标记可信；引用标记为 [cite: 66, 72]
     counts: "name 14/30, desc 38/80, expert 14/40, expertAffiliation 18/30, platform 9/12, updateFrequency 2/8, focus 3项且均 <= 8"
 
-  - rank: 6
+  - rank: 8
     id: das-chinese-programme
     type: online-resource
     name: DAS华文课程
@@ -127,7 +162,7 @@ onlineResources:
     sourceStatus: Excel 未填写可信度；按机构官网资源整理
     counts: "name 7/30, desc 37/80, expert 12/40, expertAffiliation 9/30, platform 4/12, updateFrequency 3/8, focus 4项且均 <= 8"
 
-  - rank: 7
+  - rank: 9
     id: the-dyslexia-foundation
     type: online-resource
     name: The Dyslexia Foundation
@@ -152,13 +187,33 @@ onlineResources:
 
 【原版】资源名：“（a）虹阅读实验室”；平台：“微信公众号”；主理人：“李虹 教授”；机构：“北京师范大学心理学部”；标签：“汉语阅读障碍鉴别 / 文本可读性 / 阶梯阅读”；频率：“周更”；简介：“央视《我不是笨小孩》学术顾问主理，深度解读汉语文本可读性及一线障碍干预方法论。”
 
-【改版】资源名：“虹阅读实验室”；平台：“微信公众号”；主理人：“李虹 · 北京师范大学教授”；机构：“北京师范大学心理学部”；标签：“汉语阅读、文本可读、阶梯阅读”；频率：“周更”；简介：“李虹教授团队分享汉语阅读障碍鉴别、文本可读性与阶梯阅读干预方法。”
+【改版】资源名：“虹阅读实验室”；平台：“微信公众号”；主理人：”李虹 · 北京师范大学教授 央视纪录片《我不是笨小孩》学术顾问”；机构：“北京师范大学心理学部”；标签：“文本可读性、分级阅读、家庭支持、早期识别”；频率：“不定期更新”；链接：“https://mp.weixin.qq.com/s/2oc4Ar3j8WzNMlHAvcXOsg”；简介：“北师大李虹教授团队打造，深耕文本可读性研究与分级阅读体系建设。专注于儿童阅读障碍的早期识别与科学干预，致力于为面临读写困难的儿童及家庭提供专业的科普知识与实用的支持策略。”
 
-【字数】name: 6/30；desc: 30/80；expert: 10/40；expertAffiliation: 10/30；platform: 5/12；updateFrequency: 2/8；focus: 3 项，单项均 <= 8。
+【字数】name: 6/30；desc: 85/80（略超 5 字符，按用户确认保留）；expert: 31/40；expertAffiliation: 10/30；platform: 5/12；updateFrequency: 5/8；focus: 4 项，单项均 <= 8。
 
-【改动说明】删除排序标记“（a）”；保留李虹教授与北京师范大学心理学部背景，将“深度解读”“方法论”等较重表达改为更适合卡片阅读的“分享鉴别、可读性与干预方法”。
+【改动说明】删除排序标记“（a）”；保留李虹教授与北京师范大学心理学部背景；标签从“汉语阅读 / 文本可读 / 阶梯阅读”改为“文本可读性 / 分级阅读 / 家庭支持 / 早期识别”，新增“家庭支持”视角并把“阶梯阅读”改写为更通用的“分级阅读”，与新简介对齐；简介扩展为含“文本可读性研究 / 分级阅读体系建设 / 早期识别 / 家庭支持”四个落点的完整表达，因用户希望突出团队定位与家长侧价值，字数接受略超 80；频率由”周更”调整为”不定期更新”；本次按用户要求补充 expert 字段，新增”央视纪录片《我不是笨小孩》学术顾问”背景信息。原表仅保留公众号搜索信息，本次补充用户指定的代表文章直链。
 
-### 2. Multitudes Newsletter
+### 2. 飞米力
+
+【原版】本次为用户新增条目，无 Excel 源行；字段由用户直接提供。
+
+【改版】资源名："飞米力"；平台："微信公众号"；主理人："郑枫 · 写作者、影视节目导演、飞米力主理人（前凤凰卫视编导）"；机构：无（按用户要求省略）；标签："阅读障碍、学习困难、家庭支持、读困科普"；频率："双周更"；链接："https://mp.weixin.qq.com/s/ySTzhRxBF3P6ErVSHMe3fg"；简介："家庭成长社区·专注阅读障碍（读写困难）科普与读困家庭支持，让读困不困、有爱无碍，一起学习恰当用力、平衡梦想与现实。"
+
+【字数】name: 3/30；desc: 57/80；expert: 31/40；updateFrequency: 3/8；focus: 4 项，单项均 <= 8。
+
+【改动说明】用户新增的家庭成长社区类公众号资源；按"中文公众号先于国际资源"的展示顺序，编排至第 2 位，紧随虹阅读实验室；省略 expertAffiliation 字段（按用户要求）；updateFrequency 由用户原描述"稳定周更～双周更节奏"压缩为"双周更"以满足 ≤8 字约束；图片已落盘至 client/public/social-resource/online/feimili-family.jpg。
+
+### 3. 学爱会
+
+【原版】本次为用户新增条目，无 Excel 源行；字段由用户直接提供。
+
+【改版】资源名："学爱会"；平台："微信公众号"；主理人："许倩 · 深圳市学习困难关爱协会会长、国家二级心理咨询"；机构：无（按用户要求省略）；标签："读写困难、ADHD、学困科普、家长支持"；频率："双周更"；链接："https://mp.weixin.qq.com/s/U_OVAq87VuApaIOcVdhtRg"；简介："中国内地首家聚焦学习困难（读写困难/ADHD）议题的公益性社会团体，以公众教育、校园支持与家庭支持为核心，倡导「与困难同行，让天赋自由」，推动学困群体友好成长空间与教育公平。"
+
+【字数】name: 3/30；desc: 86/80（略超 6 字符，按用户确认保留）；expert: 27/40；updateFrequency: 3/8；focus: 4 项，单项均 <= 8。
+
+【改动说明】用户新增的公益社团类公众号资源；编排至第 3 位以延续"中文公众号优先"顺序；省略 expertAffiliation 字段（按用户要求）；updateFrequency 由用户原描述"周更～双周更（含推文 + 视频号直播）"压缩为"双周更"以满足 ≤8 字约束；desc 因含丰富定位信息（首家公益性、ADHD、校园与家庭双轨、slogan 等）字数略超 80，按用户确认保留；slogan "与困难同行，让天赋自由"在 TS 文件中使用中文直角引号「」包裹以避免与 ASCII 字符串定界符冲突；图片已落盘至 client/public/social-resource/online/xue-ai-hui.jpg；本次按用户要求精简 expert 字段，删除"创始人/""中级社会工作师"等冗余信息，保留"会长""国家二级心理咨询"两条核心身份。
+
+### 4. Multitudes Newsletter
 
 【原版】资源名：“（b）Multitudes Newsletter”；平台：“Newsletter”；主理人：“Dr. Nadine Gaab”；机构：“Harvard GSE Gaab Lab”；标签：“脑发育轨迹 / 早期筛查技术 / 前沿发现”；频率：“季更”；简介：“分享加州超25万儿童使用的Multitudes早期筛查系统进展，发布国际最新脑科学神经发育动态。”
 
@@ -168,7 +223,7 @@ onlineResources:
 
 【改动说明】删除排序标记“（b）”；保留主理人与 Harvard GSE Gaab Lab 信息；删去“加州超25万儿童”“国际最新”等较占篇幅或容易过期的表述，突出早期筛查和神经发育研究。
 
-### 3. Dyslexia Powerup资源站
+### 5. Dyslexia Powerup资源站
 
 【原版】资源名：“（c）Dyslexia Powerup 资源站”；平台：“聚合博客”；主理人：“特教联盟”；机构：“独立信息集成组织”；标签：“干预工具对比 / 全球资源索引 / 书单”；频率：“每月维护”；简介：“极为详尽的全球读写资源导航，涵盖美国、英国、澳洲的各路官方入口及经典必读推荐书单。”
 
@@ -178,7 +233,7 @@ onlineResources:
 
 【改动说明】保留英文资源名和资源站定位；删去“极为详尽”“经典必读”等评价性表达，将长地域清单压缩为“全球读写障碍资源入口”，更适合网页卡片。
 
-### 4. 国际读写障碍协会（IDA）
+### 6. 国际读写障碍协会（IDA）
 
 【原版】资源名：“（d）International Dyslexia Association（IDA）”；平台：“官方指南库”；主理人：“IDA 专家委员会”；机构：“IDA”；标签：“事实清单（Fact Sheets） / 结构化读写指南”；频率：“日常维护”；简介：“全球最具权威性的读写障碍非营利组织，其发布的Fact Sheets与结构化读写手册是特殊教育的金标准。”
 
@@ -188,7 +243,7 @@ onlineResources:
 
 【改动说明】英文全称超过卡片标题的可读长度，因此改为中文全称并保留 IDA；删除“全球最具权威”“金标准”等强评价，改为“循证参考”。
 
-### 5. Made by Dyslexia
+### 7. Made by Dyslexia
 
 【原版】资源名：“（d）Made by Dyslexia”；平台：“YouTube/网页”；主理人：“Kate Griggs 等倡导者”；机构：“Made by Dyslexia 慈善机构”；标签：“认知优势重塑 / 社会倡导活动 / 免费教师认证”；频率：“月更”；简介：“通过Richard Branson等名人的发声改变刻板印象，提供微软授权的免费在线教师赋能培训（Dyslexic Thinking）。”
 
@@ -198,7 +253,7 @@ onlineResources:
 
 【改动说明】删除重复排序标记；将半角斜杠改为全角斜杠；保留倡导者和机构背景，把“改变刻板印象”“免费在线教师赋能培训”等长句收束为家长易理解的用途说明。
 
-### 6. DAS华文课程
+### 8. DAS华文课程
 
 【原版】资源名：“DAS 华文课程”；平台：“海外教育机构官方网站”；主理人为空；机构：“新加坡读写障碍协会（DAS）”；标签：“读写障碍干预、华文教学、识字训练、读写能力辅导、特殊学习困难支持”；频率：“不定期更新”；简介：“专为 7-17 岁华文学习困难学生打造干预课程，传授学习技巧与策略。”
 
@@ -208,7 +263,7 @@ onlineResources:
 
 【改动说明】原表没有个人主理人，因此用机构作为 `expert`，避免空字段影响展示；平台压缩为“机构官网”；标签从 5 项压缩为 4 项；年龄表达改为“7至17岁”，避免半角连字符。
 
-### 7. The Dyslexia Foundation
+### 9. The Dyslexia Foundation
 
 【原版】资源名：“The Dyslexia Foundation（TDF）”；平台：“国际权威机构官方网站”；主理人：“Dr. Benjamin Powers（主席） / Dr. Laurie E. Cutting（科学顾问委员会主席）”；机构：“The Dyslexia Foundation / 耶鲁大学及康涅狄格大学 Haskins 全球读写中心 / 范德堡大学”；标签：“神经科学与教育 / 脑科学研究 / 循证教育实践 / 跨学科合作”；频率：“持续更新（定期举办年度秋季会议、EBS学术研讨会并发布出版物）”；简介：“汇集全球顶尖神经科学家与教育工作者，致力于推动阅读障碍的科学突破，并将脑科学最新研究转化为教育实践。”
 
