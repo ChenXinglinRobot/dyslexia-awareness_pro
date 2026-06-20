@@ -158,7 +158,7 @@ export const hospitals: Hospital[] = [
     heroImage: "/social-resource/hospital/child-mind-institute-campus.jpg",
     // ── 旧字段 ──
     name: "Child Mind Institute",
-    desc: "提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。",
+    desc: "美国儿童心理健康领域知名非营利机构，Gund中心提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。",
     url: "https://childmind.org/",
     image: "/social-resource/hospital/child-mind-institute.png",
     logo: "/social-resource/hospital/child-mind-institute.png",
@@ -175,7 +175,7 @@ export const hospitals: Hospital[] = [
     heroImage: "/social-resource/hospital/boston-childrens-hospital-campus.jpg",
     // ── 旧字段 ──
     name: "Boston Children's Hospital",
-    desc: "学习障碍项目为1-8年级儿童做半日综合评估，形成诊断理解与干预计划。",
+    desc: "哈佛医学院相关的全球大型儿科研究中心，学习障碍项目为1-8年级儿童做半日综合评估，形成诊断理解与干预计划。",
     url: "https://www.childrenshospital.org/",
     image: "/social-resource/hospital/boston-childrens-hospital.png",
     logo: "/social-resource/hospital/boston-childrens-hospital.png",
@@ -192,7 +192,7 @@ export const hospitals: Hospital[] = [
     heroImage: "/social-resource/hospital/mayo-clinic-campus.jpg",
     // ── 旧字段 ──
     name: "Mayo Clinic（梅奥诊所）",
-    desc: "儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。",
+    desc: "梅奥诊所是全球知名的非营利综合医疗机构，儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。",
     url: "https://www.mayoclinic.org/",
     image: "/social-resource/hospital/mayo-clinic.png",
     logo: "/social-resource/hospital/mayo-clinic.png",
@@ -227,7 +227,7 @@ export const researchInstitutes: ResearchInstitute[] = [
     labUrl: "https://psych.bnu.edu.cn/szdw/zrjs/js/lh/index.htm",
     officialUrl: "https://www.bnu.edu.cn/",
     focusAreas: ["阅读发展", "可读性", "早期鉴别", "阅读干预"],
-    institutionDesc: "北京师范大学是教育部直属重点大学，心理学部居国内前列。",
+    institutionDesc: "北京师范大学心理学部是国家世界一流心理学科建设单位、唯一心理学一级学科国家重点学科单位，心理学科连续位居教育部学科排名全国第一。",
     heroImage: "/social-resource/institute/bnu-learning-lab-campus.jpg",
     // ── 旧字段 ──
     name: "北京师范大学",
@@ -245,7 +245,7 @@ export const researchInstitutes: ResearchInstitute[] = [
     labUrl: "https://www.psy.pku.edu.cn/szdw/qzjy/fjs/mxz/index.htm",
     officialUrl: "https://www.pku.edu.cn/",
     focusAreas: ["视觉注意", "神经可塑", "跨语阅读", "儿童评估"],
-    institutionDesc: "北京大学是中国顶尖综合性大学，心理与认知科学学院在认知神经科学领域有深厚积累。",
+    institutionDesc: "北京大学心理与认知科学学院是心理学 A+ 单位，心理学科入选国家双一流建设学科，在认知神经科学等方向积累深厚。",
     heroImage: "/social-resource/institute/pku-meng-lab-campus.jpg",
     // ── 旧字段 ──
     name: "北京大学",
@@ -263,7 +263,7 @@ export const researchInstitutes: ResearchInstitute[] = [
     labUrl: "https://www.epc.ntnu.edu.tw/Front/Faculty_and_Staff/FullTime/Members.aspx?id=0pjIJ%2BWlsho%3D&PID=0000000022&lang=zh-tw",
     officialUrl: "https://www.ntnu.edu.tw/",
     focusAreas: ["声韵加工", "工作记忆", "多语言阅读", "眼动与阅读", "认知神经科学"],
-    institutionDesc: "台湾师范大学是台湾师范教育最高学府，教育心理与辅导学系在阅读障碍研究领域深耕多年。",
+    institutionDesc: "台湾师范大学是台湾知名高等教育机构，教育与心理相关学科基础深厚，教育心理与辅导学系设有阅读障碍、阅读发展与认知神经科学方向。",
     heroImage: "/social-resource/institute/ntnu-lee-team-campus.jpg",
     // ── 旧字段 ──
     name: "台湾师范大学",
@@ -299,7 +299,7 @@ export const researchInstitutes: ResearchInstitute[] = [
     labUrl: "https://www.gaablab.com/",
     officialUrl: "https://www.harvard.edu/",
     focusAreas: ["脑发育", "MRI影像", "发展性阅读障碍", "语音与听觉加工", "音乐训练与脑可塑性"],
-    institutionDesc: "哈佛大学是美国常春藤盟校，教育研究生院在教育神经科学领域全球领先。",
+    institutionDesc: "哈佛大学教育研究生院的 Gaab Lab 聚焦语言、阅读与学习差异发展，是国际教育神经科学与早期筛查研究的重要团队。",
     heroImage: "/social-resource/institute/harvard-gaab-lab-campus.jpg",
     // ── 旧字段 ──
     name: "Harvard University",
@@ -317,7 +317,7 @@ export const researchInstitutes: ResearchInstitute[] = [
     labUrl: "http://dyslexia.yale.edu/",
     officialUrl: "https://www.yale.edu/",
     focusAreas: ["优势模型", "流行病学", "筛查工具", "政策倡导", "脑神经机制"],
-    institutionDesc: "耶鲁大学是美国常春藤盟校，其阅读障碍研究中心由 Shaywitz 教授创立，长期引领该领域。",
+    institutionDesc: "耶鲁阅读障碍与创造力中心由 Sally 与 Bennett Shaywitz 共同创立，是阅读障碍研究、倡导与家庭教育资源的重要来源。",
     heroImage: "/social-resource/institute/yale-dyslexia-center-campus.jpg",
     // ── 旧字段 ──
     name: "Yale University",

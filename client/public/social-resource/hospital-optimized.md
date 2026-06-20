@@ -139,13 +139,13 @@ hospitals:
     city: 纽约、旧金山（美国）
     dyslexiaUnit: Gund Learning Center
     officialUnitName: The Gund Learning & Diagnostic Center
-    desc: 提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。
+    desc: 美国儿童心理健康领域知名非营利机构，Gund中心提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。
     acceptAge: 1-26岁
     officialUrl: https://childmind.org/
     unitUrl: https://childmind.org/care/areas-of-expertise/learning-and-development-center/
     appointment: 官网提交预约请求
     sourceStatus: 工作簿链接已保留，官方页面已抽样核验
-    counts: "name 18/30, desc 30/80, dyslexiaUnit 18/25"
+    counts: "name 18/30, desc 58/80, dyslexiaUnit 18/25"
 
   - rank: 10
     id: boston-childrens-hospital
@@ -153,13 +153,13 @@ hospitals:
     city: 波士顿（美国）
     dyslexiaUnit: 学习障碍项目
     officialUnitName: Learning Disabilities Program
-    desc: 学习障碍项目为1-8年级儿童做半日综合评估，形成诊断理解与干预计划。
+    desc: 哈佛医学院相关的全球大型儿科研究中心，学习障碍项目为1-8年级儿童做半日综合评估，形成诊断理解与干预计划。
     acceptAge: 7-15岁
     officialUrl: https://www.childrenshospital.org/
     unitUrl: https://www.childrenshospital.org/services/learning-disabilities-program
     appointment: 官网申请与病历筛查
     sourceStatus: 工作簿链接已保留，官方页面已抽样核验
-    counts: "name 23/30, desc 31/80, dyslexiaUnit 6/25"
+    counts: "name 23/30, desc 53/80, dyslexiaUnit 6/25"
 
   - rank: 11
     id: mayo-clinic
@@ -167,13 +167,13 @@ hospitals:
     city: 罗切斯特（美国）
     dyslexiaUnit: 发育行为儿科
     officialUnitName: Developmental Behavioral Pediatrics
-    desc: 儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。
+    desc: 梅奥诊所是全球知名的非营利综合医疗机构，儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。
     acceptAge: 婴儿至18岁
     officialUrl: https://www.mayoclinic.org/
     unitUrl: https://www.mayoclinic.org/departments-centers/developmental-behavioral-pediatrics/overview/ovc-20559968
     appointment: 855-MAYO-KID 或官网在线预约
     sourceStatus: 已找到发育行为儿科门诊页；Dyslexia 页为健康库说明
-    counts: "name 17/30, desc 38/80, dyslexiaUnit 6/25"
+    counts: "name 17/30, desc 58/80, dyslexiaUnit 6/25"
 ```
 
 ## 逐条审核记录
@@ -262,28 +262,28 @@ hospitals:
 
 【原版】全球顶尖神经心理测评中心。提供耗时约10小时的深度教育/神经心理学测验体系，为升学与干预提供金标准报告。
 
-【改版】提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。
+【改版】美国儿童心理健康领域知名非营利机构，Gund中心提供学习障碍与神经心理教育评估，覆盖阅读、书写、数学和执行功能支持。
 
-【字数】name: 18/30，desc: 30/80，dyslexiaUnit: 18/25
+【字数】name: 18/30，desc: 58/80，dyslexiaUnit: 18/25
 
-【改动说明】删除“全球顶尖”“金标准”等评价性词语；保留学习障碍、神经心理教育评估和支持方向。官方中心名较长，因此 `dyslexiaUnit` 用短名，`officialUnitName` 保留全称。
+【改动说明】删除“全球顶尖”“金标准”等评价性词语；保留学习障碍、神经心理教育评估和支持方向。补充其美国儿童心理健康非营利机构背景，提高国内读者对机构专业性的理解。官方中心名较长，因此 `dyslexiaUnit` 用短名，`officialUnitName` 保留全称。
 
 ### 10. Boston Children's Hospital
 
 【原版】哈佛医学院附属医院神经内科下设项目。提供神经学、心理学与特殊教育学的交叉会诊，专注疑难读写障碍。
 
-【改版】学习障碍项目为1-8年级儿童做半日综合评估，形成诊断理解与干预计划。
+【改版】哈佛医学院相关的全球大型儿科研究中心，学习障碍项目为1-8年级儿童做半日综合评估，形成诊断理解与干预计划。
 
-【字数】name: 23/30，desc: 31/80，dyslexiaUnit: 6/25
+【字数】name: 23/30，desc: 53/80，dyslexiaUnit: 6/25
 
-【改动说明】改用项目官方页面强调的服务方式和适用学段，减少“疑难”“交叉会诊”等容易显得过重的表达。
+【改动说明】改用项目官方页面强调的服务方式和适用学段，减少“疑难”“交叉会诊”等容易显得过重的表达。补充哈佛医学院相关儿科研究中心背景，帮助国内读者快速判断机构认可度。
 
 ### 11. Mayo Clinic（梅奥诊所）
 
 【原版】评估复杂性学习障碍（Dyslexia/Dysgraphia）。关注环境毒素、早产、遗传等高危因素导致的读写困难与多重共病。
 
-【改版】儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。
+【改版】梅奥诊所是全球知名的非营利综合医疗机构，儿童中心发育行为儿科评估学习与社交发展问题，提供多学科发展、学业与行为测试。
 
-【字数】name: 17/30，desc: 38/80，dyslexiaUnit: 6/25
+【字数】name: 17/30，desc: 58/80，dyslexiaUnit: 6/25
 
-【改动说明】改用 Mayo Clinic Children's 下的 Developmental Behavioral Pediatrics 门诊页；该页明确写到评估儿童和青少年的学习与社交发展问题，并可由发育行为儿科、神经心理、语言、听力等团队参与。Dyslexia 页面保留为健康库参考，不写成独立阅读障碍门诊。
+【改动说明】改用 Mayo Clinic Children's 下的 Developmental Behavioral Pediatrics 门诊页；该页明确写到评估儿童和青少年的学习与社交发展问题，并可由发育行为儿科、神经心理、语言、听力等团队参与。补充梅奥诊所的全球知名综合医疗机构背景。Dyslexia 页面保留为健康库参考，不写成独立阅读障碍门诊。

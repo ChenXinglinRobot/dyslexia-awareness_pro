@@ -55,6 +55,7 @@ institutes:
     type: institute
     name: 北京师范大学
     city: 北京
+    institutionDesc: 北京师范大学心理学部是国家世界一流心理学科建设单位、唯一心理学一级学科国家重点学科单位，心理学科连续位居教育部学科排名全国第一。
     dyslexiaLab: 认知神经科学与学习国家重点实验室
     officialLabName: 舒华、李虹教授团队（认知神经科学与学习国家重点实验室）
     desc: 研究汉语阅读发展、可读性与互联网干预，为早期识别和阅读训练提供证据。
@@ -77,6 +78,7 @@ institutes:
     type: institute
     name: 北京大学
     city: 北京
+    institutionDesc: 北京大学心理与认知科学学院是心理学 A+ 单位，心理学科入选国家双一流建设学科，在认知神经科学等方向积累深厚。
     dyslexiaLab: 孟祥芝研究员课题组
     officialLabName: 孟祥芝研究员课题组（行为与心理健康北京市重点实验室）
     desc: 研究视觉注意和神经可塑性，比较中英文阅读障碍，为儿童评估和干预提供线索。
@@ -98,6 +100,7 @@ institutes:
     type: institute
     name: 台湾师范大学
     city: 台北
+    institutionDesc: 台湾师范大学是台湾知名高等教育机构，教育与心理相关学科基础深厚，教育心理与辅导学系设有阅读障碍、阅读发展与认知神经科学方向。
     dyslexiaLab: 李俊仁副教授团队
     officialLabName: 李俊仁副教授团队（教育心理与辅导学系）
     desc: 结合行为评估与脑认知技术，探究跨语言阅读机制、工作记忆发展，并深度解析中文儿童发展性阅读障碍的认知-语言轮廓与跨文化异同。
@@ -143,6 +146,7 @@ institutes:
     type: institute
     name: Harvard University
     city: 波士顿（美国）
+    institutionDesc: 哈佛大学教育研究生院的 Gaab Lab 聚焦语言、阅读与学习差异发展，是国际教育神经科学与早期筛查研究的重要团队。
     dyslexiaLab: Gaab Lab
     officialLabName: Gaab Lab（PI：Nadine Gaab）
     desc: 追踪婴幼儿到学龄期的脑发育与读写能力关系，用影像研究支持早期筛查。
@@ -165,6 +169,7 @@ institutes:
     type: institute
     name: Yale University
     city: 纽黑文（美国）
+    institutionDesc: 耶鲁阅读障碍与创造力中心由 Sally 与 Bennett Shaywitz 共同创立，是阅读障碍研究、倡导与家庭教育资源的重要来源。
     dyslexiaLab: Yale Center for Dyslexia
     officialLabName: Yale Center for Dyslexia & Creativity（PI：Sally Shaywitz）
     desc: 依托纵向追踪与脑功能成像技术揭示阅读障碍机制，为早期筛查、教育干预及政策倡导提供科学依据。
@@ -244,6 +249,8 @@ institutes:
 
 【改版】name: 北京师范大学；dyslexiaLab: 认知神经科学与学习国家重点实验室；focusAreas: 阅读发展、可读性、早期鉴别、阅读干预；desc: 研究汉语阅读发展、可读性与互联网干预，为早期识别和阅读训练提供证据。
 
+【机构介绍】北京师范大学心理学部是国家世界一流心理学科建设单位、唯一心理学一级学科国家重点学科单位，心理学科连续位居教育部学科排名全国第一。
+
 【字数】name: 6/30，desc: 31/80，dyslexiaLab: 16/35，focusAreas: 4 项，单项最大 4/8
 
 【改动说明】焦点行优先展示国家重点实验室名称，团队成员保留在 `officialLabName`；将 GraphoGame 等具体项目收束为“互联网干预”和“阅读干预”，避免标签过长。
@@ -254,6 +261,8 @@ institutes:
 
 【改版】name: 北京大学；dyslexiaLab: 孟祥芝研究员课题组；focusAreas: 视觉注意、神经可塑、跨语阅读、儿童评估；desc: 研究视觉注意和神经可塑性，比较中英文阅读障碍，为儿童评估和干预提供线索。
 
+【机构介绍】北京大学心理与认知科学学院是心理学 A+ 单位，心理学科入选国家双一流建设学科，在认知神经科学等方向积累深厚。
+
 【字数】name: 4/30，desc: 33/80，dyslexiaLab: 9/35，focusAreas: 4 项，单项最大 4/8
 
 【改动说明】保留孟祥芝研究员课题组与北京市重点实验室背景；将“视觉选择性注意”“中英文跨文化阅读障碍”压缩为短标签，`desc` 补足研究方向与儿童评估价值。
@@ -263,6 +272,8 @@ institutes:
 【原版】机构名：台湾师范大学；实验室/团队/项目名称：李俊仁副教授团队（教育心理与辅导学系）；研究方向标签：声韵觉识（Phonological Awareness） / 识字量评估 / 认知成分分析；代表性论文：以认知成份分析区辨学童阅读困难的效能（2022）、中文断词机制及其在阅读障碍中的表现（2023）。
 
 【改版】name: 台湾师范大学；dyslexiaLab: 李俊仁副教授团队；focusAreas: 声韵觉识、识字评估、认知成分、中文断词；desc: 研究声韵觉识、识字量与认知成分，帮助区分中文儿童阅读困难类型。
+
+【机构介绍】台湾师范大学是台湾知名高等教育机构，教育与心理相关学科基础深厚，教育心理与辅导学系设有阅读障碍、阅读发展与认知神经科学方向。
 
 【字数】name: 6/30，desc: 28/80，dyslexiaLab: 8/35，focusAreas: 4 项，单项最大 4/8
 
@@ -284,6 +295,8 @@ institutes:
 
 【改版】name: Harvard University；dyslexiaLab: Gaab Lab；focusAreas: 脑发育、MRI影像、早期筛查、读写发展；desc: 追踪婴幼儿到学龄期的脑发育与读写能力关系，用影像研究支持早期筛查。
 
+【机构介绍】哈佛大学教育研究生院的 Gaab Lab 聚焦语言、阅读与学习差异发展，是国际教育神经科学与早期筛查研究的重要团队。
+
 【字数】name: 17/30，desc: 31/80，dyslexiaLab: 7/35，focusAreas: 4 项，单项最大 5/8
 
 【改动说明】`dyslexiaLab` 使用实验室短名，PI 信息放入 `officialLabName`；把“脑白质网络发育”归纳为“脑发育”和“MRI影像”，并明确其与早期筛查的关系。
@@ -293,6 +306,8 @@ institutes:
 【原版】机构名：Yale University；实验室/团队/项目名称：Yale Center for Dyslexia & Creativity（PI: Sally Shaywitz）；研究方向标签：Sea of Strengths模型 / 流行病学 / 政策与倡导；代表性论文：The Yale Multistep Dyslexia Screener validities in kindergarten cohorts（2023）。
 
 【改版】name: Yale University；dyslexiaLab: Yale Center for Dyslexia；focusAreas: 优势模型、流行病学、筛查工具、政策倡导；desc: 长期研究阅读障碍流行病学、优势模型与筛查工具，为家庭识别和政策倡导提供依据。
+
+【机构介绍】耶鲁阅读障碍与创造力中心由 Sally 与 Bennett Shaywitz 共同创立，是阅读障碍研究、倡导与家庭教育资源的重要来源。
 
 【字数】name: 14/30，desc: 35/80，dyslexiaLab: 21/35，focusAreas: 4 项，单项最大 4/8
 
