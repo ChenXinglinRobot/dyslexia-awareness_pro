@@ -98,7 +98,7 @@ const ROLE_ACTIONS: RoleAction[] = [
     ],
     avoid: "不要把所有困难都归咎于“我不够好”或独自硬扛",
     icon: UserRound,
-    accent: "oklch(0.60 0.16 25)",
+    accent: "oklch(0.52 0.17 300)",
     imageSrc:
       "https://images.unsplash.com/photo-1585597621714-b54f9ca3b704?auto=format&fit=crop&w=900&q=80",
     imageAlt: "学生在桌前独立完成文字任务",
@@ -199,7 +199,7 @@ function RoleImage({ role, mobile = false }: { role: RoleAction; mobile?: boolea
       <div
         className={
           mobile
-            ? "h-[320px] overflow-hidden border border-border bg-muted sm:h-[360px] landscape:h-[260px]"
+            ? "h-[240px] overflow-hidden border border-border bg-muted sm:h-[260px] landscape:h-[240px]"
             : "aspect-[4/5] overflow-hidden border border-border bg-muted"
         }
       >
@@ -237,19 +237,15 @@ function RoleImage({ role, mobile = false }: { role: RoleAction; mobile?: boolea
 function RoleTabs({
   activeKey,
   onChange,
-  compactMobile = false,
 }: {
   activeKey: RoleKey;
   onChange: (key: RoleKey) => void;
-  compactMobile?: boolean;
 }) {
   return (
     <div
       role="tablist"
       aria-label="选择行动角色"
-      className={`grid grid-cols-2 gap-2 md:flex md:flex-col ${
-        compactMobile ? "landscape:grid-cols-2 landscape:content-start" : ""
-      }`}
+      className="flex flex-col gap-2 md:flex md:flex-col"
     >
       {ROLE_ACTIONS.map((role) => {
         const Icon = role.icon;
@@ -264,8 +260,8 @@ function RoleTabs({
             onClick={() => onChange(role.key)}
             className={`group min-w-0 border p-3 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:p-4 ${
               selected
-                ? "min-h-[112px] border-primary/60 bg-card shadow-sm landscape:min-h-[96px] md:min-h-[150px]"
-                : "min-h-[88px] border-border bg-card/60 hover:border-primary/35 hover:bg-card landscape:min-h-[78px] md:min-h-[112px]"
+                ? "min-h-[60px] border-primary/60 border-l-[3px] border-l-[color:var(--role-accent)] bg-card shadow-sm md:min-h-[150px]"
+                : "min-h-[52px] border border-border border-l-[3px] border-l-transparent bg-card/60 hover:border-primary/35 hover:bg-card md:min-h-[112px]"
             }`}
             style={{ ["--role-accent" as string]: role.accent }}
           >
@@ -287,7 +283,7 @@ function RoleTabs({
               </span>
             </span>
             <span
-              className={`mt-2 block text-xs leading-relaxed text-muted-foreground transition-all duration-300 md:mt-3 ${
+              className={`hidden md:mt-3 md:block text-xs leading-relaxed text-muted-foreground transition-all duration-300 ${
                 selected ? "line-clamp-none opacity-100" : "line-clamp-2 opacity-80"
               }`}
               style={{ fontFamily: "'Noto Serif SC', serif" }}
@@ -296,7 +292,7 @@ function RoleTabs({
             </span>
             {selected && (
               <span
-                className="mt-3 block h-px w-16 md:mt-4"
+                className="mt-3 hidden h-px w-16 md:mt-4 md:block"
                 style={{ backgroundColor: role.accent }}
                 aria-hidden
               />
@@ -378,10 +374,10 @@ export default function RoleActionCards({ inView, delay }: RoleActionCardsProps)
         id={`role-panel-mobile-${activeRole.key}`}
         role="tabpanel"
         aria-live="polite"
-        className="space-y-4 md:hidden"
+        className="space-y-3 md:hidden"
       >
-        <div className="grid gap-4 landscape:grid-cols-[minmax(0,1fr)_minmax(220px,0.9fr)] landscape:items-stretch">
-          <RoleTabs activeKey={activeKey} onChange={setActiveKey} compactMobile />
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] gap-3 landscape:gap-4 landscape:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] landscape:items-stretch">
+          <RoleTabs activeKey={activeKey} onChange={setActiveKey} />
           <RoleImage role={activeRole} mobile />
         </div>
         <RoleCardContent role={activeRole} compact />
