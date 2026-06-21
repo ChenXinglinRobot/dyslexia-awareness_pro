@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 
+import { useScrollLock } from '@/hooks/useScrollLock';
+
 import './FlowingMenu.css';
 
 interface MenuItemData {
@@ -19,8 +21,7 @@ interface FlowingMenuProps {
   marqueeBgColor?: string;
   marqueeTextColor?: string;
   borderColor?: string;
-  /* 父级从 useScrollReveal 透传,让入场动画与 section 内其他元素同源触发。
-     不传则不动画(组件可独立使用)。 */
+  /* Parent may pass useScrollReveal state so entrance animation shares the section trigger. */
   inView?: boolean;
   delay?: (index: number) => number;
 }
@@ -35,6 +36,8 @@ interface MenuItemProps extends MenuItemData {
   index: number;
   inView?: boolean;
   delay?: (index: number) => number;
+  isScrollingRef: ReturnType<typeof useScrollLock>;
+  scrollUnlockTick: number;
 }
 
 const FlowingMenu: React.FC<FlowingMenuProps> = ({
@@ -48,6 +51,11 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({
   inView,
   delay
 }) => {
+  const [scrollUnlockTick, setScrollUnlockTick] = useState(0);
+  const isScrollingRef = useScrollLock(200, () => {
+    setScrollUnlockTick((tick) => tick + 1);
+  });
+
   return (
     <div className="menu-wrap" style={{ backgroundColor: bgColor }}>
       <nav className="menu">
@@ -64,6 +72,8 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({
             index={idx}
             inView={inView}
             delay={delay}
+            isScrollingRef={isScrollingRef}
+            scrollUnlockTick={scrollUnlockTick}
           />
         ))}
       </nav>
@@ -84,15 +94,18 @@ const MenuItem: React.FC<MenuItemProps> = ({
   isFirst,
   index,
   inView,
-  delay
+  delay,
+  isScrollingRef,
+  scrollUnlockTick
 }) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const marqueeInnerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<gsap.core.Tween | null>(null);
+  const isHoveredRef = useRef(false);
   const [repetitions, setRepetitions] = useState(4);
 
-  const animationDefaults: gsap.TweenVars = { duration: 0.32, ease: 'power3.out' };
+  const animationDefaults: gsap.TweenVars = { duration: 0.32, ease: 'power3.out', overwrite: 'auto' };
 
   const distMetric = (x: number, y: number, x2: number, y2: number): number => {
     const xDiff = x - x2;
@@ -104,6 +117,29 @@ const MenuItem: React.FC<MenuItemProps> = ({
     const topEdgeDist = distMetric(mouseX, mouseY, width / 2, 0);
     const bottomEdgeDist = distMetric(mouseX, mouseY, width / 2, height);
     return topEdgeDist < bottomEdgeDist ? 'top' : 'bottom';
+  };
+
+  const showMarquee = (edge: 'top' | 'bottom') => {
+    if (!marqueeRef.current || !marqueeInnerRef.current) return;
+
+    gsap
+      .timeline({ defaults: animationDefaults })
+      .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
+      .set(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' }, 0)
+      .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%' }, 0);
+
+    animationRef.current?.play();
+  };
+
+  const hideMarquee = (edge: 'top' | 'bottom') => {
+    if (!marqueeRef.current || !marqueeInnerRef.current) return;
+
+    gsap
+      .timeline({ defaults: animationDefaults })
+      .to(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
+      .to(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' }, 0);
+
+    animationRef.current?.pause();
   };
 
   useEffect(() => {
@@ -139,7 +175,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
         x: -contentWidth,
         duration: speed,
         ease: 'none',
-        repeat: -1
+        repeat: -1,
+        paused: !isHoveredRef.current
       });
     };
 
@@ -152,31 +189,41 @@ const MenuItem: React.FC<MenuItemProps> = ({
     };
   }, [text, image, repetitions, speed]);
 
+  useEffect(() => {
+    if (
+      scrollUnlockTick === 0 ||
+      !isHoveredRef.current ||
+      !itemRef.current ||
+      !marqueeRef.current ||
+      !marqueeInnerRef.current
+    ) return;
+
+    const rect = itemRef.current.getBoundingClientRect();
+    const edge = findClosestEdge(rect.width / 2, rect.height / 2, rect.width, rect.height);
+    showMarquee(edge);
+  }, [scrollUnlockTick]);
+
   const handleMouseEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    isHoveredRef.current = true;
+    if (isScrollingRef.current) return;
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
     const x = ev.clientX - rect.left;
     const y = ev.clientY - rect.top;
     const edge = findClosestEdge(x, y, rect.width, rect.height);
 
-    gsap
-      .timeline({ defaults: animationDefaults })
-      .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
-      .set(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' }, 0)
-      .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%' }, 0);
+    showMarquee(edge);
   };
 
   const handleMouseLeave = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    isHoveredRef.current = false;
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
     const x = ev.clientX - rect.left;
     const y = ev.clientY - rect.top;
     const edge = findClosestEdge(x, y, rect.width, rect.height);
 
-    gsap
-      .timeline({ defaults: animationDefaults })
-      .to(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
-      .to(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' }, 0);
+    hideMarquee(edge);
   };
 
   return (
