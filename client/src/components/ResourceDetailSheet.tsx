@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 import type {
   Resource,
   Hospital,
@@ -46,10 +47,20 @@ export default function ResourceDetailSheet({
   onOpenChange,
   resource,
 }: ResourceDetailSheetProps) {
+  // ── 主题感知 logo：详情卡片的容器背景在暗色模式下是深海军蓝
+  //    （SheetContent bg-background/95 + body 区域），大多数机构 logo
+  //    是「深色文字 + 透明」，在暗色容器上几乎不可见。应用主题由
+  //    ThemeProvider 写入 <html class="dark">，与 OS 的
+  //    prefers-color-scheme 脱钩（见 ThemeContext.tsx:32-43），所以
+  //    必须用 React 主题状态来选图，不能用 <picture media="...">。 ──
+  const { theme } = useTheme();
+
   if (!resource) return null;
 
-  // ── Logo (FlowingMenu 图 / 机构徽标) ──
-  const logoSrc = resource.image || resource.logo;
+  const logoSrc =
+    theme === "dark" && resource.logoDark
+      ? resource.logoDark
+      : (resource.image || resource.logo);
   const logoFallbacks = [
     resource.logoFallback,
     `https://picsum.photos/seed/${resource.id}/800/800`,

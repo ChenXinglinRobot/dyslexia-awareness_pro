@@ -16,6 +16,14 @@ export interface BaseResource {
   logoFallback?: string; // 主图加载失败的回退
   heroImage?: string;
   heroImageFallback?: string;
+  // ── 主题感知 ──
+  // 大多数 logo 是「深色文字 + 透明」，在日间卡片（白底）上清晰，
+  // 但在夜间卡片（深海军蓝）上几乎不可见。对这类资源，可选地提供
+  // 一个「反相/浅色版」用于暗色模式（应用主题由 ThemeProvider 写入
+  // <html class="dark">，与 OS 的 prefers-color-scheme 脱钩，见
+  // ThemeContext.tsx:32-43，所以渲染端用 useTheme() 而不是 <picture media="...">）。
+  // 球面（InfiniteMenu）等深色场景的 image 字段也可指向暗色版。
+  logoDark?: string;
   // ── 旧字段兼容 ──
   image?: string; // FlowingMenu / InfiniteMenu 必需
 }
@@ -60,6 +68,9 @@ export interface GameIntervention extends BaseResource {
   ageRange: [number, number];
   cost: "free" | "paid" | "freemium";
   isResearchBacked: boolean;
+  // ── 主题感知图片（继承自 BaseResource.logoDark） ──
+  // 球面（InfiniteMenu）背景也是深色，建议 image 用深色版。
+  // 现行实例：Poppins（[data/gameInterventions.ts:208-227]）。
   // ── 旧字段兼容（MenuItem = { image, link, title, description }) ──
   link: string; // = url
   title: string; // = name

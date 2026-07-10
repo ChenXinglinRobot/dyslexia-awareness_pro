@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/contexts/ThemeContext";
 import type { GameIntervention } from "@/types/resources";
 
 interface GameCardProps {
@@ -26,6 +27,14 @@ export default function GameCard({ item, variant = "default", className }: GameC
     "w-full object-contain p-4 drop-shadow-sm",
     isFeatured ? "h-48 md:h-full" : "aspect-[4/3]",
   );
+  /* 主题感知图片：应用主题由 ThemeProvider 写入 <html class="dark">，
+     与 OS 的 prefers-color-scheme 脱钩（见 ThemeContext.tsx:32-43），
+     所以必须用 React 主题状态来选图，不能用 <picture media="...">。 */
+  const { theme } = useTheme();
+  const logoSrc =
+    theme === "dark" && item.logoDark
+      ? item.logoDark
+      : (item.logo ?? item.image);
 
   return (
     <div
@@ -35,8 +44,9 @@ export default function GameCard({ item, variant = "default", className }: GameC
         className,
       )}
     >
-      {/* 角标 */}
-      {isFeatured && (
+      {/* 「编辑精选」角标已下线（与「仅供参考不代表背书」声明语义冲突）。
+          保留 isFeatured / variant 逻辑，bento 网格跨列仍由 featured 项驱动。 */}
+      {false && isFeatured && (
         <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded z-10">
           编辑精选
         </span>
@@ -51,7 +61,7 @@ export default function GameCard({ item, variant = "default", className }: GameC
           )}
         >
           <img
-            src={item.image}
+            src={logoSrc}
             alt={item.name}
             onError={(e) => {
               const target = e.currentTarget;

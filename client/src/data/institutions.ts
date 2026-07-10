@@ -38,6 +38,8 @@ export const hospitals: Hospital[] = [
     unitUrl: "https://www.bch.com.cn/Html/News/Articles/19349.html",
     acceptAge: "学龄期儿童",
     heroImage: "/social-resource/hospital/beijing-childrens-hospital-campus.webp",
+    // ── 主题感知 logo（详情卡片在暗色模式下需要带深底的版本） ──
+    logoDark: "/social-resource/hospital/beijing-childrens-hospital-dark.webp",
     // ── 旧字段 ──
     name: "首都医科大学附属北京儿童医院",
     desc: "保健中心阅读困难门诊评估注意力、智力、阅读与核心认知能力，制定康复建议。",
@@ -308,6 +310,8 @@ export const researchInstitutes: ResearchInstitute[] = [
     focusAreas: ["脑发育", "MRI影像", "发展性阅读障碍", "语音与听觉加工", "音乐训练与脑可塑性"],
     institutionDesc: "哈佛大学教育研究生院的 Gaab Lab 聚焦语言、阅读与学习差异发展，是国际教育神经科学与早期筛查研究的重要团队。",
     heroImage: "/social-resource/institute/harvard-gaab-lab-campus.webp",
+    // ── 主题感知 logo（详情卡片在暗色模式下需要浅色版） ──
+    logoDark: "/social-resource/institute/harvard-logo-dark-background.webp",
     // ── 旧字段 ──
     name: "Harvard University",
     desc: "追踪婴幼儿到学龄期的脑发育与读写能力关系，用影像研究支持早期筛查。",
@@ -326,6 +330,8 @@ export const researchInstitutes: ResearchInstitute[] = [
     focusAreas: ["优势模型", "流行病学", "筛查工具", "政策倡导", "脑神经机制"],
     institutionDesc: "耶鲁阅读障碍与创造力中心由 Sally 与 Bennett Shaywitz 共同创立，是阅读障碍研究、倡导与家庭教育资源的重要来源。",
     heroImage: "/social-resource/institute/yale-dyslexia-center-campus.webp",
+    // ── 主题感知 logo（详情卡片在暗色模式下需要浅色版） ──
+    logoDark: "/social-resource/institute/yale-logo-dark-background.webp",
     // ── 旧字段 ──
     name: "Yale University",
     desc: "长期研究阅读障碍流行病学、优势模型与筛查工具，为家庭识别和政策倡导提供依据。",
