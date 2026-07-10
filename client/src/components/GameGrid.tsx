@@ -16,6 +16,10 @@ export default function GameGrid({ items }: GameGridProps) {
   /* ── 过滤逻辑 ── */
   const filtered = useMemo(() => {
     return items.filter((item) => {
+      // 上线状态：研究原型不进入主 Bento 网格
+      // 由 ResourcesSection 的「即将上线 · 国内游戏化探索」子区块独立承载
+      if (item.status === "research-prototype") return false;
+
       // 地域
       if (region !== "all" && item.region !== region) return false;
 

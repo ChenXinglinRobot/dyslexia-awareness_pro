@@ -176,6 +176,11 @@ export const gameInterventions: GameIntervention[] = [
     ageRange: [6, 8],
     cost: "free",
     isResearchBacked: true,
+    // ── 上线状态：研究原型 ──
+    // 论文已发表（Liu et al., 2025, HSSC 12, Article 751），但产品未商用
+    status: "research-prototype",
+    paperDoi: "10.1057/s41599-025-05079-1",
+    paperUrl: "https://doi.org/10.1057/s41599-025-05079-1",
     name: "CNReader",
     desc: "结合 AI 语音伴读和视觉友好界面，训练中文语音意识、正字法与阅读流利度。",
     url: "https://example.com/cnreader",
@@ -195,6 +200,11 @@ export const gameInterventions: GameIntervention[] = [
     ageRange: [6, 8],
     cost: "free",
     isResearchBacked: true,
+    // ── 上线状态：研究原型 ──
+    // 论文已发表（Zhong et al., 2023, ACM IMWUT 7(3), Article 143），但产品未商用
+    status: "research-prototype",
+    paperDoi: "10.1145/3610908",
+    paperUrl: "https://doi.org/10.1145/3610908",
     name: "DYPA 筛查评估应用",
     desc: "用平板书写与阅读任务采集多模态数据，筛查读写风险和认知语言能力。",
     url: "https://example.com/dypa",

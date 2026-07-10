@@ -4,7 +4,7 @@
    / 筛查线索 / 游戏化干预（Bento 网格 + 球面探索）/ 参考文献
    ============================================================ */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ClipboardList, BookOpen, Building, Gamepad2, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
@@ -13,6 +13,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import SectionHeading from "./SectionHeading";
 import GameInterventionExplorer from "./GameInterventionExplorer";
 import GameGrid from "./GameGrid";
+import IncomingGameStrip from "./IncomingGameStrip";
 import { hospitals, researchInstitutes } from "@/data/institutions";
 import { onlineResources } from "@/data/onlineResources";
 import { gameInterventions } from "@/data/gameInterventions";
@@ -58,6 +59,18 @@ export default function ResourcesSection() {
       setWebGL2Ok(detectWebGL2());
     }
   }, [gameMenuOpen, webGL2Ok]);
+
+  // ── 上线状态分流 ──
+  // 已发布/可访问：进主 Bento 网格 + 球面探索
+  // 研究原型（research-prototype）：只进下方「即将上线」子区块，不进球面
+  const liveGames = useMemo(
+    () => gameInterventions.filter((g) => g.status !== "research-prototype"),
+    [],
+  );
+  const prototypeGames = useMemo(
+    () => gameInterventions.filter((g) => g.status === "research-prototype"),
+    [],
+  );
 
   // FlowingMenu 配色（深浅双轨，贴近 token 体系）
   // 行底 bg / 静态文字 / 行间线 / marquee 高亮 / marquee 文字
@@ -149,7 +162,10 @@ export default function ResourcesSection() {
               </Button>
             )}
           </div>
-          <GameGrid items={gameInterventions} />
+          <GameGrid items={liveGames} />
+
+          {/* ── 研究中的国内探索（incoming） ── */}
+          <IncomingGameStrip items={prototypeGames} />
 
           {/* ── 收录声明 ── */}
           <p
@@ -184,12 +200,12 @@ export default function ResourcesSection() {
 
       {/* ===================== 全屏探索：游戏化干预星图 ===================== */}
       <GameInterventionExplorer
-        open={gameMenuOpen && gameInterventions.length > 0}
+        open={gameMenuOpen && liveGames.length > 0}
         onOpenChange={(open) => {
           setGameMenuOpen(open);
           if (!open) setWebGL2Ok(null); // 关闭时重置探测状态，下次打开重新探测
         }}
-        items={gameInterventions}
+        items={liveGames}
         webGL2Ok={webGL2Ok}
       />
     </section>

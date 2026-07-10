@@ -68,6 +68,15 @@ export interface GameIntervention extends BaseResource {
   ageRange: [number, number];
   cost: "free" | "paid" | "freemium";
   isResearchBacked: boolean;
+  // ── 上线状态 ──
+  // 缺省 = "live"（向后兼容所有现有数据，未填 status 字段即视为 live）。
+  // "research-prototype" 表示学术原型阶段：没有可下载/可访问的入口，
+  // 由 ResourcesSection 的「即将上线 · 国内游戏化探索」子区块单独承载，
+  // 不进主 Bento 网格，也不进全屏球面探索。
+  status?: "live" | "research-prototype";
+  // ── 论文信息（仅 research-prototype 必填） ──
+  paperDoi?: string; // 如 "10.1057/s41599-025-05079-1"
+  paperUrl?: string; // 论文直达链接，如 "https://doi.org/10.xxxx/xxxx"
   // ── 主题感知图片（继承自 BaseResource.logoDark） ──
   // 球面（InfiniteMenu）背景也是深色，建议 image 用深色版。
   // 现行实例：Poppins（[data/gameInterventions.ts:208-227]）。
