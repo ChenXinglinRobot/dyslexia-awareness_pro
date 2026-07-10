@@ -20,9 +20,6 @@ import DecryptedText from "./DecryptedText";
 import CoordinatePlane from "./CoordinatePlane";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
-import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import "yet-another-react-lightbox/styles.css";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
@@ -134,7 +131,7 @@ function DyslexiaSimulator() {
         <div className="flex gap-3">
           <AlertTriangle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
           <p className="text-sm text-muted-foreground leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            注：真实的阅读障碍并非文字在物理上跳动或变形，而是大脑在处理汉字视空间结构时产生的视觉拥挤与认知过载，本组件通过动态效果还原其心理困境。他们的智力完全正常（非言语智商 {'>'} 80），这绝非态度问题。
+            注：本体验借用动态文字表现部分读者可能感受到的阅读负担，不代表阅读障碍者真实看到文字跳动，也不能概括所有人的体验。阅读障碍并非单纯的视力问题。
           </p>
         </div>
       </div>
@@ -642,15 +639,9 @@ function ReadingMechanism() {
 
 function ChineseSpecificity() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.1 });
-  const [fontLightboxOpen, setFontLightboxOpen] = useState(false);
-  const { theme } = useTheme();
-  const fontImageSrc =
-    theme === "dark"
-      ? "/typography/font-morphology-serif-vs-sans-dark.webp"
-      : "/typography/font-morphology-serif-vs-sans.webp";
 
   const awarenessItems = [
-    { title: "复合意识", example: "长颈鹿、梅花鹿 →「短颈鳄」？", desc: "理解词语由语素组合而成的规则。" },
+    { title: "复合词意识", example: "长颈鹿、梅花鹿 →「短颈鳄」？", desc: "理解词语由语素组合而成的规则。" },
     { title: "同音语素意识", example: "衣 · 一 · 伊 · 医", desc: "分辨读音相同、意义不同的语素。" },
     { title: "同形语素意识", example: "花朵 / 花费；面孔 / 面条", desc: "分辨字形相同、意义不同的语素。" },
     { title: "形旁意识", example: "氵（海、江）、冫（冬、凉）、灬（煮、蒸、煎）", desc: "理解形旁提示字义类别的规律。" },
@@ -704,58 +695,6 @@ function ChineseSpecificity() {
           小学一至三年级，是阅读障碍筛查与早期干预的黄金期。
         </p>
       </motion.div>
-
-      {/* 字体形态对比：衬线 vs 非衬线（拉丁 Zi + 汉字 字） */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: delay(6) }}
-        className="bg-card border border-border p-6"
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-primary text-lg font-bold" style={{ fontFamily: "'Space Grotesk'" }}>※</span>
-          <h4 className="text-foreground text-base font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>
-            字体形态：衬线 vs 非衬线
-          </h4>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setFontLightboxOpen(true)}
-          aria-label="点击放大图片：衬线与非衬线字体形态对比"
-          className="block w-full cursor-zoom-in overflow-hidden rounded-sm border border-border/50 transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-card"
-        >
-          <img
-            src={fontImageSrc}
-            alt="拉丁字母 Zi 与汉字 字 在衬线体（Times New Roman / 宋体）与非衬线体（微软雅黑）下的笔画形态对比，标注包括衬线装饰、笔画粗细对比、转角对比、端点形态等特征"
-            loading="lazy"
-            className="mx-auto block h-auto w-full max-w-3xl"
-          />
-        </button>
-
-        <p
-          className="text-muted-foreground text-sm text-center mt-4 max-w-2xl mx-auto"
-          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
-        >
-          衬线（serif）的笔画末端有装饰、转折处粗细对比更强，
-          适合文学标题与情绪表达；非衬线（sans-serif）笔画更均匀、端点平直，
-          在屏幕小字号下更清晰。汉字的横竖端点与撇捺形态也遵循同样的对比逻辑。
-        </p>
-      </motion.div>
-
-      <Lightbox
-        open={fontLightboxOpen}
-        close={() => setFontLightboxOpen(false)}
-        plugins={[Zoom]}
-        slides={[
-          {
-            src: fontImageSrc,
-            alt: "拉丁字母 Zi 与汉字 字 在衬线体（Times New Roman / 宋体）与非衬线体（微软雅黑）下的笔画形态对比，标注包括衬线装饰、笔画粗细对比、转角对比、端点形态等特征",
-            width: 1448,
-            height: 1086,
-          },
-        ]}
-      />
     </div>
   );
 }
@@ -767,7 +706,7 @@ function MythsVsFacts() {
 
   const items = [
     { myth: '\u201c他就是不用功\u201d', fact: '与努力程度无关' },
-    { myth: '\u201c长大就好了\u201d', fact: '不会自愈，干预越早越好' },
+    { myth: '\u201c长大就好了\u201d', fact: '几乎不会自愈，干预越早越好' },
     { myth: '\u201c看不懂字 = 笨\u201d', fact: '智力完全正常，许多障碍者另有突出天赋' },
   ];
 

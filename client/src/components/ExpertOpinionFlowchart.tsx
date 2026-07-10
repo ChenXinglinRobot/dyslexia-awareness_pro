@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, FileText } from "lucide-react";
+import { Download, ExternalLink, FileText } from "lucide-react";
 
 const FLOWCHART_SRC = "/expert-opinion/dyslexia-diagnosis-flow.webp";
 
@@ -66,6 +66,18 @@ export default function ExpertOpinionFlowchart() {
       >
         网页不能诊断。筛查提示风险，不等于确诊；是否存在阅读障碍，需要由专业人员结合发展史、教育史、阅读能力和相关认知能力综合判断。
       </p>
+
+      <div className="mt-5 flex justify-center">
+        <a
+          href={FLOWCHART_SRC}
+          download="dyslexia-diagnosis-flow.webp"
+          className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 active:scale-95"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+        >
+          <Download className="size-4" aria-hidden />
+          下载《专家意见》流程图
+        </a>
+      </div>
     </motion.article>
   );
 }

@@ -11,6 +11,10 @@ import {
 import type { CSSProperties, ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/contexts/ThemeContext";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 type FontChoice = "serif" | "sans";
 type ScaleChoice = "small" | "default" | "large";
@@ -157,6 +161,12 @@ export default function ReadabilityLab() {
   const [lineHeight, setLineHeight] = useState<SpacingChoice>("default");
   const [paragraph, setParagraph] = useState<ParagraphChoice>("split");
   const [contrast, setContrast] = useState<ContrastChoice>("standard");
+  const [fontLightboxOpen, setFontLightboxOpen] = useState(false);
+  const { theme } = useTheme();
+  const fontImageSrc =
+    theme === "dark"
+      ? "/typography/font-morphology-serif-vs-sans-dark.webp"
+      : "/typography/font-morphology-serif-vs-sans.webp";
 
   const previewStyle = useMemo<CSSProperties>(() => {
     const fontSizeMap: Record<ScaleChoice, string> = {
@@ -442,6 +452,82 @@ export default function ReadabilityLab() {
               没有一种字体适合所有人。真正友好的设计，是允许文本被调整。
             </p>
           </div>
+        </motion.div>
+
+        {/*
+          字体形态对比：衬线 vs 非衬线（Zi / 字）——
+          从 UnderstandSection.ChineseSpecificity 迁过来:ReadabilityLab 本身就在讲
+          字体/字号/字距/对比度,把这张笔画形态对比图放在末尾,语义上更顺。
+        */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
+          className="mt-14 lg:mt-20"
+        >
+          <div className="mb-6 flex flex-col gap-1.5 lg:mb-10">
+            <div className="flex items-center gap-2">
+              <Type className="h-4 w-4 text-primary" />
+              <h3
+                className="text-xl text-foreground md:text-2xl"
+                style={{ fontFamily: "'Noto Serif SC', serif" }}
+              >
+                字体形态：衬线 vs 非衬线
+              </h3>
+            </div>
+            <p
+              className="pl-6 text-sm leading-6 text-muted-foreground"
+              style={{
+                fontFamily: "'Noto Sans SC', sans-serif",
+                fontWeight: 300,
+              }}
+            >
+              同一字符在不同字体下的笔画形态
+            </p>
+          </div>
+
+          <div className="border border-border bg-card p-4 md:p-6">
+            <button
+              type="button"
+              onClick={() => setFontLightboxOpen(true)}
+              aria-label="点击放大图片：衬线与非衬线字体形态对比"
+              className="block w-full cursor-zoom-in overflow-hidden rounded-sm border border-border/50 transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-card"
+            >
+              <img
+                src={fontImageSrc}
+                alt="拉丁字母 Zi 与汉字 字 在衬线体（Times New Roman / 宋体）与非衬线体（微软雅黑）下的笔画形态对比，标注包括衬线装饰、笔画粗细对比、转角对比、端点形态等特征"
+                loading="lazy"
+                className="mx-auto block h-auto w-full max-w-3xl"
+              />
+            </button>
+
+            <p
+              className="mt-5 max-w-2xl mx-auto text-sm leading-7 text-center text-muted-foreground"
+              style={{
+                fontFamily: "'Noto Sans SC', sans-serif",
+                fontWeight: 300,
+              }}
+            >
+              衬线（serif）的笔画末端有装饰、转折处粗细对比更强，
+              适合文学标题与情绪表达；非衬线（sans-serif）笔画更均匀、端点平直，
+              在屏幕小字号下更清晰。汉字的横竖端点与撇捺形态也遵循同样的对比逻辑。
+            </p>
+          </div>
+
+          <Lightbox
+            open={fontLightboxOpen}
+            close={() => setFontLightboxOpen(false)}
+            plugins={[Zoom]}
+            slides={[
+              {
+                src: fontImageSrc,
+                alt: "拉丁字母 Zi 与汉字 字 在衬线体（Times New Roman / 宋体）与非衬线体（微软雅黑）下的笔画形态对比，标注包括衬线装饰、笔画粗细对比、转角对比、端点形态等特征",
+                width: 1448,
+                height: 1086,
+              },
+            ]}
+          />
         </motion.div>
       </div>
     </section>
