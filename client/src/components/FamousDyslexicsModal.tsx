@@ -69,10 +69,10 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
       >
         <SheetHeader className="pb-4 border-b border-border">
           <SheetTitle className="text-lg md:text-xl" style={{ fontFamily: "'Noto Serif SC', serif" }}>
-            确诊或疑似阅读障碍的名人
+            不同的路，也能抵达
           </SheetTitle>
           <p className="text-sm text-muted-foreground" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-            这些故事来自公开自述、媒体、传记或历史资料，希望给孩子和家长一点鼓励——但我们不神化困难，也不让困难定义一个人。
+            这些经历来自公开自述、访谈、传记或历史资料。每个人的道路和优势都不相同；它们不是"天才证明"，只是让我们看见，阅读困难之外，人生仍有许多可能。
           </p>
         </SheetHeader>
         <div className="stack-wrapper py-6 famous-stack">

@@ -3,12 +3,12 @@
    基于《汉语发展性阅读障碍诊断与干预的专家意见》重构行动路径。
    ============================================================ */
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import {
   Building2,
   ClipboardList,
-  Download,
+  Compass,
   ExternalLink,
   FileText,
   Handshake,
@@ -16,7 +16,6 @@ import {
   ListChecks,
   MessageCircle,
   Search,
-  Sparkles,
   Tags,
   UsersRound,
   type LucideIcon,
@@ -102,6 +101,7 @@ export default function ActionSection() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const [maskOpen, setMaskOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const reduced = useReducedMotion();
   const displayedFamousDyslexics = famousDyslexics.filter((person) => person.featured !== false);
 
   const handleOpenModal = () => {
@@ -138,36 +138,45 @@ export default function ActionSection() {
           className="mb-16 max-w-4xl"
         >
           <p
-            className="mb-6 text-2xl leading-relaxed text-foreground md:text-4xl"
+            className="mb-4 text-foreground"
             style={{
               fontFamily: "'Noto Serif SC', serif",
-              fontWeight: 700,
+              fontWeight: 600,
+              fontSize: "clamp(1.375rem, 2.2vw + 0.5rem, 2.125rem)",
+              lineHeight: 1.55,
               textWrap: "balance",
             }}
           >
             理解不是终点。
             <br />
-            当我们知道困难发生在哪里，就可以一起改变孩子抵达文字的方式。
+            看见困难发生在哪里，我们就能一起调整孩子接触、理解和表达文字的方式。
           </p>
           <p
-            className="mb-5 text-xl leading-relaxed text-primary md:text-3xl"
+            className="text-primary"
             style={{
               fontFamily: "'Noto Serif SC', serif",
-              fontWeight: 600,
+              fontWeight: 500,
+              fontSize: "clamp(1.1875rem, 1.4vw + 0.55rem, 1.625rem)",
+              lineHeight: 1.6,
               textWrap: "balance",
             }}
           >
-            真正的帮助，不是降低期待，而是换一条可抵达的路。
-          </p>
-          <p
-            className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base"
-            style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
-          >
-            阅读障碍儿童需要的不是“再努力一点”的责备，而是更早的识别、更清晰的教学、更友善的评价和更合适的工具。
+            真正的帮助，不是降低期待，而是提供一条更适合孩子抵达的路。
           </p>
         </motion.div>
 
         <RoleActionCards inView={inView} delay={delay} />
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
+          className="mb-12 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+        >
+          从家长、教师、同伴到学生本人，每个人都可以让这条路更清晰、更友善。
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -195,9 +204,10 @@ export default function ActionSection() {
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
             {SUPPORT_STEPS.map((step, index) => {
               const Icon = step.icon;
+              const isLast = index === SUPPORT_STEPS.length - 1;
 
               return (
                 <motion.article
@@ -205,24 +215,24 @@ export default function ActionSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: delay(4 + index) }}
-                  className="relative border border-border bg-card p-5 transition-colors duration-500"
+                  className={`relative border border-border bg-card p-3.5 transition-colors duration-500 sm:p-4 md:p-5 ${isLast ? "col-span-2 md:col-span-1" : ""}`}
                 >
-                  <div className="mb-5 flex items-center justify-between gap-4">
-                    <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                  <div className="mb-3 flex items-center justify-between gap-3 md:mb-5 md:gap-4">
+                    <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground sm:text-xs">
                       Step {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="grid size-9 place-items-center border border-border bg-background text-primary">
-                      <Icon className="size-4" aria-hidden />
+                    <span className="grid size-7 place-items-center border border-border bg-background text-primary sm:size-8 md:size-9">
+                      <Icon className="size-3.5 sm:size-4" aria-hidden />
                     </span>
                   </div>
                   <h4
-                    className="mb-3 text-base text-foreground"
+                    className="mb-1.5 text-sm text-foreground sm:mb-2 md:mb-3 md:text-base"
                     style={{ fontFamily: "'Noto Serif SC', serif" }}
                   >
                     {step.title}
                   </h4>
                   <p
-                    className="text-sm leading-7 text-foreground/75"
+                    className="text-sm leading-6 text-foreground/75 md:leading-7"
                     style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
                   >
                     {step.text}
@@ -231,14 +241,11 @@ export default function ActionSection() {
               );
             })}
           </div>
-
-          <p
-            className="mt-5 border-l-2 border-primary/70 bg-card/70 px-5 py-4 text-sm leading-7 text-muted-foreground"
-            style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
-          >
-            网页不能诊断。筛查提示风险，不等于确诊；是否存在阅读障碍，需要由专业人员结合发展史、教育史、阅读能力和相关认知能力综合判断。
-          </p>
         </motion.div>
+
+        <div className="relative z-0 mb-16 md:mb-20">
+          <ExpertOpinionFlowchart />
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -329,46 +336,163 @@ export default function ActionSection() {
           transition={{ duration: 0.8 }}
           className="mb-16 md:mb-24"
         >
-          <div className="mb-8 flex items-center gap-3 md:mb-12">
-            <Sparkles className="size-5 text-primary" aria-hidden />
-            <h3
-              className="text-xl text-foreground md:text-2xl"
-              style={{ fontFamily: "'Noto Serif SC', serif" }}
-            >
-              看见优势，但不神化困难
-            </h3>
-          </div>
           <div className="max-w-3xl">
-            <div
-              className="space-y-5 text-foreground/80"
+            {/* ── Stanza 0：诗体主标题（节标题 h3 + Compass 图标，象征"不同的路也能抵达"的方向感） ── */}
+            <div className="flex items-center gap-3 md:gap-4">
+              <Compass
+                className="size-7 shrink-0 text-primary md:size-8"
+                aria-hidden
+              />
+              <motion.h3
+                initial={reduced ? false : { opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: reduced ? 0.001 : 0.7,
+                  ease: reduced ? "linear" : [0.23, 1, 0.32, 1],
+                }}
+                className="text-foreground"
+                style={{
+                  fontFamily: "'Noto Serif SC', serif",
+                  fontWeight: 700,
+                  fontSize: "clamp(1.75rem, 3.4vw + 0.5rem, 3rem)",
+                  lineHeight: 1.35,
+                  letterSpacing: "0.01em",
+                  textWrap: "balance",
+                }}
+              >
+                当一扇门很难推开
+              </motion.h3>
+            </div>
+
+            {/* ── Stanza 1：原因（2 行） ── */}
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: reduced ? 0.001 : 0.65,
+                delay: reduced ? 0 : 0.08,
+                ease: reduced ? "linear" : [0.23, 1, 0.32, 1],
+              }}
+              className="mt-12 pl-6 text-foreground/85 md:mt-16 md:pl-10"
               style={{
                 fontFamily: "'Noto Serif SC', serif",
                 fontWeight: 400,
                 fontSize: "clamp(1.0625rem, 0.5vw + 0.95rem, 1.3125rem)",
-                lineHeight: 1.85,
+                lineHeight: 1.95,
                 textWrap: "pretty",
               }}
             >
-              <p>
-                阅读障碍首先是真实的困难，这一点我们从未回避，也不会被美化。但困难不是全部——当一个人长期用不同方式理解信息、解决问题、表达自己，也可能因此发展出独特的观察力、创造力或韧性。我们要做的，不是把阅读障碍包装成能力光环，而是在正视困难的同时，看见每个孩子真实的优势。
-              </p>
-            </div>
+              字读得慢，不是孩子不努力，
+              <br />
+              只是文字这条路，对他来说更加费力。
+            </motion.p>
 
+            {/* ── Stanza 2：银光面（1 行独句，拉高 line-height 制造呼吸） ── */}
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: reduced ? 0.001 : 0.65,
+                delay: reduced ? 0 : 0.22,
+                ease: reduced ? "linear" : [0.23, 1, 0.32, 1],
+              }}
+              className="mt-10 pl-10 text-foreground/85 md:mt-12 md:pl-16"
+              style={{
+                fontFamily: "'Noto Serif SC', serif",
+                fontWeight: 400,
+                fontSize: "clamp(1.0625rem, 0.5vw + 0.95rem, 1.3125rem)",
+                lineHeight: 2.1,
+                textWrap: "pretty",
+              }}
+            >
+              绕远路时，有些孩子会发展出不同的理解方式和解决问题的策略。
+            </motion.p>
+
+            {/* ── Stanza 3：祛魅（突然回撤 + 字号缩小 + 颜色变淡 = 警句跳脱） ── */}
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: reduced ? 0.001 : 0.55,
+                delay: reduced ? 0 : 0.34,
+                ease: reduced ? "linear" : [0.23, 1, 0.32, 1],
+              }}
+              className="mt-6 pl-2 italic text-foreground/65 md:mt-8 md:pl-4"
+              style={{
+                fontFamily: "'Noto Serif SC', serif",
+                fontWeight: 400,
+                fontSize: "clamp(0.8125rem, 0.3vw + 0.75rem, 1rem)",
+                lineHeight: 2.0,
+                letterSpacing: "0.04em",
+                textWrap: "pretty",
+              }}
+            >
+              这不意味着每个孩子都是天才。
+            </motion.p>
+
+            {/* ── Stanza 4：落地（回 pl-0 主轴，承载「一扇窗」锚点） ── */}
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: reduced ? 0.001 : 0.75,
+                delay: reduced ? 0 : 0.46,
+                ease: reduced ? "linear" : [0.23, 1, 0.32, 1],
+              }}
+              className="mt-10 text-foreground md:mt-12"
+              style={{
+                fontFamily: "'Noto Serif SC', serif",
+                fontWeight: 400,
+                fontSize: "clamp(1.125rem, 0.6vw + 1rem, 1.4375rem)",
+                lineHeight: 1.95,
+                textWrap: "pretty",
+              }}
+            >
+              真正重要的是早点发现、守住信心，
+              <br />
+              换一种方法，陪他一起找
+              <span
+                className="relative inline-block align-baseline text-primary"
+                style={{
+                  fontFamily: "'Noto Serif SC', serif",
+                  fontWeight: 500,
+                  fontSize: "1.08em",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-[0.18em] h-px bg-primary/55"
+                />
+                一扇窗
+              </span>
+              。
+            </motion.p>
+
+            {/* ── 外链（保留既有 L363–L373） ── */}
             <a
               href="https://whatisdyslexia.org/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="在 whatisdyslexia.org 观看短片(英文页面,新窗口打开)"
-              className="mt-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary"
+              className="mt-10 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary md:mt-12"
               style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
             >
               <span>这部短片，给了阅读障碍另一种讲法</span>
               <ExternalLink className="size-3.5 shrink-0" aria-hidden />
             </a>
 
-            <div className="mb-6 mt-8 flex items-center gap-4 md:mb-8" aria-hidden>
+            {/* ── 主色短分隔线（保留既有 L375–L377） ── */}
+            <div className="mb-6 mt-14 flex items-center gap-4 md:mb-8 md:mt-16" aria-hidden>
               <span className="block h-px w-10 bg-primary/70 md:w-14" />
             </div>
+
+            {/* ── 两句收尾金句（保留既有 L378–L401） ── */}
             <p
               className="text-foreground"
               style={{
@@ -403,12 +527,12 @@ export default function ActionSection() {
           transition={{ duration: 0.8 }}
           className="relative z-0 mb-16 md:mb-24"
         >
-          <div className="mb-6 flex items-center gap-3">
+          <div className="mb-6">
             <h3
               className="text-xl text-foreground md:text-2xl"
               style={{ fontFamily: "'Noto Serif SC', serif" }}
             >
-              确诊或疑似阅读障碍的名人
+              不同的路，也能抵达
             </h3>
           </div>
 
@@ -443,8 +567,9 @@ export default function ActionSection() {
             className="mx-auto max-w-3xl space-y-3 text-center text-sm leading-7 text-muted-foreground"
             style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
           >
+            <p>这些经历来自公开自述、访谈、传记或历史资料。</p>
             <p>
-              这些故事来自公开自述、媒体、传记或历史资料，希望给孩子和家长一点鼓励——但我们不神化困难，也不让困难定义一个人。
+              每个人的道路和优势都不相同；它们不是"天才证明"，只是让我们看见，阅读困难之外，人生仍有许多可能。
             </p>
           </div>
           <div className="mt-5 flex justify-center">
@@ -460,22 +585,6 @@ export default function ActionSection() {
         </motion.div>
 
         <FamousDyslexicsModal open={sheetOpen} onOpenChange={handleCloseModal} />
-
-        <div className="relative z-0 mb-16 md:mb-24">
-          <ExpertOpinionFlowchart />
-        </div>
-
-        <div className="mb-16 flex justify-center">
-          <a
-            href="/expert-opinion/dyslexia-diagnosis-flow.webp"
-            download="dyslexia-diagnosis-flow.webp"
-            className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 active:scale-95"
-            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-          >
-            <Download className="size-4" aria-hidden />
-            下载《专家意见》流程图
-          </a>
-        </div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
