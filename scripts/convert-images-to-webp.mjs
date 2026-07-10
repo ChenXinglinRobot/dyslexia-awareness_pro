@@ -2,6 +2,7 @@
 //
 // 将 client/public/ 下所有 .jpg / .jpeg / .png 原地转成 .webp（q80），
 // 同时把原图镜像到 client/public-originals/，保留目录结构，便于回溯。
+// .svg 走光栅化中间步骤：SVG → 800×800 PNG → WebP；源 SVG 原样归档。
 //
 // 用法：  node scripts/convert-images-to-webp.mjs
 // 依赖：  sharp（已在 devDependencies）
@@ -16,8 +17,12 @@ const ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT, 'client', 'public');
 const ARCHIVE_DIR = path.join(ROOT, 'client', 'public-originals');
 
-const SUPPORTED_EXT = new Set(['.jpg', '.jpeg', '.png']);
+const SUPPORTED_EXT = new Set(['.jpg', '.jpeg', '.png', '.svg']);
 const WEBP_QUALITY = 80;
+// 1:1 正方形，≥ 800×800 是 InfiniteMenu 球面渲染的硬约束（见
+// client/src/data/gameInterventions.ts:5 注释）。SVG 没有固定画布，
+// 必须显式指定尺寸，否则 sharp 会按 viewBox 输出。
+const RASTER_SIZE = 800;
 
 async function* walk(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -53,11 +58,11 @@ async function main() {
   }
 
   if (tasks.length === 0) {
-    console.log('No .jpg/.jpeg/.png files found under client/public/.');
+    console.log('No .jpg/.jpeg/.png/.svg files found under client/public/.');
     return;
   }
 
-  console.log(`Found ${tasks.length} raster files to convert.\n`);
+  console.log(`Found ${tasks.length} files to convert.\n`);
 
   const rows = [];
   let totalBefore = 0;
@@ -67,15 +72,34 @@ async function main() {
   for (const absPath of tasks) {
     const rel = path.relative(PUBLIC_DIR, absPath);
     const archivePath = path.join(ARCHIVE_DIR, rel);
-    const webpPath = absPath.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    const webpPath = absPath.replace(/\.(jpg|jpeg|png|svg)$/i, '.webp');
+    const ext = path.extname(absPath).toLowerCase();
 
     try {
       const before = (await fs.stat(absPath)).size;
       await fs.mkdir(path.dirname(archivePath), { recursive: true });
+      // 原图归档：SVG 原样存档，PNG/JPG 原样存档
       await fs.copyFile(absPath, archivePath);
-      const after = await sharp(absPath)
-        .webp({ quality: WEBP_QUALITY, effort: 4 })
-        .toFile(webpPath);
+
+      let after;
+      if (ext === '.svg') {
+        // SVG → 800×800 PNG（中间 buffer）→ WebP
+        // 显式指定尺寸：SVG viewBox 不一定为 1:1，必须兜底
+        const pngBuf = await sharp(absPath, { density: 300 })
+          .resize(RASTER_SIZE, RASTER_SIZE, {
+            fit: 'contain',
+            background: { r: 255, g: 255, b: 255, alpha: 0 },
+          })
+          .png()
+          .toBuffer();
+        after = await sharp(pngBuf)
+          .webp({ quality: WEBP_QUALITY, effort: 4 })
+          .toFile(webpPath);
+      } else {
+        after = await sharp(absPath)
+          .webp({ quality: WEBP_QUALITY, effort: 4 })
+          .toFile(webpPath);
+      }
       const afterSize = after.size;
       await fs.unlink(absPath);
 
