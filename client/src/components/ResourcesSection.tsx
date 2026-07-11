@@ -6,7 +6,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ClipboardList, BookOpen, Building, Gamepad2, Sparkles } from "lucide-react";
+import { ClipboardList, Building, Gamepad2, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -18,12 +18,12 @@ import { hospitals, researchInstitutes } from "@/data/institutions";
 import { onlineResources } from "@/data/onlineResources";
 import { gameInterventions } from "@/data/gameInterventions";
 import ResourceTabs from "./ResourceTabs";
+import CitationRef from "./CitationRef";
+import ReferencesSection from "./ReferencesSection";
 
 const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-Lewy7Hs2KY2GAPVNgUiHwD.webp";
 const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-resources-light-Yuw2okRBVT6i8Mn6NYWwwg.webp";
 
-// TODO: 真资源 — 第 8 条占位"[待补：筛查线索]"是给真线索留的位。
-// 找到正式筛查量表后（如 DCCC、汉字阅读障碍筛查表等），直接替换该字符串。
 const screeningClues = [
   "朗读和阅读速度慢且错误多",
   "阅读时出现漏字、错字、猜字等现象",
@@ -32,7 +32,6 @@ const screeningClues = [
   "很难找出文章或段落的重点",
   "由汉字识别困难带来的听写问题，如难以完成听写/默写任务",
   "书写时加减笔画、偏旁部首颠倒或左右镜像倒写",
-  "[待补：筛查线索]",
 ];
 
 /* ---- WebGL2 探测：替 ErrorBoundary 的 fallback prop（ErrorBoundary 不支持 fallback） ---- */
@@ -142,7 +141,8 @@ export default function ResourcesSection() {
             </ul>
             <div className="mt-6 pt-4 border-t border-border">
               <p className="text-xs text-muted-foreground" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-                以上仅为观察线索，不能替代专业评估。如有疑虑，请寻求医疗机构或专业人员的正式筛查。
+                以上仅为观察线索，不是诊断标准。如有疑虑，请寻求医疗机构或专业人员的正式筛查与综合评估
+                <CitationRef id={1} />。
               </p>
             </div>
           </div>
@@ -172,30 +172,13 @@ export default function ResourcesSection() {
             className="text-xs text-muted-foreground mt-4"
             style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
           >
-            收录信息仅供参考，不代表对任何机构的背书或推荐。
+            CNReader 与 DYPA 是论文中的研究原型
+            <CitationRef ids={[16, 17]} />，不能替代专业评估或诊断；收录信息不代表对任何机构的背书或推荐。
           </p>
         </div>
 
         {/* ===================== 参考文献 ===================== */}
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <BookOpen className="w-5 h-5 text-primary" />
-            <h3 className="text-xl text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>参考文献</h3>
-          </div>
-          <div className="bg-card border border-border p-6 transition-colors duration-500">
-            {/* TODO: 真资源 — 下面 3 条 [待补：文献条目] 是占位，找到真实文献后替换
-                格式参考第 1 条：《标题》[J]. 期刊, 年, 卷(期): 起止页. DOI: xxxx
-                建议包成 <a> 链到 DOI/期刊页，纯文本也行 */}
-            <ol className="space-y-3 list-decimal list-inside">
-              <li className="text-foreground/80 text-sm leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-                王久菊, 孟祥芝, 李红, 等. 汉语发展性阅读障碍诊断与干预的专家意见[J]. 中国心理卫生杂志, 2023, 37(3): 185-191. DOI: 10.3969/j.issn.1000-6729.2023.03.001
-              </li>
-              <li className="text-destructive text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>[待补：文献条目]</li>
-              <li className="text-destructive text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>[待补：文献条目]</li>
-              <li className="text-destructive text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>[待补：文献条目]</li>
-            </ol>
-          </div>
-        </div>
+        <ReferencesSection />
       </div>
 
       {/* ===================== 全屏探索：游戏化干预星图 ===================== */}

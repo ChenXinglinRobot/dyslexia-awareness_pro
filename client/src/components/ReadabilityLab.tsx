@@ -15,6 +15,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
+import CitationRef from "./CitationRef";
 
 type FontChoice = "serif" | "sans";
 type ScaleChoice = "small" | "default" | "large";
@@ -238,7 +239,8 @@ export default function ReadabilityLab() {
               fontWeight: 300,
             }}
           >
-            字体和排版不能“治疗”阅读障碍，但清晰、稳定、可调节的文本设计，可能帮助一些读者减少阅读负担。
+            字体和排版不能“治疗”阅读障碍。部分研究发现，增大字距可改善一些儿童的即时阅读表现，但不同字距与词距组合、不同读者的结果并不一致
+            <CitationRef ids={[2, 12]} />。因此，比起固定推荐某一种版式，更重要的是允许读者按需调节。
           </p>
         </motion.div>
 
@@ -449,7 +451,8 @@ export default function ReadabilityLab() {
                 fontWeight: 300,
               }}
             >
-              没有一种字体适合所有人。真正友好的设计，是允许文本被调整。
+              没有一种字体适合所有人。真正友好的设计，是允许文本被调整
+              <CitationRef ids={[11, 12]} />。
             </p>
           </div>
         </motion.div>
@@ -509,9 +512,8 @@ export default function ReadabilityLab() {
                 fontWeight: 300,
               }}
             >
-              衬线（serif）的笔画末端有装饰、转折处粗细对比更强，
-              适合文学标题与情绪表达；非衬线（sans-serif）笔画更均匀、端点平直，
-              在屏幕小字号下更清晰。汉字的横竖端点与撇捺形态也遵循同样的对比逻辑。
+              衬线与非衬线的笔画形态确有差异，但仅凭是否有衬线，不能判断某种字体对所有阅读障碍者更易读；应结合字号、间距和读者的实际体验进行调整
+              <CitationRef ids={[11, 12]} />。
             </p>
           </div>
 

@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import GlitchText from "./GlitchText";
 import SideRays from "./SideRays/SideRays";
+import CitationRef from "./CitationRef";
 
 // 背景图 — 深色/浅色各一张
 const HERO_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/hero-bg-L6admPuuAYFKMwipXMbsMf.webp";
@@ -299,13 +300,11 @@ export default function HeroSection() {
               className="mb-8 p-6 border-r-2 border-primary bg-card/60 backdrop-blur-sm text-right"
             >
               <p className="text-foreground text-lg leading-relaxed mb-2" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>
-                我国学龄儿童汉语阅读障碍患病率约为 3.45%～8%。
+                我国学龄儿童汉语阅读障碍患病率约为 3.45%～8%
+                <CitationRef id={1} />。
               </p>
               <p className="text-muted-foreground text-base leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
                 一个 <span className="text-primary font-bold text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{count}</span> 人的班级里，可能坐着 <span className={`font-bold text-2xl ${isDark ? "text-[oklch(0.65_0.18_25)]" : "text-[oklch(0.55_0.18_25)]"}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>1</span> 到 <span className={`font-bold text-2xl ${isDark ? "text-[oklch(0.65_0.18_25)]" : "text-[oklch(0.55_0.18_25)]"}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>3</span> 个这样的孩子。
-              </p>
-              <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
-                数据来源：王久菊等. 汉语发展性阅读障碍诊断与干预的专家意见[J]. 中国心理卫生杂志, 2023, 37(3): 185-191.
               </p>
             </motion.div>
 

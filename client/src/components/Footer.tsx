@@ -10,6 +10,7 @@ export default function Footer() {
     { label: "了解阅读障碍", href: "#understand" },
     { label: "共同努力", href: "#action" },
     { label: "社会资源", href: "#resources" },
+    { label: "参考文献", href: "#references" },
     { label: "关于我们", href: "#about" },
   ];
 
@@ -50,8 +51,16 @@ export default function Footer() {
             <p className="text-muted-foreground text-xs leading-relaxed mb-2" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
               本站为科普性质，不构成医学诊断建议。
             </p>
-            <p className="text-muted-foreground text-xs" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-              内容基于《中国心理卫生杂志》2023年发表的专家意见。
+            <p className="text-muted-foreground text-xs leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+              内容依据专家共识与同行评议研究，详见
+              <button
+                type="button"
+                onClick={() => scrollTo("#references")}
+                className="ml-1 text-primary underline decoration-primary/35 underline-offset-4 hover:text-primary/75"
+              >
+                参考文献
+              </button>
+              。
             </p>
           </div>
         </div>

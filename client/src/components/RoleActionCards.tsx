@@ -10,6 +10,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import CardSwap, { Card } from "./CardSwap";
+import CitationRef from "./CitationRef";
+import type { ReferenceId } from "@/data/references";
 
 type RoleKey = "parent" | "teacher" | "peer" | "student";
 
@@ -26,6 +28,10 @@ interface RoleAction {
   imageCredit: string;
   imageHref: string;
   fallbackSrc: string;
+  evidence?: {
+    text: string;
+    citations: readonly ReferenceId[];
+  };
 }
 
 const ROLE_ACTIONS: RoleAction[] = [
@@ -53,7 +59,7 @@ const ROLE_ACTIONS: RoleAction[] = [
     title: "我是教师",
     quote: "公平不是所有人走同一条路，而是每个人都有抵达方式。",
     actions: [
-      "提供合理便利，如延长时间、分段材料、口头回答或大字号文本",
+      "提供合理便利，如延长时间、口头作答、减少机械抄写或大字号文本",
       "减少机械抄写，把精力留给识字、阅读理解和真实表达",
       "用多种方式了解学生是否理解内容，而不只看朗读速度和书写量",
     ],
@@ -67,6 +73,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     imageHref:
       "https://unsplash.com/ko/s/%EC%82%AC%EC%A7%84/%EC%9C%A0%EC%B9%98%EC%9B%90-%EA%B5%90%EC%82%AC",
     fallbackSrc: "/action-roles/teacher.webp",
+    evidence: {
+      text: "合理便利依据国内专家意见整理",
+      citations: [1],
+    },
   },
   {
     key: "peer",
@@ -105,6 +115,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     imageCredit: "Unsplash / child learning",
     imageHref: "https://unsplash.com/s/photos/kid-tablet",
     fallbackSrc: "/action-roles/student.webp",
+    evidence: {
+      text: "朗读辅助对部分学生可能有帮助，实际效果存在差异",
+      citations: [10],
+    },
   },
 ];
 
@@ -169,6 +183,16 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
           </li>
         ))}
       </ul>
+
+      {role.evidence && (
+        <p
+          className="mb-4 text-xs leading-6 text-muted-foreground"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+        >
+          {role.evidence.text}
+          <CitationRef ids={role.evidence.citations} />。
+        </p>
+      )}
 
       <div className="border border-destructive/25 bg-destructive/10 p-4">
         <div className="flex items-start gap-3">

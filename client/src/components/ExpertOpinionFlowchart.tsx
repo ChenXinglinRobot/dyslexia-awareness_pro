@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Download, ExternalLink, FileText } from "lucide-react";
+import CitationRef from "./CitationRef";
 
 const FLOWCHART_SRC = "/expert-opinion/dyslexia-diagnosis-flow.webp";
 
@@ -64,7 +65,8 @@ export default function ExpertOpinionFlowchart() {
         className="mt-4 text-sm leading-relaxed text-muted-foreground md:mt-5"
         style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
       >
-        网页不能诊断。筛查提示风险，不等于确诊；是否存在阅读障碍，需要由专业人员结合发展史、教育史、阅读能力和相关认知能力综合判断。
+        网页不能诊断。筛查提示风险，不等于确诊；是否存在阅读障碍，需要由专业人员结合发展史、教育史、阅读能力和相关认知能力综合判断
+        <CitationRef id={1} />。
       </p>
 
       <div className="mt-5 flex justify-center">
