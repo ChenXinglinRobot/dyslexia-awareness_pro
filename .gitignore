@@ -7,6 +7,9 @@ dist/
 build/
 *.dist
 
+# Local scratch — extracted audio working files (not referenced by app)
+audio-extracts/
+
 # Environment variables
 .env
 .env.local
