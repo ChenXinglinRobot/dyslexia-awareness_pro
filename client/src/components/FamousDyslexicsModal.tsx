@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Stack from "./Stack";
 import { famousDyslexics } from "@/data/famousDyslexics";
+import { ExternalLink } from "lucide-react";
 import "./Stack.css";
 import "./FamousDyslexicsModal.css";
 
@@ -43,6 +44,23 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
           )}
         </div>
         <p className="card-famous-desc">{person.description}</p>
+        {person.sources && person.sources.length > 0 && (
+          <div className="mt-3 flex flex-col gap-2">
+            {person.sources.map(source => (
+              <a
+                key={source.url}
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-start gap-1.5 text-xs leading-5 text-primary underline decoration-primary/35 underline-offset-4 hover:text-primary/75"
+                aria-label={`${source.label}（新标签打开）`}
+              >
+                <ExternalLink className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+                {source.label}
+              </a>
+            ))}
+          </div>
+        )}
         <div className="card-famous-detail-list">
           {person.difficulty && (
             <section className="card-famous-detail">

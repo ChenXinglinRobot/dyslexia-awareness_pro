@@ -28,6 +28,8 @@ import ReadabilityLab from "./ReadabilityLab";
 import RoleActionCards from "./RoleActionCards";
 import SectionHeading from "./SectionHeading";
 import { famousDyslexics } from "@/data/famousDyslexics";
+import CitationRef from "./CitationRef";
+import type { ReferenceId } from "@/data/references";
 
 interface SupportStep {
   title: string;
@@ -40,6 +42,7 @@ interface SocialSupport {
   text: string;
   keywords: string[];
   icon: LucideIcon;
+  citations?: readonly ReferenceId[];
 }
 
 const SUPPORT_STEPS: SupportStep[] = [
@@ -79,9 +82,10 @@ const SOCIAL_SUPPORTS: SocialSupport[] = [
   },
   {
     title: "提供合理便利",
-    text: "对存在明显阅读困难的学生，可以根据实际情况提供延长考试时间、分段阅读材料、口头回答、减少机械抄写、大字号文本等支持。",
-    keywords: ["延长时间", "口头回答", "减少抄写", "分段文本"],
+    text: "可按实际需要提供延长考试时间、口头作答、提供大字号文本和减少机械抄写；文字转语音或朗读辅助也可能帮助部分学生，但应按个体效果调整。",
+    keywords: ["延长时间", "口头作答", "朗读辅助", "个体调整"],
     icon: ListChecks,
+    citations: [1, 10],
   },
   {
     title: "专业评估与转介",
@@ -201,6 +205,13 @@ export default function ActionSection() {
               >
                 从发现到支持，可以这样走
               </h3>
+              <p
+                className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground"
+                style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+              >
+                以下路径依据国内专家意见整理；风险通常由多种因素共同作用，越早识别风险与保护因素，越能在失败累积之前尽早支持
+                <CitationRef ids={[1, 15]} />。
+              </p>
             </div>
           </div>
 
@@ -274,7 +285,8 @@ export default function ActionSection() {
                 className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground"
                 style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
               >
-                当支持系统一起调整，孩子不必独自承担所有困难。
+                当支持系统一起调整，孩子不必独自承担所有困难
+                <CitationRef id={1} />。
               </p>
             </div>
           </div>
@@ -307,6 +319,7 @@ export default function ActionSection() {
                     style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
                   >
                     {item.text}
+                    {item.citations && <CitationRef ids={item.citations} />}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {item.keywords.map(keyword => (
@@ -431,7 +444,7 @@ export default function ActionSection() {
                 textWrap: "pretty",
               }}
             >
-              这不意味着每个孩子都是天才。
+              这不意味着每个孩子都是天才。<CitationRef ids={[13, 14]} />
             </motion.p>
 
             {/* ── Stanza 4：落地（回 pl-0 主轴，承载「一扇窗」锚点） ── */}
@@ -515,7 +528,7 @@ export default function ActionSection() {
                 textWrap: "balance",
               }}
             >
-              请看见天赋，也请看见他们曾经付出的努力。
+              请看见兴趣与优势，也请看见他们为学习付出的努力。
             </p>
           </div>
         </motion.div>
@@ -569,7 +582,8 @@ export default function ActionSection() {
           >
             <p>这些经历来自公开自述、访谈、传记或历史资料。</p>
             <p>
-              每个人的道路和优势都不相同；它们不是"天才证明"，只是让我们看见，阅读困难之外，人生仍有许多可能。
+              个体故事不是“天才证明”；群体研究发现阅读障碍并不会削弱孩子的创造力，他们在创造力上和所有同龄人一样
+              <CitationRef ids={[13, 14]} />。
             </p>
           </div>
           <div className="mt-5 flex justify-center">

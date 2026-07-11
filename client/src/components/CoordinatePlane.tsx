@@ -73,7 +73,7 @@ export default function CoordinatePlane() {
       >
         <title>阅读能力发展坐标系</title>
         <desc>
-          X 轴表示字符识别能力,Y 轴表示言语理解能力。
+          X 轴表示字词识别能力，Y 轴表示言语理解能力。
           阅读障碍位于左上角,即识别弱但理解强,是本站重点讲述对象。
         </desc>
 
@@ -338,7 +338,7 @@ export default function CoordinatePlane() {
           animate={shouldReduceMotion ? false : inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.4, delay: 1.3 }}
         >
-          字符识别能力 →
+          字词识别能力 →
         </motion.text>
         <motion.text
           x={218}

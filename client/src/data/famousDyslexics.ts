@@ -16,6 +16,10 @@ export interface FamousDyslexic {
   difficulty?: string;
   supportOrPath?: string;
   limitation?: string;
+  sources?: ReadonlyArray<{
+    label: string;
+    url: string;
+  }>;
 }
 
 export const famousDyslexics: FamousDyslexic[] = [
@@ -29,6 +33,16 @@ export const famousDyslexics: FamousDyslexic[] = [
     difficulty: "他曾说自己读得慢，学生时代在课堂任务里花了更多力气。",
     supportOrPath: "读得慢不代表想象力慢，你仍然可以用故事、画面和行动表达自己。",
     limitation: "每个孩子都需要被具体理解，也需要找到适合自己的支持方式。",
+    sources: [
+      {
+        label: "本人访谈：Friends of Quinn（2012）",
+        url: "https://www.youtube.com/watch?v=4N6RKHOHMJQ",
+      },
+      {
+        label: "访谈同期报道：Los Angeles Times",
+        url: "https://www.latimes.com/entertainment/movies/la-xpm-2012-sep-25-la-et-mn-steven-spielberg-on-unlocking-tremendous-mystery-of-his-dyslexia-20120925-story.html",
+      },
+    ],
   },
   {
     name: "General Patton",
