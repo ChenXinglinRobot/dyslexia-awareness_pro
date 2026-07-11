@@ -18,6 +18,7 @@ import TrueFocus from "./TrueFocus";
 import TextPressure from "./TextPressure";
 import DecryptedText from "./DecryptedText";
 import CoordinatePlane from "./CoordinatePlane";
+import CitationRef from "./CitationRef";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
 
@@ -131,7 +132,8 @@ function DyslexiaSimulator() {
         <div className="flex gap-3">
           <AlertTriangle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
           <p className="text-sm text-muted-foreground leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            注：本体验借用动态文字表现部分读者可能感受到的阅读负担，不代表阅读障碍者真实看到文字跳动，也不能概括所有人的体验。阅读障碍并非单纯的视力问题。
+            注：本体验借用动态文字表现部分读者可能感受到的阅读负担，不代表阅读障碍者真实看到文字跳动，也不能概括所有人的体验。阅读障碍并非单纯的视力问题
+            <CitationRef id={1} />。
           </p>
         </div>
       </div>
@@ -444,7 +446,7 @@ function ReadingMechanism() {
 
   // 引言字(扁平化一次,保持引用稳定以避免子组件重渲染)
   const introChars = useMemo(
-    () => '这是一道乘法题:任何一项受损归零,乘积都会归零。'.split(''),
+    () => '这是一个简化模型:任何一项显著受限,都会限制整体阅读理解。'.split(''),
     [],
   );
 
@@ -457,7 +459,8 @@ function ReadingMechanism() {
         className="text-center"
       >
         <p className="text-2xl md:text-3xl text-foreground mb-4" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
-          阅读 = 字符识别 <span className="text-primary">&times;</span> 言语理解
+          阅读理解 = 字词识别 <span className="text-primary">&times;</span> 言语理解
+          <CitationRef ids={[6, 7]} />
         </p>
       </motion.div>
 
@@ -491,7 +494,7 @@ function ReadingMechanism() {
                     : 'opacity-100 text-muted-foreground'
               }`}
             >
-              {phase === 'settled' ? '极难进行字符识别' : '字符识别'}
+              {phase === 'settled' ? '字词识别受限' : '字词识别'}
             </span>
           </div>
           <span className="text-3xl text-primary" style={{ fontFamily: "'Space Grotesk'" }}>&times;</span>
@@ -515,7 +518,7 @@ function ReadingMechanism() {
                     : 'opacity-100 text-muted-foreground'
               }`}
             >
-              {phase === 'settled' ? '阅读障碍' : '阅读能力'}
+              {phase === 'settled' ? '阅读理解受限' : '阅读理解'}
             </span>
           </div>
         </div>
@@ -569,7 +572,7 @@ function ReadingMechanism() {
               className="absolute top-3 left-0 right-0 text-center text-destructive text-sm px-4 pointer-events-none z-10"
               style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
             >
-              字符识别归零 — 即使理解力完好，阅读也无法进行。这就是阅读障碍的核心困境。
+              字词识别显著受限时，即使言语理解较好，整体阅读理解也会受到限制。这里的“0”是理论示意，不是诊断分数。
             </motion.p>
           )}
         </div>
@@ -663,7 +666,7 @@ function ChineseSpecificity() {
           revealDirection="start"
           animateOn="view"
           speed={80}
-        />
+        /> <CitationRef ids={[1, 8, 9]} />
       </motion.p>
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -692,7 +695,28 @@ function ChineseSpecificity() {
         className="bg-primary/8 border border-primary/30 p-6 text-center transition-colors duration-500"
       >
         <p className="text-primary text-xl md:text-2xl" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
-          小学一至三年级，是阅读障碍筛查与早期干预的黄金期。
+          小学低年级是识别阅读困难风险、尽早提供支持的重要阶段<CitationRef ids={[1]} />。
+        </p>
+      </motion.div>
+
+      {/* 谨慎诊断的提示：与上一段独立成块，避免与「积极」语义挤在一起。
+          这里参考 AboutSection 既有「科普提示」inset 范式（icon + 1px border + bg-card），
+          以中性语义把"诊断要谨慎 / 不要贴标签"低调地说出来。 */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, delay: delay(5.4) }}
+        className="mt-4 flex items-start gap-3 bg-card border border-border p-5 transition-colors duration-500"
+        role="note"
+        aria-label="诊断与随访提示"
+      >
+        <AlertTriangle className="size-4 shrink-0 mt-0.5 text-primary" aria-hidden />
+        <p
+          className="text-muted-foreground text-sm leading-relaxed"
+          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+        >
+          一、二年级的正式诊断需谨慎，高风险儿童应持续随访<CitationRef ids={[1, 15]} />；
+          识别风险是为了更早支持，不是给孩子贴标签。
         </p>
       </motion.div>
     </div>
@@ -705,10 +729,14 @@ function MythsVsFacts() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.15 });
 
   const items = [
-    { myth: '\u201c他就是不用功\u201d', fact: '与努力程度无关' },
-    { myth: '\u201c长大就好了\u201d', fact: '几乎不会自愈，干预越早越好' },
-    { myth: '\u201c看不懂字 = 笨\u201d', fact: '智力完全正常，许多障碍者另有突出天赋' },
-  ];
+    { myth: '\u201c他就是不用功\u201d', fact: '持续的阅读困难不能简单归因于“不努力”', citationIds: [1] },
+    { myth: '\u201c长大就好了\u201d', fact: '困难可能持续到青春期和成年期，尽早支持更合适', citationIds: [1] },
+    {
+      myth: '\u201c看不懂字 = 笨\u201d',
+      fact: '智力完全正常，障碍者甚至可能另有天赋',
+      citationIds: [1, 13, 14],
+    },
+  ] as const;
 
   return (
     <div ref={ref} className="space-y-6">
@@ -727,7 +755,10 @@ function MythsVsFacts() {
             </div>
             <div className="flex items-start gap-3 flex-1">
               <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-              <p className="text-foreground text-base" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>{item.fact}</p>
+              <p className="text-foreground text-base" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>
+                {item.fact}
+                <CitationRef ids={item.citationIds} />
+              </p>
             </div>
           </motion.div>
         ))}
@@ -809,7 +840,8 @@ export default function UnderstandSection() {
             <SectionHeading sectionId="understand:crowd" />
           </div>
           <p className="text-muted-foreground text-base mb-6 max-w-2xl" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            注视任意一个字 —— 只有它清晰，周围的字会挤作一团。试着拉大字间距，拥挤便会消解：这正是“无障碍排版”能够帮到阅读障碍者的原因。
+            视觉拥挤可能影响一部分阅读障碍者；有研究发现，增大字距可即时改善部分儿童的阅读表现，但字距、词距与个体差异都会影响结果
+            <CitationRef ids={[2, 3, 12]} />。
           </p>
           <CrowdingSimulation />
         </div>
