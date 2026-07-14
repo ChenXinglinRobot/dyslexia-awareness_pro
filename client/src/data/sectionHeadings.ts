@@ -77,6 +77,10 @@ export const SECTION_HEADINGS = [
   { sectionId: "understand:crowd", cn: "视觉拥挤效应",             level: "sub" },
   { sectionId: "understand:math", cn: "一道乘法题，看见阅读的两个支点", level: "sub" },
   { sectionId: "understand:cn",   cn: "汉语的特殊性",              level: "sub" },
+  { sectionId: "understand:phon",     cn: "视觉之外，还有声音",        level: "sub" },
+  { sectionId: "understand:svr",      cn: "阅读的两条腿",             level: "sub" },
+  { sectionId: "understand:triangle", cn: "认字的三叉路口：三角模型", level: "sub" },
+  { sectionId: "understand:ran",      cn: "快速命名：认出，还要迅速说出", level: "sub" },
 ] as const satisfies readonly SectionHeadingEntry[];
 
 /** 字面量联合类型："understand" | "action" | ... | "understand:sim" | ... */

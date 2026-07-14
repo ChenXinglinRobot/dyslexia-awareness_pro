@@ -1,5 +1,5 @@
 import { BookOpen, ExternalLink, FileText } from "lucide-react";
-import { REFERENCES } from "@/data/references";
+import { REFERENCES, type ReferenceRecord } from "@/data/references";
 
 const usageLabels = {
   future: "延伸阅读",
@@ -7,6 +7,8 @@ const usageLabels = {
 } as const;
 
 export default function ReferencesSection() {
+  const referenceList: readonly ReferenceRecord[] = REFERENCES;
+
   return (
     <section
       id="references"
@@ -27,13 +29,13 @@ export default function ReferencesSection() {
             className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground"
             style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
           >
-            编号与正文角标一一对应。点击 DOI 可核对出版记录，点击“站内 PDF”可查看本站保存的论文全文或作者稿。
+            编号与正文角标一一对应。可通过 DOI、在线页面或站内 PDF 核对来源，部分文献仅提供在线页面。
           </p>
         </div>
       </div>
 
       <ol className="space-y-3" aria-label="参考文献列表">
-        {REFERENCES.map(reference => (
+        {referenceList.map(reference => (
           <li
             key={reference.id}
             id={`ref-${reference.id}`}
@@ -68,28 +70,41 @@ export default function ReferencesSection() {
                 </div>
 
                 <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-                  {reference.doi && (
+                  {reference.doi ? (
                     <a
                       href={reference.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`在新标签打开参考文献 ${reference.id} 的 DOI 出版页面`}
-                      className="inline-flex min-w-0 items-center gap-1.5 text-primary underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary/75"
+                      className="inline-flex min-w-0 items-center gap-1.5 text-primary underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
                       <ExternalLink className="size-3.5 shrink-0" aria-hidden />
                       <span className="break-all">DOI: {reference.doi}</span>
                     </a>
+                  ) : (
+                    <a
+                      href={reference.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`在新标签打开参考文献 ${reference.id} 的在线页面`}
+                      className="inline-flex min-w-0 items-center gap-1.5 text-primary underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      <ExternalLink className="size-3.5 shrink-0" aria-hidden />
+                      <span className="break-all">在线页面</span>
+                    </a>
                   )}
-                  <a
-                    href={reference.pdfHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`在新标签打开参考文献 ${reference.id} 的站内 PDF`}
-                    className="inline-flex items-center gap-1.5 text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
-                  >
-                    <FileText className="size-3.5 shrink-0" aria-hidden />
-                    站内 PDF
-                  </a>
+                  {reference.pdfHref && (
+                    <a
+                      href={reference.pdfHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`在新标签打开参考文献 ${reference.id} 的站内 PDF`}
+                      className="inline-flex items-center gap-1.5 text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      <FileText className="size-3.5 shrink-0" aria-hidden />
+                      站内 PDF
+                    </a>
+                  )}
                 </div>
 
                 {reference.note && (

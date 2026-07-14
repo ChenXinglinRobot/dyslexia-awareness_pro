@@ -10,6 +10,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* 语义字号阶梯：对应 DESIGN.md 的 body/title/label/caption。
+   用 rem 以便随 --font-scale 同步缩放；@theme（非 inline）同时生成
+   text-body / text-title / text-label / text-caption 工具类并暴露 CSS 变量供 SVG 内联用。 */
+@theme {
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.5;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.4;
+  --text-body: 1rem;
+  --text-body--line-height: 1.8;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.4;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -51,6 +65,7 @@
 
 /* ============ 日间模式（默认） ============ */
 :root {
+  --font-scale: 112.5%; /* 16px→18px 全站 rem 文本基线；导师「整站小字偏小」的一键旋钮 */
   --radius: 0.5rem;
   --primary: oklch(0.55 0.14 70);
   --primary-foreground: oklch(0.98 0.005 80);
@@ -124,6 +139,7 @@
 
 @layer base {
   html {
+    font-size: var(--font-scale);
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
   }

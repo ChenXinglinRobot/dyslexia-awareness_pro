@@ -8,7 +8,7 @@ export interface ReferenceRecord {
   year: number;
   doi?: string;
   url: string;
-  pdfHref: string;
+  pdfHref?: string;
   shortLabel: string;
   usage: ReferenceUsage;
   note?: string;
@@ -69,8 +69,7 @@ export const REFERENCES = [
     url: "https://doi.org/10.1007/s11145-022-10352-9",
     pdfHref: "/reference/4Tseng 等 - 2023 - Learning to read Chinese the roles of phonologica.pdf",
     shortLabel: "Tseng et al.（2023）",
-    usage: "future",
-    note: "延伸阅读；待对应科普内容上线后启用正文角标。",
+    usage: "cited",
   },
   {
     id: 5,
@@ -83,8 +82,7 @@ export const REFERENCES = [
     url: "https://doi.org/10.1080/10888438.2015.1088543",
     pdfHref: "/reference/5Song 等 - 2016 - How Well Do Phonological Awareness and Rapid Autom.pdf",
     shortLabel: "Song et al.（2016）",
-    usage: "future",
-    note: "延伸阅读；待对应科普内容上线后启用正文角标。",
+    usage: "cited",
   },
   {
     id: 6,
@@ -253,6 +251,17 @@ export const REFERENCES = [
     shortLabel: "Gong et al.（2025）",
     usage: "supplementary",
     note: "补充背景：研究比较一般儿童与成人的汉字视觉拥挤，并非阅读障碍样本。",
+  },
+  {
+    id: 19,
+    authors: "International Dyslexia Association",
+    title: "2025 Definition of Dyslexia",
+    publication: "International Dyslexia Association，2025（官方定义，在线）",
+    year: 2025,
+    url: "https://dyslexiaida.org/definition-of-dyslexia/",
+    shortLabel: "IDA（2025）",
+    usage: "cited",
+    note: "IDA 官方定义；在线资源，无本地 PDF。",
   },
 ] as const satisfies readonly ReferenceRecord[];
 

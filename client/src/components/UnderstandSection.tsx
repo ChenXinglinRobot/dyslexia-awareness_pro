@@ -5,9 +5,9 @@
    体验目标二：直观看见"乘法归零"
    ============================================================ */
 
-import { motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Eye, AlertTriangle, Brain, Languages, Focus, X as XIcon, Check, ExternalLink } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Eye, AlertTriangle, Brain, Languages, Focus, X as XIcon, Check, ExternalLink, AudioWaveform, Footprints, Share2, Timer } from "lucide-react";
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -19,6 +19,12 @@ import TextPressure from "./TextPressure";
 import DecryptedText from "./DecryptedText";
 import CoordinatePlane from "./CoordinatePlane";
 import CitationRef from "./CitationRef";
+import PhonologicalAwareness from "./PhonologicalAwareness";
+import SVRSimplified from "./SVRSimplified";
+import TriangleModel from "./TriangleModel";
+import RapidNaming from "./RapidNaming";
+import MiniSVRBreadcrumb from "./MiniSVRBreadcrumb";
+import SpotlightCard from "./SpotlightCard";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
 
@@ -143,35 +149,22 @@ function DyslexiaSimulator() {
 
 // ============ 视觉拥挤效应 ============
 
-function CrowdingSimulation() {
+function CrowdingSimulation({
+  showCrowding,
+  setShowCrowding,
+}: {
+  showCrowding: boolean;
+  setShowCrowding: (v: boolean) => void;
+}) {
   const { enabled: simEnabled } = useSimulation();
   const isMobile = useIsMobile();
-  const [showCrowding, setShowCrowding] = useState(false);
   const [crowdIntensity, setCrowdIntensity] = useState(0.6);
   const [letterSpacing, setLetterSpacing] = useState(0);
-
-  // 总开关关掉时,强制收起,文字回到清晰(与逐字解码体验一致)
-  useEffect(() => {
-    if (!simEnabled) setShowCrowding(false);
-  }, [simEnabled]);
 
   const intensityPct = Math.round(crowdIntensity * 100);
 
   return (
     <div className="space-y-4">
-      {simEnabled && !showCrowding && (
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          onClick={() => setShowCrowding(true)}
-          className="mx-auto flex items-center gap-2 text-xs px-4 py-2 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
-          style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-        >
-          启动视觉拥挤体验
-        </motion.button>
-      )}
-
       {simEnabled && showCrowding && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -411,19 +404,44 @@ function UnifiedDropZone({
   return null;
 }
 
+// ============ SVR 回收衔接 ============
+// ReadingMechanism 上方的轻量过渡：迷你三角（呼应上一节三角模型对字词识别的放大）
+// 缩小并淡出，概念上「收回」到下方 SVR 全景路标。reduced motion 下静态显示，不缩放。
+function SVRBridge() {
+  const reduced = useReducedMotion();
+  const isReduced = !!reduced;
+  return (
+    <div className="pointer-events-none flex h-10 items-center justify-center" aria-hidden>
+      <motion.div
+        className="h-7 w-7"
+        style={{ transformOrigin: "center" }}
+        initial={isReduced ? false : { opacity: 0.6, scale: 1 }}
+        whileInView={isReduced ? { opacity: 0.35 } : { opacity: 0, scale: 0.25 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: isReduced ? 0 : 0.8, ease: "easeOut" as const }}
+      >
+        <svg viewBox="0 0 100 90" className="h-full w-full">
+          <path
+            d="M50 10 L90 80 L10 80 Z"
+            fill="none"
+            stroke="var(--primary)"
+            strokeWidth={3}
+            strokeLinejoin="round"
+          />
+        </svg>
+      </motion.div>
+    </div>
+  );
+}
+
 function ReadingMechanism() {
   const [phase, setPhase] = useState<Phase>('normal');
   const { enabled: simEnabled } = useSimulation();
-  const [showFocus, setShowFocus] = useState(false);
   const isMobile = useIsMobile();
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.2 });
   // 物理容器 ref:在 falling/settled 阶段复用为引言段落的容器
   const physicsContainerRef = useRef<HTMLDivElement>(null);
-
-  // 总开关关掉时,强制收起局部体验,文字回到清晰
-  useEffect(() => {
-    if (!simEnabled) setShowFocus(false);
-  }, [simEnabled]);
+  const { theme } = useTheme();
 
   // 单向触发:点击 → falling → 3s 后 settled(无回退)
   const handleDecodeClick = () => {
@@ -459,7 +477,7 @@ function ReadingMechanism() {
         className="text-center"
       >
         <p className="text-2xl md:text-3xl text-foreground mb-4" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
-          阅读理解 = 字词识别 <span className="text-primary">&times;</span> 言语理解
+          字词识别 <span className="text-primary">&times;</span> 言语理解 <span className="text-primary">=</span> 阅读理解
           <CitationRef ids={[6, 7]} />
         </p>
       </motion.div>
@@ -468,8 +486,11 @@ function ReadingMechanism() {
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: delay(1) }}
-        className="bg-card border border-border p-6 md:p-8 transition-colors duration-500"
       >
+        <SpotlightCard
+          className="bg-card border border-border p-6 md:p-8 transition-colors duration-500 rounded-xl"
+          spotlightColor={theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)'}
+        >
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
           <div className="text-center">
             <button
@@ -482,7 +503,7 @@ function ReadingMechanism() {
               }`}
               style={{ fontFamily: "'Space Grotesk'" }}
             >
-              {decodeValue}
+              {decodeValue === 1 ? '100%' : '0%'}
             </button>
             {/* inline 标签:normal 显原字(muted)/ settled 显 replacement(destructive 红);falling 时透明度降为 0(字在落字区) */}
             <span
@@ -499,7 +520,7 @@ function ReadingMechanism() {
           </div>
           <span className="text-3xl text-primary" style={{ fontFamily: "'Space Grotesk'" }}>&times;</span>
           <div className="text-center">
-            <div className="w-20 h-20 rounded-sm border-2 border-primary bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary" style={{ fontFamily: "'Space Grotesk'" }}>1</div>
+            <div className="w-20 h-20 rounded-sm border-2 border-primary bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary" style={{ fontFamily: "'Space Grotesk'" }}>100%</div>
             <p className="text-xs text-muted-foreground mt-2">言语理解</p>
           </div>
           <span className="text-3xl text-muted-foreground">=</span>
@@ -508,7 +529,7 @@ function ReadingMechanism() {
               result === 0
                 ? "border-destructive bg-destructive/15 text-destructive"
                 : "border-primary bg-primary/15 text-primary"
-            }`} style={{ fontFamily: "'Space Grotesk'" }}>{result}</div>
+            }`} style={{ fontFamily: "'Space Grotesk'" }}>{result === 1 ? '100%' : '0%'}</div>
             <span
               className={`text-xs mt-2 block transition-opacity duration-200 ${
                 phase === 'falling'
@@ -572,68 +593,13 @@ function ReadingMechanism() {
               className="absolute top-3 left-0 right-0 text-center text-destructive text-sm px-4 pointer-events-none z-10"
               style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
             >
-              字词识别显著受限时，即使言语理解较好，整体阅读理解也会受到限制。这里的“0”是理论示意，不是诊断分数。
+              字词识别显著受限时，即使言语理解较好，整体阅读理解也会受到限制。这里的”0%”是理论示意，不是诊断分数。
             </motion.p>
           )}
         </div>
+        </SpotlightCard>
       </motion.div>
 
-      {/* 四象限 — 纯 SVG 坐标系,viewBox 自适应缩放 */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: delay(2) }}
-        className="w-full"
-      >
-        <CoordinatePlane />
-      </motion.div>
-
-      {/* 逐字解码体验 — 仅在总开关打开时可进入,鼠标 hover 控制 */}
-      {simEnabled && !showFocus && (
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          onClick={() => setShowFocus(true)}
-          className="mx-auto flex items-center gap-2 text-xs px-4 py-2 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
-          style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-        >
-          启动逐字解码体验
-        </motion.button>
-      )}
-
-      {simEnabled && showFocus && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
-        >
-          <p className="text-xs text-muted-foreground text-center mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-            {isMobile
-              ? "正在自动逐字扫描 — 一次只能看清一个字"
-              : "鼠标移到任意字上 — 只有它会清晰"}
-          </p>
-          <div className="flex justify-center">
-            <TrueFocus
-              sentence="一次 只能 看清 一个 字"
-              separator=" "
-              manualMode={!isMobile}
-              blurAmount={6}
-              borderColor="var(--primary)"
-              glowColor="color-mix(in oklch, var(--primary) 60%, transparent)"
-              animationDuration={0.4}
-            />
-          </div>
-          <button
-            onClick={() => setShowFocus(false)}
-            className="mx-auto mt-8 block text-xs text-muted-foreground hover:text-foreground transition-colors"
-            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-          >
-            收起
-          </button>
-        </motion.div>
-      )}
     </div>
   );
 }
@@ -643,11 +609,60 @@ function ReadingMechanism() {
 function ChineseSpecificity() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.1 });
 
-  const awarenessItems = [
+  // 「声旁意识」需要把每个字里的"青"高亮出来，所以单独列出字符；
+  // 形旁/声旁两卡在 3 列栅格里天然左右相邻，形成"意义线索 ↔ 读音线索"的视觉对应。
+  // 声旁 / 形旁两条 desc 都带 [4] 引用，与 references.ts 中的声旁研究条目对应。
+  const phonStems = ["请", "清", "情", "晴", "青"];
+
+  const awarenessItems: Array<{
+    title: string;
+    example?: string;
+    exampleNodes?: ReactNode;
+    desc: ReactNode;
+  }> = [
     { title: "复合词意识", example: "长颈鹿、梅花鹿 →「短颈鳄」？", desc: "理解词语由语素组合而成的规则。" },
     { title: "同音语素意识", example: "衣 · 一 · 伊 · 医", desc: "分辨读音相同、意义不同的语素。" },
     { title: "同形语素意识", example: "花朵 / 花费；面孔 / 面条", desc: "分辨字形相同、意义不同的语素。" },
-    { title: "形旁意识", example: "氵（海、江）、冫（冬、凉）、灬（煮、蒸、煎）", desc: "理解形旁提示字义类别的规律。" },
+    { title: "形旁意识", example: "氵（海、江）、冫（冬、凉）、灬（煮、蒸、煎）", desc: <>理解形旁提示字义类别的规律<CitationRef ids={[4]} />。</> },
+    {
+      title: "声旁意识",
+      // example 留空，下面 exampleNodes 接管渲染：5 个字共享"青"，统一高亮
+      desc: (
+        <>
+          声旁常能提供读音线索，但读音不一定完全相同<CitationRef ids={[4]} />。
+        </>
+      ),
+      exampleNodes: (
+        <span className="tracking-[0.4em]">
+          {phonStems.map((ch, i) => (
+            <span key={i} className="inline-flex flex-col items-center">
+              {/* 共享的「青」一律高亮；其余字保留原色 */}
+              {ch === "青" ? (
+                <span
+                  className="text-primary font-semibold underline decoration-primary/60 decoration-2 underline-offset-4"
+                  style={{ fontFamily: "'Noto Serif SC', serif" }}
+                >
+                  青
+                </span>
+              ) : (
+                <span style={{ fontFamily: "'Noto Serif SC', serif" }}>{ch}</span>
+              )}
+              {i < phonStems.length - 1 && <span aria-hidden className="text-transparent select-none">·</span>}
+            </span>
+          ))}
+        </span>
+      ),
+    },
+    {
+      title: "正字法意识",
+      desc: "理解汉字部件位置与笔画组合的常见规则。",
+      exampleNodes: (
+        <span className="flex flex-col gap-1.5 text-primary" style={{ fontFamily: "'Noto Serif SC', serif" }}>
+          <span className="tracking-wider">氵 通常在左 · 艹 通常在上</span>
+          <span className="tracking-[0.3em]">王 / 玉　　木 / 本　　大 / 太</span>
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -661,7 +676,7 @@ function ChineseSpecificity() {
       >
         与拼音文字以语音缺陷为主不同，
         <DecryptedText
-          text="汉语阅读障碍儿童更突出地缺乏以下四种意识："
+          text="汉语阅读障碍儿童更突出地缺乏以下六种意识："
           sequential={true}
           revealDirection="start"
           animateOn="view"
@@ -669,7 +684,9 @@ function ChineseSpecificity() {
         /> <CitationRef ids={[1, 8, 9]} />
       </motion.p>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      {/* 6 张卡：3 列栅格让「形旁 / 声旁」天然左右相邻，形成"意义线索 ↔ 读音线索"的视觉对应；
+          中等屏（md）收窄到 2 列避免卡片过密，移动端仍为单列。 */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {awarenessItems.map((item, index) => (
           <motion.div
             key={index}
@@ -682,43 +699,16 @@ function ChineseSpecificity() {
               <span className="text-primary text-lg font-bold" style={{ fontFamily: "'Space Grotesk'" }}>{index + 1}</span>
               <h4 className="text-foreground text-base font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>{item.title}</h4>
             </div>
-            <p className="text-primary text-lg mb-2 tracking-wider" style={{ fontFamily: "'Noto Serif SC', serif" }}>{item.example}</p>
+            {item.exampleNodes ? (
+              <p className="text-foreground text-lg mb-2">{item.exampleNodes}</p>
+            ) : (
+              <p className="text-primary text-lg mb-2 tracking-wider" style={{ fontFamily: "'Noto Serif SC', serif" }}>{item.example}</p>
+            )}
             <p className="text-muted-foreground text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>{item.desc}</p>
           </motion.div>
         ))}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: delay(5) }}
-        className="bg-primary/8 border border-primary/30 p-6 text-center transition-colors duration-500"
-      >
-        <p className="text-primary text-xl md:text-2xl" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
-          小学低年级是识别阅读困难风险、尽早提供支持的重要阶段<CitationRef ids={[1]} />。
-        </p>
-      </motion.div>
-
-      {/* 谨慎诊断的提示：与上一段独立成块，避免与「积极」语义挤在一起。
-          这里参考 AboutSection 既有「科普提示」inset 范式（icon + 1px border + bg-card），
-          以中性语义把"诊断要谨慎 / 不要贴标签"低调地说出来。 */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: delay(5.4) }}
-        className="mt-4 flex items-start gap-3 bg-card border border-border p-5 transition-colors duration-500"
-        role="note"
-        aria-label="诊断与随访提示"
-      >
-        <AlertTriangle className="size-4 shrink-0 mt-0.5 text-primary" aria-hidden />
-        <p
-          className="text-muted-foreground text-sm leading-relaxed"
-          style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
-        >
-          一、二年级的正式诊断需谨慎，高风险儿童应持续随访<CitationRef ids={[1, 15]} />；
-          识别风险是为了更早支持，不是给孩子贴标签。
-        </p>
-      </motion.div>
     </div>
   );
 }
@@ -803,6 +793,18 @@ export default function UnderstandSection() {
   const { theme } = useTheme();
   const { ref, inView, delay } = useScrollReveal({ margin: "-80px", stagger: 0.1 });
   const sectionBg = theme === "dark" ? SECTION_BG_DARK : SECTION_BG_LIGHT;
+  const { enabled: simEnabled } = useSimulation();
+  const isMobile = useIsMobile();
+  const [showCrowding, setShowCrowding] = useState(false);
+  const [showFocus, setShowFocus] = useState(false);
+
+  // 总开关关掉时,强制收起两个体验面板
+  useEffect(() => {
+    if (!simEnabled) {
+      setShowCrowding(false);
+      setShowFocus(false);
+    }
+  }, [simEnabled]);
 
   return (
     <section id="understand" className="relative overflow-hidden">
@@ -843,15 +845,108 @@ export default function UnderstandSection() {
             视觉拥挤可能影响一部分阅读障碍者；有研究发现，增大字距可即时改善部分儿童的阅读表现，但字距、词距与个体差异都会影响结果
             <CitationRef ids={[2, 3, 12]} />。
           </p>
-          <CrowdingSimulation />
+
+          {/* 双体验入口：横屏左右并排，竖屏上下堆叠 */}
+          {simEnabled && (!showCrowding || !showFocus) && (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+              {!showCrowding && (
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  onClick={() => setShowCrowding(true)}
+                  className="flex items-center gap-2 text-sm px-5 py-2.5 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
+                  style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+                >
+                  启动视觉拥挤体验
+                </motion.button>
+              )}
+              {!showFocus && (
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  onClick={() => setShowFocus(true)}
+                  className="flex items-center gap-2 text-sm px-5 py-2.5 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
+                  style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+                >
+                  启动逐字解码体验
+                </motion.button>
+              )}
+            </div>
+          )}
+
+          <CrowdingSimulation showCrowding={showCrowding} setShowCrowding={setShowCrowding} />
+
+          {/* 逐字解码体验面板 */}
+          {simEnabled && showFocus && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
+            >
+              <p className="text-xs text-muted-foreground text-center mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+                {isMobile
+                  ? "正在自动逐字扫描 — 一次只能看清一个字"
+                  : "鼠标移到任意字上 — 只有它会清晰"}
+              </p>
+              <div className="flex justify-center">
+                <TrueFocus
+                  sentence="一次 只能 看清 一个 字"
+                  separator=" "
+                  manualMode={!isMobile}
+                  blurAmount={6}
+                  borderColor="var(--primary)"
+                  glowColor="color-mix(in oklch, var(--primary) 60%, transparent)"
+                  animationDuration={0.4}
+                />
+              </div>
+              <button
+                onClick={() => setShowFocus(false)}
+                className="mx-auto mt-8 block text-xs text-muted-foreground hover:text-foreground transition-colors"
+                style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+              >
+                收起
+              </button>
+            </motion.div>
+          )}
         </div>
 
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-6">
-            <Brain className="w-5 h-5 text-primary" />
-            <SectionHeading sectionId="understand:math" />
+            <AudioWaveform className="w-5 h-5 text-primary" />
+            <SectionHeading sectionId="understand:phon" />
           </div>
-          <ReadingMechanism />
+          <PhonologicalAwareness />
+        </div>
+
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-6">
+            <Footprints className="w-5 h-5 text-primary" />
+            <SectionHeading sectionId="understand:svr" />
+          </div>
+          <SVRSimplified />
+        </div>
+
+        <div className="mb-20">
+          <CoordinatePlane />
+        </div>
+
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-6">
+            <Share2 className="w-5 h-5 text-primary" />
+            <SectionHeading sectionId="understand:triangle" />
+          </div>
+          <TriangleModel />
+        </div>
+
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-6">
+            <Timer className="w-5 h-5 text-primary" />
+            <SectionHeading sectionId="understand:ran" />
+          </div>
+          <RapidNaming />
         </div>
 
         <div className="mb-20">
@@ -860,6 +955,51 @@ export default function UnderstandSection() {
             <SectionHeading sectionId="understand:cn" />
           </div>
           <ChineseSpecificity />
+        </div>
+
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-6">
+            <Brain className="w-5 h-5 text-primary" />
+            <SectionHeading sectionId="understand:math" />
+          </div>
+          <SVRBridge />
+          <div className="relative md:pt-12">
+            <MiniSVRBreadcrumb activeNode="decode" size="sm" className="hidden md:flex" />
+            <ReadingMechanism />
+          </div>
+        </div>
+
+        <div className="mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="bg-primary/8 border border-primary/30 p-6 text-center transition-colors duration-500"
+          >
+            <p className="text-primary text-xl md:text-2xl" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}>
+              小学低年级是识别阅读困难风险、尽早提供支持的重要阶段<CitationRef ids={[1]} />。
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-4 flex items-start gap-3 bg-card border border-border p-5 transition-colors duration-500"
+            role="note"
+            aria-label="诊断与随访提示"
+          >
+            <AlertTriangle className="size-4 shrink-0 mt-0.5 text-primary" aria-hidden />
+            <p
+              className="text-muted-foreground text-sm leading-relaxed"
+              style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
+            >
+              一、二年级的正式诊断需谨慎，高风险儿童应持续随访<CitationRef ids={[1, 15]} />；
+              识别风险是为了更早支持，不是给孩子贴标签。
+            </p>
+          </motion.div>
         </div>
 
         <div>
