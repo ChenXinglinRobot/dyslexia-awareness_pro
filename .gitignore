@@ -121,3 +121,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Local deployment notes
+阅见不同网站腾讯云国内部署全纪录.md
