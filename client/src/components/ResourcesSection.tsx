@@ -87,13 +87,8 @@ export default function ResourcesSection() {
       <div className="absolute inset-0 opacity-8">
         <div className="absolute inset-0 bg-cover bg-center transition-opacity duration-700" style={{ backgroundImage: `url(${sectionBg})` }} />
       </div>
-      {/* 还原为显式 #F9F4EC 纸色覆盖层(暗色用 --background 暗调),
-          跟下面卡片的 #F0E6DA 拉开颜色对比,卡片边界由对比度决定,
-          不再依赖透明度(color-mix 跟浅背景对比度太低,几乎看不出层次)。 */}
-      <div
-        className="absolute inset-0 transition-colors duration-500"
-        style={{ backgroundColor: theme === "dark" ? "oklch(0.15 0.02 250)" : "#F9F4EC" }}
-      />
+      {/* 与 About 顶部共享同一个主题底色，保证背景图渐显前的首像素无色差。 */}
+      <div className="absolute inset-0 bg-background transition-colors duration-500" />
 
       <div className="container relative z-10 py-20 md:py-32" ref={ref}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }} className="mb-16">

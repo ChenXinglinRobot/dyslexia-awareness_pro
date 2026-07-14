@@ -24,7 +24,7 @@ import SVRSimplified from "./SVRSimplified";
 import TriangleModel from "./TriangleModel";
 import RapidNaming from "./RapidNaming";
 import MiniSVRBreadcrumb from "./MiniSVRBreadcrumb";
-import SpotlightCard from "./SpotlightCard";
+import BorderGlow from "./BorderGlow";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
 
@@ -441,7 +441,6 @@ function ReadingMechanism() {
   const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.2 });
   // 物理容器 ref:在 falling/settled 阶段复用为引言段落的容器
   const physicsContainerRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
 
   // 单向触发:点击 → falling → 3s 后 settled(无回退)
   const handleDecodeClick = () => {
@@ -487,16 +486,15 @@ function ReadingMechanism() {
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: delay(1) }}
       >
-        <SpotlightCard
-          className="bg-card border border-border p-6 md:p-8 transition-colors duration-500 rounded-xl"
-          spotlightColor={theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)'}
-        >
+        <BorderGlow className="p-6 md:p-8 transition-colors duration-500">
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
           <div className="text-center">
             <button
+              type="button"
               onClick={handleDecodeClick}
               disabled={phase !== 'normal'}
-              className={`w-20 h-20 rounded-sm border-2 flex items-center justify-center text-2xl font-bold transition-all duration-500 btn-press ${
+              aria-label={phase === 'normal' ? '将字词识别从 100% 降为 0%' : '字词识别已降为 0%'}
+              className={`reading-mechanism-trigger w-20 h-20 rounded-sm border-2 flex items-center justify-center text-2xl font-bold btn-press ${
                 phase === 'normal'
                   ? "border-primary bg-primary/10 text-primary"
                   : "border-destructive bg-destructive/10 text-destructive"
@@ -597,7 +595,7 @@ function ReadingMechanism() {
             </motion.p>
           )}
         </div>
-        </SpotlightCard>
+        </BorderGlow>
       </motion.div>
 
     </div>

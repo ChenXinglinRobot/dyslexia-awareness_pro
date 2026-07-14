@@ -179,9 +179,11 @@
 }
 
 .reference-item:target {
-  border-color: var(--primary);
-  outline: 2px solid var(--primary);
-  outline-offset: 3px;
+  color: var(--primary);
+}
+
+.reference-item:target .reference-entry-copy {
+  color: var(--primary);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -276,6 +278,33 @@
     background: linear-gradient(to right, transparent, oklch(0.72 0.14 70 / 0.6), transparent);
   }
 
+  /* About 背景从上一节的纯色中显影，首像素保持同色，避免硬切边界。 */
+  .about-backdrop {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      rgb(0 0 0 / 0.18) clamp(3rem, 6vw, 5rem),
+      #000 clamp(9rem, 18vw, 14rem)
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      rgb(0 0 0 / 0.18) clamp(3rem, 6vw, 5rem),
+      #000 clamp(9rem, 18vw, 14rem)
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  .about-backdrop-wash {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--background) 12%, transparent) 0,
+      color-mix(in oklch, var(--background) 56%, transparent) 48%,
+      color-mix(in oklch, var(--background) 92%, transparent) 100%
+    );
+  }
+
   /* 卡片悬停 */
   .card-hover {
     transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
@@ -286,9 +315,51 @@
     box-shadow: 0 12px 40px oklch(0.72 0.14 70 / 0.15);
   }
 
+  /* 阅读机制公式中唯一的交互焦点 */
+  .reading-mechanism-trigger {
+    cursor: pointer;
+    transition:
+      transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reading-mechanism-trigger:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: color-mix(in oklch, var(--primary) 18%, transparent);
+    box-shadow: 0 4px 8px color-mix(in oklch, var(--primary) 20%, transparent);
+  }
+
+  .reading-mechanism-trigger:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+    background: color-mix(in oklch, var(--primary) 20%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--primary) 60%, transparent);
+  }
+
+  .reading-mechanism-trigger:disabled {
+    cursor: default;
+  }
+
   /* 按钮按压 */
   .btn-press:active {
     transform: scale(0.97);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-backdrop,
+    .about-backdrop-wash {
+      transition-duration: 0.01ms;
+    }
+
+    .reading-mechanism-trigger {
+      transition-duration: 0.01ms;
+    }
+
+    .reading-mechanism-trigger:hover:not(:disabled),
+    .reading-mechanism-trigger:active {
+      transform: none;
+    }
   }
 
   /* 打字机光标闪烁 */

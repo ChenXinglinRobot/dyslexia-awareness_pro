@@ -16,6 +16,12 @@ async function startServer() {
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
+  // Local reference PDFs are authoring materials, not public web assets.
+  app.use("/reference", (_req, res) => {
+    res.setHeader("Cache-Control", "no-store");
+    res.status(404).send("Not Found");
+  });
+
   app.use(express.static(staticPath));
 
   // Handle client-side routing - serve index.html for all routes

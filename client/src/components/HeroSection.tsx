@@ -13,8 +13,8 @@ import SideRays from "./SideRays/SideRays";
 import CitationRef from "./CitationRef";
 
 // 背景图 — 深色/浅色各一张
-const HERO_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/hero-bg-L6admPuuAYFKMwipXMbsMf.webp";
-const HERO_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/hero-bg-light-MbtzYKLaXMW8jVkJmGGCGP.webp";
+const HERO_BG_DARK = "/bg/hero-bg-dark.webp";
+const HERO_BG_LIGHT = "/bg/hero-bg-light.webp";
 
 const RAYS_MOUNT_DELAY_MS = 2100;
 const RAYS_FADE_MS = 900;

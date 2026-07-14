@@ -3,7 +3,13 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
-import { defineConfig, type Plugin, type ViteDevServer } from "vite";
+import {
+  defineConfig,
+  type Connect,
+  type Plugin,
+  type PreviewServer,
+  type ViteDevServer,
+} from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
 // =============================================================================
@@ -56,7 +62,7 @@ function writeToLogFile(source: LogSource, entries: unknown[]) {
   const logPath = path.join(LOG_DIR, `${source}.log`);
 
   // Format entries with timestamps
-  const lines = entries.map((entry) => {
+  const lines = entries.map(entry => {
     const ts = new Date().toISOString();
     return `[${ts}] ${JSON.stringify(entry)}`;
   });
@@ -132,7 +138,7 @@ function vitePluginManusDebugCollector(): Plugin {
         }
 
         let body = "";
-        req.on("data", (chunk) => {
+        req.on("data", chunk => {
           body += chunk.toString();
         });
 
@@ -162,7 +168,10 @@ function vitePluginStorageProxy(): Plugin {
           return;
         }
 
-        const forgeBaseUrl = (process.env.BUILT_IN_FORGE_API_URL || "").replace(/\/+$/, "");
+        const forgeBaseUrl = (process.env.BUILT_IN_FORGE_API_URL || "").replace(
+          /\/+$/,
+          ""
+        );
         const forgeKey = process.env.BUILT_IN_FORGE_API_KEY;
 
         if (!forgeBaseUrl || !forgeKey) {
@@ -172,7 +181,10 @@ function vitePluginStorageProxy(): Plugin {
         }
 
         try {
-          const forgeUrl = new URL("v1/storage/presign/get", forgeBaseUrl + "/");
+          const forgeUrl = new URL(
+            "v1/storage/presign/get",
+            forgeBaseUrl + "/"
+          );
           forgeUrl.searchParams.set("path", key);
 
           const forgeResp = await fetch(forgeUrl, {
@@ -203,7 +215,54 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+function blockReferenceAssets(
+  req: Connect.IncomingMessage,
+  res: import("node:http").ServerResponse,
+  next: Connect.NextFunction
+) {
+  const requestPath = req.url?.split("?", 1)[0] ?? "";
+  if (requestPath === "/reference" || requestPath.startsWith("/reference/")) {
+    res.statusCode = 404;
+    res.setHeader("Cache-Control", "no-store");
+    res.end("Not Found");
+    return;
+  }
+
+  next();
+}
+
+function vitePluginReferencePrivacy(): Plugin {
+  return {
+    name: "reference-privacy",
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use(blockReferenceAssets);
+    },
+    configurePreviewServer(server: PreviewServer) {
+      server.middlewares.use(blockReferenceAssets);
+    },
+    closeBundle() {
+      const builtReferenceDir = path.resolve(
+        PROJECT_ROOT,
+        "dist",
+        "public",
+        "reference"
+      );
+      if (fs.existsSync(builtReferenceDir)) {
+        fs.rmSync(builtReferenceDir, { recursive: true, force: true });
+      }
+    },
+  };
+}
+
+const plugins = [
+  react(),
+  tailwindcss(),
+  jsxLocPlugin(),
+  vitePluginManusRuntime(),
+  vitePluginManusDebugCollector(),
+  vitePluginStorageProxy(),
+  vitePluginReferencePrivacy(),
+];
 
 export default defineConfig({
   plugins,

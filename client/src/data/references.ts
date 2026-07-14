@@ -8,7 +8,6 @@ export interface ReferenceRecord {
   year: number;
   doi?: string;
   url: string;
-  pdfHref?: string;
   shortLabel: string;
   usage: ReferenceUsage;
   note?: string;
@@ -29,7 +28,6 @@ export const REFERENCES = [
     year: 2023,
     doi: "10.3969/j.issn.1000-6729.2023.03.001",
     url: "https://doi.org/10.3969/j.issn.1000-6729.2023.03.001",
-    pdfHref: "/reference/1阅读障碍专家意见发表版本（2023带封面和目录）  .pdf",
     shortLabel: "王久菊等（2023）",
     usage: "cited",
   },
@@ -38,23 +36,23 @@ export const REFERENCES = [
     authors:
       "Marco Zorzi, Chiara Barbiero, Andrea Facoetti, Isabella Lonciari, Marco Carrozzi, Marcella Montico, Laura Bravar, Florence George, Catherine Pech-Georgel, Johannes C. Ziegler",
     title: "Extra-large letter spacing improves reading in dyslexia",
-    publication: "Proceedings of the National Academy of Sciences，2012，109(28)：11455–11459",
+    publication:
+      "Proceedings of the National Academy of Sciences，2012，109(28)：11455–11459",
     year: 2012,
     doi: "10.1073/pnas.1205566109",
     url: "https://doi.org/10.1073/pnas.1205566109",
-    pdfHref: "/reference/2Extra-large letter spacing improves reading in dyslexia.pdf",
     shortLabel: "Zorzi et al.（2012）",
     usage: "cited",
   },
   {
     id: 3,
-    authors: "Marialuisa Martelli, Gloria Di Filippo, Donatella Spinelli, Pierluigi Zoccolotti",
+    authors:
+      "Marialuisa Martelli, Gloria Di Filippo, Donatella Spinelli, Pierluigi Zoccolotti",
     title: "Crowding, reading, and developmental dyslexia",
     publication: "Journal of Vision，2009，9(4)：Article 14，1–18",
     year: 2009,
     doi: "10.1167/9.4.14",
     url: "https://doi.org/10.1167/9.4.14",
-    pdfHref: "/reference/3Crowding, reading, and developmental dyslexia.pdf",
     shortLabel: "Martelli et al.（2009）",
     usage: "cited",
   },
@@ -67,7 +65,6 @@ export const REFERENCES = [
     year: 2023,
     doi: "10.1007/s11145-022-10352-9",
     url: "https://doi.org/10.1007/s11145-022-10352-9",
-    pdfHref: "/reference/4Tseng 等 - 2023 - Learning to read Chinese the roles of phonologica.pdf",
     shortLabel: "Tseng et al.（2023）",
     usage: "cited",
   },
@@ -80,7 +77,6 @@ export const REFERENCES = [
     year: 2016,
     doi: "10.1080/10888438.2015.1088543",
     url: "https://doi.org/10.1080/10888438.2015.1088543",
-    pdfHref: "/reference/5Song 等 - 2016 - How Well Do Phonological Awareness and Rapid Autom.pdf",
     shortLabel: "Song et al.（2016）",
     usage: "cited",
   },
@@ -92,7 +88,6 @@ export const REFERENCES = [
     year: 1990,
     doi: "10.1007/BF00401799",
     url: "https://doi.org/10.1007/BF00401799",
-    pdfHref: "/reference/6.1The Simple View of Reading.pdf",
     shortLabel: "Hoover & Gough（1990）",
     usage: "cited",
   },
@@ -104,83 +99,81 @@ export const REFERENCES = [
     year: 1986,
     doi: "10.1177/074193258600700104",
     url: "https://doi.org/10.1177/074193258600700104",
-    pdfHref: "/reference/6Decoding, Reading, and Reading Disability.pdf",
     shortLabel: "Gough & Tunmer（1986）",
     usage: "cited",
   },
   {
     id: 8,
     authors: "Hua Shu, Richard C. Anderson",
-    title: "Role of radical awareness in the character and word acquisition of Chinese children",
+    title:
+      "Role of radical awareness in the character and word acquisition of Chinese children",
     publication: "Reading Research Quarterly，1997，32(1)：78–89",
     year: 1997,
     doi: "10.1598/RRQ.32.1.5",
     url: "https://doi.org/10.1598/RRQ.32.1.5",
-    pdfHref:
-      "/reference/6Reading Research Quarterly - 2011 - Shu - Role of Radical Awareness in the Character and Word Acquisition of Chinese.pdf",
     shortLabel: "Shu & Anderson（1997）",
     usage: "cited",
   },
   {
     id: 9,
     authors: "Hua Shu, Catherine McBride-Chang, Sina Wu, Hongyun Liu",
-    title: "Understanding Chinese developmental dyslexia: Morphological awareness as a core cognitive construct",
+    title:
+      "Understanding Chinese developmental dyslexia: Morphological awareness as a core cognitive construct",
     publication: "Journal of Educational Psychology，2006，98(1)：122–133",
     year: 2006,
     doi: "10.1037/0022-0663.98.1.122",
     url: "https://doi.org/10.1037/0022-0663.98.1.122",
-    pdfHref: "/reference/7Understanding Chinese Developmental Dyslexia Morphological Awarenessas a Core Cognitive Construct.pdf",
     shortLabel: "Shu et al.（2006）",
     usage: "cited",
   },
   {
     id: 10,
-    authors: "Sarah G. Wood, Jerad H. Moxley, Elizabeth L. Tighe, Richard K. Wagner",
+    authors:
+      "Sarah G. Wood, Jerad H. Moxley, Elizabeth L. Tighe, Richard K. Wagner",
     title:
       "Does use of text-to-speech and related read-aloud tools improve reading comprehension for students with reading disabilities? A meta-analysis",
     publication: "Journal of Learning Disabilities，2018，51(1)：73–84",
     year: 2018,
     doi: "10.1177/0022219416688170",
     url: "https://doi.org/10.1177/0022219416688170",
-    pdfHref: "/reference/8does-use-of-text-to-speech-and-related-read-aloud-tools-2ia9vnjst1.pdf",
     shortLabel: "Wood et al.（2018）",
     usage: "cited",
   },
   {
     id: 11,
-    authors: "Sanne M. Kuster, Marjolijn van Weerdenburg, Marjolein Gompel, Anna M. T. Bosman",
-    title: "Dyslexie font does not benefit reading in children with or without dyslexia",
+    authors:
+      "Sanne M. Kuster, Marjolijn van Weerdenburg, Marjolein Gompel, Anna M. T. Bosman",
+    title:
+      "Dyslexie font does not benefit reading in children with or without dyslexia",
     publication: "Annals of Dyslexia，2018，68(1)：25–42",
     year: 2018,
     doi: "10.1007/s11881-017-0154-6",
     url: "https://doi.org/10.1007/s11881-017-0154-6",
-    pdfHref: "/reference/9Dyslexie font does not benefit reading in childrenwith or without dyslexia.pdf",
     shortLabel: "Kuster et al.（2018）",
     usage: "cited",
   },
   {
     id: 12,
-    authors: "Jessica Galliussi, Luciano Perondi, Giuseppe Chia, Walter Gerbino, Paolo Bernardis",
+    authors:
+      "Jessica Galliussi, Luciano Perondi, Giuseppe Chia, Walter Gerbino, Paolo Bernardis",
     title:
       "Inter-letter spacing, inter-word spacing, and font with dyslexia-friendly features: Testing text readability in people with and without dyslexia",
     publication: "Annals of Dyslexia，2020，70(1)：141–152",
     year: 2020,
     doi: "10.1007/s11881-020-00194-x",
     url: "https://doi.org/10.1007/s11881-020-00194-x",
-    pdfHref:
-      "/reference/10Inter-letter spacing, inter-word spacing, and font with dyslexia-friendly features testing text readability in people with and without dyslexia.pdf",
     shortLabel: "Galliussi et al.（2020）",
     usage: "cited",
   },
   {
     id: 13,
     authors: "Florina Erbeli, Peng Peng, Marianne Rice",
-    title: "No evidence of creative benefit accompanying dyslexia: A meta-analysis",
+    title:
+      "No evidence of creative benefit accompanying dyslexia: A meta-analysis",
     publication: "Journal of Learning Disabilities，2022，55(3)：242–253",
     year: 2022,
     doi: "10.1177/00222194211010350",
     url: "https://doi.org/10.1177/00222194211010350",
-    pdfHref: "/reference/11NoEvidenceofCreativeBenefitinDyslexia_Researchgate.pdf",
     shortLabel: "Erbeli et al.（2022）",
     usage: "cited",
   },
@@ -192,7 +185,6 @@ export const REFERENCES = [
     year: 2021,
     doi: "10.1002/dys.1677",
     url: "https://doi.org/10.1002/dys.1677",
-    pdfHref: "/reference/12Dyslexia - 2021 - Majeed - Developmental dyslexia and creativity  A meta‐analysis.pdf",
     shortLabel: "Majeed et al.（2021）",
     usage: "cited",
   },
@@ -204,7 +196,6 @@ export const REFERENCES = [
     year: 2022,
     doi: "10.1177/00222194211037062",
     url: "https://doi.org/10.1177/00222194211037062",
-    pdfHref: "/reference/13cumulativeriskandresilience.inpress.pdf",
     shortLabel: "Catts & Petscher（2022）",
     usage: "cited",
   },
@@ -212,12 +203,13 @@ export const REFERENCES = [
     id: 16,
     authors:
       "Lijuan Liu, Tuo Fang, Enmao Liu, Shang Shi, Shuo Zhai, Yang Chen, Lingyan Zhang, Yan Shi, Cheng Yao",
-    title: "CNReader: A reading practice tool designed for Chinese children with developmental dyslexia",
-    publication: "Humanities and Social Sciences Communications，2025，12：Article 751",
+    title:
+      "CNReader: A reading practice tool designed for Chinese children with developmental dyslexia",
+    publication:
+      "Humanities and Social Sciences Communications，2025，12：Article 751",
     year: 2025,
     doi: "10.1057/s41599-025-05079-1",
     url: "https://doi.org/10.1057/s41599-025-05079-1",
-    pdfHref: "/reference/14CNReader a reading practice tool designed forChinese children with developmental dyslexia.pdf",
     shortLabel: "Liu et al.（2025）",
     usage: "cited",
     note: "研究原型；不等同于已商业化产品。",
@@ -226,13 +218,13 @@ export const REFERENCES = [
     id: 17,
     authors:
       "Shuhan Zhong, Sizhe Song, Tianhao Tang, Fei Nie, Xinrui Zhou, Yankun Zhao, Yizhe Zhao, Kuen Fung Sin, S.-H. Gary Chan",
-    title: "DYPA: A machine learning dyslexia prescreening mobile application for Chinese children",
+    title:
+      "DYPA: A machine learning dyslexia prescreening mobile application for Chinese children",
     publication:
       "Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies，2023，7(3)：Article 143，21 pages",
     year: 2023,
     doi: "10.1145/3610908",
     url: "https://doi.org/10.1145/3610908",
-    pdfHref: "/reference/15DYPA A Machine Learning Dyslexia Prescreening Mobile Application for Chinese Children.pdf",
     shortLabel: "Zhong et al.（2023）",
     usage: "cited",
     note: "研究原型；只能用于风险预筛查，不能替代专业诊断。",
@@ -246,8 +238,6 @@ export const REFERENCES = [
     year: 2025,
     doi: "10.1007/s12144-025-07765-4",
     url: "https://doi.org/10.1007/s12144-025-07765-4",
-    pdfHref:
-      "/reference/可以作为但是也不太相关4The impact of visual crowding on Chinese character recognition a comparative study of primary school children and adult university students.pdf",
     shortLabel: "Gong et al.（2025）",
     usage: "supplementary",
     note: "补充背景：研究比较一般儿童与成人的汉字视觉拥挤，并非阅读障碍样本。",

@@ -29,7 +29,7 @@ export default function Footer() {
               <span className="text-base font-medium text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>阅见不同</span>
             </div>
             <p className="text-muted-foreground text-xs leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-              打破认知壁垒，建立真正的共情。
+              让阅读困难被理解，让支持更有依据。
             </p>
           </div>
 
@@ -61,6 +61,9 @@ export default function Footer() {
                 参考文献
               </button>
               。
+            </p>
+            <p className="text-muted-foreground text-xs leading-relaxed mt-4 text-pretty" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+              本站建设过程中，曾就部分内容与呈现方式向李虹教授课题组师生请教，谨致谢意。
             </p>
           </div>
         </div>
