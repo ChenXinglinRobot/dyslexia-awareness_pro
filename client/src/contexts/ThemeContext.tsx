@@ -24,7 +24,7 @@ export function ThemeProvider({
   const [theme, setTheme] = useState<Theme>(() => {
     if (switchable) {
       const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
+      return stored === "light" || stored === "dark" ? stored : defaultTheme;
     }
     return defaultTheme;
   });
@@ -36,6 +36,14 @@ export function ThemeProvider({
     } else {
       root.classList.remove("dark");
     }
+    root.style.colorScheme = theme;
+
+    document
+      .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+      ?.setAttribute("content", theme === "dark" ? "#050c13" : "#f9f4ec");
+    document
+      .querySelector<HTMLLinkElement>("link[data-theme-icon]")
+      ?.setAttribute("href", `/brand/favicon-${theme}.svg?v=2`);
 
     if (switchable) {
       localStorage.setItem("theme", theme);

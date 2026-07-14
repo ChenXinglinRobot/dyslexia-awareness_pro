@@ -1,0 +1,25 @@
+{
+  "name": "阅见不同",
+  "short_name": "阅见不同",
+  "description": "一个关于中文阅读障碍的沉浸式认知体验。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050c13",
+  "theme_color": "#050c13",
+  "icons": [
+    {
+      "src": "/brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
