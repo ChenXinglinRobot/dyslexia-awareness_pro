@@ -47,11 +47,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     avoid: "不要用罚抄、加量阅读或反复责备来“逼好”孩子",
     icon: Home,
     accent: "oklch(0.62 0.15 68)",
-    imageSrc:
-      "https://images.unsplash.com/photo-1713942590283-59867d5e3f8d?auto=format&fit=crop&w=900&q=80",
+    imageSrc: "/action-roles/parent.webp",
     imageAlt: "家长正在给孩子读书",
-    imageCredit: "Unsplash / parent and child reading",
-    imageHref: "https://unsplash.com/s/photos/parent-and-child-reading",
+    imageCredit: "本地图片",
+    imageHref: "/action-roles/parent.webp",
     fallbackSrc: "/action-roles/parent.webp",
   },
   {
@@ -66,12 +65,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     avoid: "不要公开羞辱，或强迫学生当众朗读来“锻炼胆量”",
     icon: GraduationCap,
     accent: "oklch(0.55 0.12 210)",
-    imageSrc:
-      "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=900&q=80",
+    imageSrc: "/action-roles/teacher.webp",
     imageAlt: "教师在教室里指导学生学习",
-    imageCredit: "Unsplash / teacher reading",
-    imageHref:
-      "https://unsplash.com/ko/s/%EC%82%AC%EC%A7%84/%EC%9C%A0%EC%B9%98%EC%9B%90-%EA%B5%90%EC%82%AC",
+    imageCredit: "本地图片",
+    imageHref: "/action-roles/teacher.webp",
     fallbackSrc: "/action-roles/teacher.webp",
     evidence: {
       text: "合理便利依据国内专家意见整理",
@@ -90,11 +87,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     avoid: "不要把阅读速度当成评价一个人的全部标准",
     icon: UsersRound,
     accent: "oklch(0.58 0.13 150)",
-    imageSrc:
-      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=900&q=80",
+    imageSrc: "/action-roles/peer.webp",
     imageAlt: "学生们一起阅读和学习",
-    imageCredit: "Unsplash / children reading",
-    imageHref: "https://unsplash.com/s/photos/children-reading",
+    imageCredit: "本地图片",
+    imageHref: "/action-roles/peer.webp",
     fallbackSrc: "/action-roles/peer.webp",
   },
   {
@@ -109,11 +105,10 @@ const ROLE_ACTIONS: RoleAction[] = [
     avoid: "不要把所有困难都归咎于“我不够好”或独自硬扛",
     icon: UserRound,
     accent: "oklch(0.52 0.17 300)",
-    imageSrc:
-      "https://images.unsplash.com/photo-1585597621714-b54f9ca3b704?auto=format&fit=crop&w=900&q=80",
+    imageSrc: "/action-roles/student.webp",
     imageAlt: "学生在桌前独立完成文字任务",
-    imageCredit: "Unsplash / child learning",
-    imageHref: "https://unsplash.com/s/photos/kid-tablet",
+    imageCredit: "本地图片",
+    imageHref: "/action-roles/student.webp",
     fallbackSrc: "/action-roles/student.webp",
     evidence: {
       text: "朗读辅助对部分学生可能有帮助，实际效果存在差异",

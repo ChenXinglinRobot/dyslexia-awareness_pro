@@ -240,32 +240,61 @@ function vitePluginReferencePrivacy(): Plugin {
     configurePreviewServer(server: PreviewServer) {
       server.middlewares.use(blockReferenceAssets);
     },
+  };
+}
+
+const RELEASE_BLOCKED_FILES = [
+  /(?:^|[/\\])[^/\\]*manus[^/\\]*(?:[/\\]|$)/i,
+  /(?:^|[/\\])reference(?:[/\\]|$)/i,
+  /\.xlsx$/i,
+  /\.md$/i,
+  /\.map$/i,
+  /\.log$/i,
+  /(?:^|[/\\])[^/\\]*debug[^/\\]*$/i,
+  /(?:^|[/\\])campus-image-sources\.json$/i,
+];
+
+function vitePluginReleaseSanitizer(): Plugin {
+  return {
+    name: "release-sanitizer",
     closeBundle() {
-      const builtReferenceDir = path.resolve(
-        PROJECT_ROOT,
-        "dist",
-        "public",
-        "reference"
-      );
-      if (fs.existsSync(builtReferenceDir)) {
-        fs.rmSync(builtReferenceDir, { recursive: true, force: true });
-      }
+      const outputDir = path.resolve(PROJECT_ROOT, "dist", "public");
+      if (!fs.existsSync(outputDir)) return;
+
+      const removeBlockedEntries = (directory: string) => {
+        for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+          const absolutePath = path.join(directory, entry.name);
+          const relativePath = path.relative(outputDir, absolutePath);
+
+          if (RELEASE_BLOCKED_FILES.some(pattern => pattern.test(relativePath))) {
+            fs.rmSync(absolutePath, { recursive: true, force: true });
+            continue;
+          }
+
+          if (entry.isDirectory()) removeBlockedEntries(absolutePath);
+        }
+      };
+
+      removeBlockedEntries(outputDir);
     },
   };
 }
 
-const plugins = [
-  react(),
-  tailwindcss(),
-  jsxLocPlugin(),
-  vitePluginManusRuntime(),
-  vitePluginManusDebugCollector(),
-  vitePluginStorageProxy(),
-  vitePluginReferencePrivacy(),
-];
-
-export default defineConfig({
-  plugins,
+export default defineConfig(({ command, mode }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    ...(command === "serve" && mode === "development"
+      ? [
+          jsxLocPlugin(),
+          vitePluginManusRuntime(),
+          vitePluginManusDebugCollector(),
+          vitePluginStorageProxy(),
+        ]
+      : []),
+    vitePluginReferencePrivacy(),
+    ...(command === "build" ? [vitePluginReleaseSanitizer()] : []),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -278,6 +307,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    sourcemap: false,
   },
   server: {
     port: 3000,
@@ -297,4 +327,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

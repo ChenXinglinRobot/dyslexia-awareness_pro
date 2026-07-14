@@ -26,10 +26,7 @@ function autoBind(instance: any): void {
   });
 }
 
-const DEFAULT_FONT = 'bold 30px Figtree';
-// Figtree is not guaranteed to be available on the host page, so the component
-// loads it on demand whenever the default font is used.
-const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap';
+const DEFAULT_FONT = 'bold 30px "Microsoft YaHei", sans-serif';
 
 function deriveFontFamilyFromUrl(url: string): string {
   const fileName = (url.split('/').pop() || 'custom-font').split('?')[0];
@@ -77,17 +74,15 @@ async function loadFontFromFile(url: string): Promise<string> {
 }
 
 async function loadCustomFont(fontUrl: string): Promise<string> {
-  const isStylesheet = fontUrl.includes('fonts.googleapis.com') || /\.css(\?.*)?$/i.test(fontUrl);
+  const isStylesheet = /\.css(\?.*)?$/i.test(fontUrl);
   return isStylesheet ? loadFontFromStylesheet(fontUrl) : loadFontFromFile(fontUrl);
 }
 
-// Loads `fontUrl` (a stylesheet such as a Google Fonts URL, or a direct font
-// file) and returns a canvas-ready font string that keeps the size/weight from
+// Loads `fontUrl` (a stylesheet or direct font file) and returns a
+// canvas-ready font string that keeps the size/weight from
 // `font` but swaps in the freshly loaded family. Falls back to `font` on error.
 async function resolveFont(font: string, fontUrl?: string): Promise<string> {
-  // Use the bundled Figtree stylesheet when the caller relies on the default
-  // font, otherwise honor the explicit `fontUrl`.
-  const effectiveUrl = fontUrl || (font === DEFAULT_FONT ? DEFAULT_FONT_URL : null);
+  const effectiveUrl = fontUrl || null;
   if (!effectiveUrl) {
     // A custom family was supplied without a URL – make sure it is ready (in
     // case the host page declares it) before we draw it to the canvas,
@@ -518,7 +513,7 @@ class App {
       bend = 1,
       textColor = '#ffffff',
       borderRadius = 0,
-      font = 'bold 30px Figtree',
+      font = DEFAULT_FONT,
       scrollSpeed = 2,
       scrollEase = 0.05
     }: AppConfig
@@ -771,7 +766,7 @@ export default function CircularGallery({
   bend = 3,
   textColor = '#ffffff',
   borderRadius = 0.05,
-  font = 'bold 30px Figtree',
+  font = DEFAULT_FONT,
   fontUrl,
   scrollSpeed = 2,
   scrollEase = 0.05,

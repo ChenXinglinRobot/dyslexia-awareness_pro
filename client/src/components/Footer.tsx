@@ -2,7 +2,7 @@
    Footer — 页脚
    ============================================================ */
 
-const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/logo-icon-B8wkoZ4z4y5bf87CJoo3x3.webp";
+import BrandMark from "./BrandMark";
 
 export default function Footer() {
   const navLinks = [
@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <img src={LOGO_URL} alt="阅见不同" className="w-7 h-7 rounded-sm" />
+              <BrandMark size="sm" />
               <span className="text-base font-medium text-foreground" style={{ fontFamily: "'Noto Serif SC', serif" }}>阅见不同</span>
             </div>
             <p className="text-muted-foreground text-xs leading-relaxed" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>

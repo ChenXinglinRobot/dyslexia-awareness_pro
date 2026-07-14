@@ -28,8 +28,8 @@ import BorderGlow from "./BorderGlow";
 // @ts-ignore — matter-js 没有官方 @types,且项目中 FallingText 同样裸导入
 import Matter from "matter-js";
 
-const SECTION_BG_DARK = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-BXNRYBiW9Ns8QfrGCzzxoW.webp";
-const SECTION_BG_LIGHT = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/section-understand-light-gCwMqAx8ue3TNK6TpTGwYk.webp";
+const SECTION_BG_DARK = "/bg/hero-bg-dark.webp";
+const SECTION_BG_LIGHT = "/bg/hero-bg-light.webp";
 
 // ============ 模拟体验 ============
 

@@ -6,9 +6,8 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import SimulationToggleButton from "./SimulationToggleButton";
 import ThemeToggleButton from "./ThemeToggleButton";
+import BrandMark from "./BrandMark";
 import "./Navbar.css";
-
-const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663735095664/T2Ty8s2CAsukaVEWePLa9e/logo-icon-B8wkoZ4z4y5bf87CJoo3x3.webp";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -258,7 +257,7 @@ export default function Navbar() {
           onClick={() => scrollTo("#hero")}
           className="flex items-center gap-2.5 group"
         >
-          <img src={LOGO_URL} alt="阅见不同" className="w-8 h-8 rounded-sm" />
+          <BrandMark />
           <span
             className="text-lg font-medium tracking-wide text-foreground"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
