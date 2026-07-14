@@ -58,33 +58,46 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="mt-5 pt-4 border-t border-border/60">
-                <p className="text-muted-foreground text-sm mb-2" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+              <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2">
+                <p className="text-muted-foreground text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
                   关注我们
                 </p>
-                {/* TODO: 在此处补充正式的小红书品牌图标。 */}
                 <a
                   href="https://xhslink.com/m/AXoKxLT0orc"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="在小红书关注读悦 ReadLeap（新窗口打开）"
-                  className="inline-flex max-w-full rounded-sm text-primary font-medium underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group inline-flex min-h-11 max-w-full items-center gap-2 rounded-sm px-1 text-base text-primary font-medium underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
                 >
-                  读悦 ReadLeap
+                  <span
+                    aria-hidden="true"
+                    className="h-5 w-12 shrink-0 bg-[#ff2442] transition-colors group-hover:bg-[#e60023] dark:bg-white dark:group-hover:bg-white/80"
+                    style={{
+                      WebkitMaskImage: "url('/brand/xiaohongshu.svg')",
+                      maskImage: "url('/brand/xiaohongshu.svg')",
+                      WebkitMaskPosition: "center",
+                      maskPosition: "center",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskSize: "contain",
+                      maskSize: "contain",
+                    }}
+                  />
+                  <span className="whitespace-nowrap">读悦 ReadLeap</span>
                 </a>
               </div>
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(3) }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: delay(3) }} className="max-w-3xl">
             <div
               role="note"
               aria-labelledby="about-disclaimer-title"
               className="flex items-start gap-3 bg-card border border-border p-5 transition-colors duration-500">
               <Info aria-hidden="true" className="w-4 h-4 text-primary shrink-0 mt-1" />
               <div className="min-w-0">
-                <h4 id="about-disclaimer-title" className="text-foreground text-sm mb-1.5" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 500 }}>
+                <h4 id="about-disclaimer-title" className="text-foreground text-sm mb-2" style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 500 }}>
                   说明
                 </h4>
                 <p className="text-muted-foreground text-sm leading-relaxed text-pretty" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
