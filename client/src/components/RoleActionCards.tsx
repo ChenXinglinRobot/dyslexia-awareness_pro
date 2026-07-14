@@ -132,7 +132,7 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
 
   return (
     <article
-      className="h-full bg-card border border-border p-5 md:p-6 shadow-sm transition-colors duration-500"
+      className="h-full w-full bg-card p-5 shadow-sm transition-colors duration-500 md:p-6"
       style={{ ["--role-accent" as string]: role.accent }}
     >
       <div className="flex items-center justify-between gap-4 mb-4">
@@ -148,7 +148,7 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
           </h4>
         </div>
         <span
-          className="hidden sm:block h-px w-16"
+          className="hidden h-px w-24 sm:block xl:w-32"
           style={{ backgroundColor: role.accent }}
           aria-hidden
         />
@@ -219,7 +219,7 @@ function RoleCardContent({ role, compact = false }: RoleCardProps) {
 
 function RoleImage({ role, mobile = false }: { role: RoleAction; mobile?: boolean }) {
   return (
-    <figure className={mobile ? "min-w-0 w-full" : "min-w-0 md:max-w-[380px] lg:max-w-[400px]"}>
+    <figure className={mobile ? "min-w-0 w-full" : "min-w-0 max-w-[320px]"}>
       <div
         className={
           mobile
@@ -269,7 +269,7 @@ function RoleTabs({
     <div
       role="tablist"
       aria-label="选择行动角色"
-      className="flex flex-col gap-2 md:flex md:flex-col"
+      className="flex flex-col gap-2"
     >
       {ROLE_ACTIONS.map((role) => {
         const Icon = role.icon;
@@ -282,10 +282,10 @@ function RoleTabs({
             type="button"
             aria-selected={selected}
             onClick={() => onChange(role.key)}
-            className={`group min-w-0 border p-3 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:p-4 ${
+            className={`group min-w-0 border p-3 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring xl:p-4 ${
               selected
-                ? "min-h-[60px] border-primary/60 border-l-[3px] border-l-[color:var(--role-accent)] bg-card shadow-sm md:min-h-[150px]"
-                : "min-h-[52px] border border-border border-l-[3px] border-l-transparent bg-card/60 hover:border-primary/35 hover:bg-card md:min-h-[112px]"
+                ? "min-h-[60px] border-primary/60 border-l-[3px] border-l-[color:var(--role-accent)] bg-card shadow-sm xl:min-h-[150px]"
+                : "min-h-[52px] border border-border border-l-[3px] border-l-transparent bg-card/60 hover:border-primary/35 hover:bg-card xl:min-h-[112px]"
             }`}
             style={{ ["--role-accent" as string]: role.accent }}
           >
@@ -307,7 +307,7 @@ function RoleTabs({
               </span>
             </span>
             <span
-              className={`hidden md:mt-3 md:block text-xs leading-relaxed text-muted-foreground transition-all duration-300 ${
+              className={`hidden text-xs leading-relaxed text-muted-foreground transition-all duration-300 xl:mt-3 xl:block ${
                 selected ? "line-clamp-none opacity-100" : "line-clamp-2 opacity-80"
               }`}
               style={{ fontFamily: "'Noto Serif SC', serif" }}
@@ -316,7 +316,7 @@ function RoleTabs({
             </span>
             {selected && (
               <span
-                className="mt-3 hidden h-px w-16 md:mt-4 md:block"
+                className="mt-3 hidden h-px w-16 xl:mt-4 xl:block"
                 style={{ backgroundColor: role.accent }}
                 aria-hidden
               />
@@ -365,18 +365,18 @@ export default function RoleActionCards({ inView, delay }: RoleActionCardsProps)
         </div>
       </div>
 
-      <div className="hidden md:grid md:grid-cols-[260px_minmax(300px,400px)_minmax(520px,1fr)] gap-6 lg:gap-8 items-end">
+      <div className="hidden items-end gap-6 xl:grid xl:w-[calc(50vw_+_608px)] xl:grid-cols-[220px_320px_minmax(660px,1fr)]">
         <RoleTabs activeKey={activeKey} onChange={setActiveKey} />
 
         <div id={`role-panel-desktop-${activeRole.key}`} role="tabpanel" aria-live="polite">
           <RoleImage role={activeRole} />
         </div>
 
-        <div className="relative flex h-[500px] min-w-0 items-end overflow-visible">
+        <div className="relative flex h-[520px] min-w-0 items-end overflow-visible">
           <CardSwap
-            width={420}
-            height={420}
-            cardDistance={30}
+            width="clamp(560px, calc(50vw - 48px), 880px)"
+            height={440}
+            cardDistance={20}
             verticalDistance={28}
             skewAmount={3}
             easing="linear"
@@ -398,7 +398,7 @@ export default function RoleActionCards({ inView, delay }: RoleActionCardsProps)
         id={`role-panel-mobile-${activeRole.key}`}
         role="tabpanel"
         aria-live="polite"
-        className="space-y-3 md:hidden"
+        className="space-y-3 xl:hidden"
       >
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] gap-3 landscape:gap-4 landscape:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] landscape:items-stretch">
           <RoleTabs activeKey={activeKey} onChange={setActiveKey} />
