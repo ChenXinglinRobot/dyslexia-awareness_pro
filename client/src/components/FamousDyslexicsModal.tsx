@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "./ui/sheet";
 import Stack from "./Stack";
 import { famousDyslexics } from "@/data/famousDyslexics";
 import { ExternalLink } from "lucide-react";
@@ -89,9 +95,9 @@ export default function FamousDyslexicsModal({ open, onOpenChange }: FamousDysle
           <SheetTitle className="text-lg md:text-xl" style={{ fontFamily: "'Noto Serif SC', serif" }}>
             不同的路，也能抵达
           </SheetTitle>
-          <p className="text-sm text-muted-foreground" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
+          <SheetDescription className="text-sm text-muted-foreground" style={{ fontFamily: "'Noto Sans SC', sans-serif" }}>
             这些经历来自公开自述、访谈、传记或历史资料。每个人的道路和优势都不相同；它们不是"天才证明"，只是让我们看见，阅读困难之外，人生仍有许多可能。
-          </p>
+          </SheetDescription>
         </SheetHeader>
         <div className="stack-wrapper py-6 famous-stack">
           {stackReady ? (

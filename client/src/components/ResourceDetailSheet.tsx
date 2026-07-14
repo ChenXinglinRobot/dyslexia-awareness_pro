@@ -1,6 +1,7 @@
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetFooter,
@@ -87,14 +88,14 @@ export default function ResourceDetailSheet({
             {resource.name}
           </SheetTitle>
           {(isHospital(resource) || isInstitute(resource)) && (
-            <p className="text-muted-foreground text-xs">
+            <SheetDescription className="text-muted-foreground text-xs">
               {(resource as Hospital).city}
-            </p>
+            </SheetDescription>
           )}
           {isOnline(resource) && (
-            <p className="text-muted-foreground text-xs">
+            <SheetDescription className="text-muted-foreground text-xs">
               {resource.platform}
-            </p>
+            </SheetDescription>
           )}
         </SheetHeader>
 

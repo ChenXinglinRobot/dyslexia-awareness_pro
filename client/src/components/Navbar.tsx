@@ -15,11 +15,35 @@ export default function Navbar() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Gooey effect refs
+  const headerRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const isAnimatingRef = useRef(false);
+  const hasInitializedActiveEffectRef = useRef(false);
+  const navigationRequestRef = useRef(0);
+  const programmaticTargetIndexRef = useRef<number | null>(null);
+  const programmaticTargetHrefRef = useRef<string | null>(null);
+  const selectionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingTimersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
+
+  const scheduleTimeout = (callback: () => void, delay: number) => {
+    const timer = setTimeout(() => {
+      pendingTimersRef.current.delete(timer);
+      callback();
+    }, delay);
+    pendingTimersRef.current.add(timer);
+    return timer;
+  };
+
+  const cancelTimeout = (timer: ReturnType<typeof setTimeout> | null) => {
+    if (timer === null) return;
+    clearTimeout(timer);
+    pendingTimersRef.current.delete(timer);
+  };
 
   // Gooey particle system constants
   const noise = (n = 1) => n / 2 - Math.random() * n;
@@ -59,7 +83,7 @@ export default function Navbar() {
         element.classList.remove("active");
       }
 
-      setTimeout(() => {
+      scheduleTimeout(() => {
         const particle = document.createElement("span");
         const point = document.createElement("span");
         particle.classList.add("particle");
@@ -80,7 +104,7 @@ export default function Navbar() {
             element.classList.add("active");
           });
         }
-        setTimeout(() => {
+        scheduleTimeout(() => {
           try {
             element.removeChild(particle);
           } catch {
@@ -107,10 +131,12 @@ export default function Navbar() {
     textRef.current.innerText = element.innerText;
   };
 
-  const handleSelect = (element: HTMLElement, index: number) => {
-    if (activeIndex === index || isAnimatingRef.current) return;
+  const handleSelect = (element: HTMLElement, index: number, requestId: number) => {
+    if (activeIndex === index && !isAnimatingRef.current) return;
 
     const oldIndex = activeIndex;
+    cancelTimeout(selectionTimerRef.current);
+    cancelTimeout(unlockTimerRef.current);
     isAnimatingRef.current = true;
 
     if (navRef.current) {
@@ -145,7 +171,10 @@ export default function Navbar() {
     }
 
     // 延迟后：gooey 跳到新位置 + 聚拢粒子
-    setTimeout(() => {
+    selectionTimerRef.current = scheduleTimeout(() => {
+      selectionTimerRef.current = null;
+      if (requestId !== navigationRequestRef.current) return;
+
       setActiveIndex(index);
       updateEffectPosition(element);
 
@@ -164,40 +193,125 @@ export default function Navbar() {
       }
 
       // 动画完成后释放锁，保护粒子动画完整播放
-      setTimeout(() => {
+      unlockTimerRef.current = scheduleTimeout(() => {
+        unlockTimerRef.current = null;
+        if (requestId !== navigationRequestRef.current) return;
         isAnimatingRef.current = false;
       }, 800);
     }, 400);
+  };
+
+  const getScrollActivationOffset = () => {
+    const scrollPaddingTop = Number.parseFloat(
+      window.getComputedStyle(document.documentElement).scrollPaddingTop
+    );
+
+    if (Number.isFinite(scrollPaddingTop)) return scrollPaddingTop;
+    return headerRef.current?.getBoundingClientRect().height ?? 0;
+  };
+
+  const getScrollDestination = (href: string) => {
+    const el = document.querySelector<HTMLElement>(href);
+    if (!el) return null;
+
+    const sectionTop = window.scrollY + el.getBoundingClientRect().top;
+    const targetScrollTop = Math.max(
+      0,
+      Math.ceil(sectionTop - getScrollActivationOffset())
+    );
+    const maxScrollTop = Math.max(
+      0,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+
+    return Math.min(targetScrollTop, maxScrollTop);
+  };
+
+  const finishProgrammaticScroll = () => {
+    const targetIndex = programmaticTargetIndexRef.current;
+    if (targetIndex === null) return;
+
+    const targetHref = programmaticTargetHrefRef.current;
+    const nextScrollTop = targetHref
+      ? getScrollDestination(targetHref)
+      : null;
+    const physicalPixel = 1 / (window.devicePixelRatio || 1);
+
+    // Lazy content above the target can change the document geometry during a
+    // long first-load scroll. Re-read the live destination after every real
+    // settlement and keep following it until the target is actually reached.
+    if (
+      nextScrollTop !== null &&
+      Math.abs(window.scrollY - nextScrollTop) > physicalPixel
+    ) {
+      window.scrollTo({ top: nextScrollTop, behavior: "smooth" });
+      return;
+    }
+
+    cancelTimeout(scrollSettleTimerRef.current);
+    scrollSettleTimerRef.current = null;
+    programmaticTargetIndexRef.current = null;
+    programmaticTargetHrefRef.current = null;
+    setActiveIndex(targetIndex);
   };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
+      // Keep the clicked target stable until the browser reports that the
+      // programmatic smooth scroll has actually settled. A short inactivity
+      // debounce covers browsers without the scrollend event.
+      if (programmaticTargetIndexRef.current !== null) {
+        if (!("onscrollend" in document)) {
+          cancelTimeout(scrollSettleTimerRef.current);
+          scrollSettleTimerRef.current = scheduleTimeout(
+            finishProgrammaticScroll,
+            150
+          );
+        }
+        return;
+      }
+
       // 动画期间绝不允许滚动改变 activeIndex，防止 React re-render 导致 <li> 闪烁
       if (isAnimatingRef.current) return;
 
       const sections = ["hero", "understand", "action", "resources", "about"];
+      const activationOffset = getScrollActivationOffset();
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top <= 100) {
+        if (el && el.getBoundingClientRect().top <= activationOffset) {
           setActiveIndex(i);
           break;
         }
       }
     };
+    const handleScrollEnd = () => finishProgrammaticScroll();
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.addEventListener("scrollend", handleScrollEnd);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scrollend", handleScrollEnd);
+      cancelTimeout(scrollSettleTimerRef.current);
+    };
   }, []);
 
   // 滚动导致 activeIndex 变化时，同步更新 gooey 特效位置
   useEffect(() => {
+    // Initial render already highlights and positions "首页" below. Skip the
+    // otherwise redundant particle convergence to keep first paint light.
+    if (!hasInitializedActiveEffectRef.current) {
+      hasInitializedActiveEffectRef.current = true;
+      return;
+    }
+
     // 双重保险：动画期间跳过，防止意外干扰
     if (!navRef.current || isAnimatingRef.current) return;
     const activeItem = navRef.current.querySelectorAll("li button")[activeIndex] as HTMLElement;
     if (activeItem) {
       updateEffectPosition(activeItem);
-      setTimeout(() => {
+      const effectTimer = scheduleTimeout(() => {
         if (filterRef.current) {
           const particles = filterRef.current.querySelectorAll(".particle");
           particles.forEach((particle) => filterRef.current?.removeChild(particle));
@@ -209,6 +323,7 @@ export default function Navbar() {
         void textRef.current.offsetWidth;
         textRef.current.classList.add("active");
       }
+      return () => cancelTimeout(effectTimer);
     }
   }, [activeIndex]);
 
@@ -222,6 +337,14 @@ export default function Navbar() {
     }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      navigationRequestRef.current += 1;
+      pendingTimersRef.current.forEach(timer => clearTimeout(timer));
+      pendingTimersRef.current.clear();
+    };
+  }, []);
+
   const navLinks = [
     { label: "首页", href: "#hero", id: "hero" },
     { label: "了解阅读障碍", href: "#understand", id: "understand" },
@@ -231,20 +354,52 @@ export default function Navbar() {
   ];
 
   const scrollTo = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    const nextScrollTop = getScrollDestination(href);
+    if (nextScrollTop !== null) {
+      const physicalPixel = 1 / (window.devicePixelRatio || 1);
+
+      if (Math.abs(window.scrollY - nextScrollTop) <= physicalPixel) {
+        setMenuOpen(false);
+        return false;
+      }
+
+      window.scrollTo({
+        top: nextScrollTop,
+        behavior: "smooth",
+      });
+      setMenuOpen(false);
+      return true;
+    }
     setMenuOpen(false);
+    return false;
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
     const element = e.currentTarget;
-    handleSelect(element, index);
+    const requestId = ++navigationRequestRef.current;
+    programmaticTargetIndexRef.current = index;
+    programmaticTargetHrefRef.current = navLinks[index].href;
+    handleSelect(element, index, requestId);
     const href = navLinks[index].href;
-    setTimeout(() => scrollTo(href), 100);
+    if (!scrollTo(href)) finishProgrammaticScroll();
+  };
+
+  const handleDirectNavigation = (index: number) => {
+    navigationRequestRef.current += 1;
+    programmaticTargetIndexRef.current = index;
+    programmaticTargetHrefRef.current = navLinks[index].href;
+    cancelTimeout(selectionTimerRef.current);
+    cancelTimeout(unlockTimerRef.current);
+    selectionTimerRef.current = null;
+    unlockTimerRef.current = null;
+    isAnimatingRef.current = false;
+    setActiveIndex(index);
+    if (!scrollTo(navLinks[index].href)) finishProgrammaticScroll();
   };
 
   return (
     <header
+      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-background/92 backdrop-blur-xl border-b border-border shadow-sm"
@@ -254,7 +409,7 @@ export default function Navbar() {
       <div className="container flex items-center justify-between h-16">
         {/* 品牌 Logo */}
         <button
-          onClick={() => scrollTo("#hero")}
+          onClick={() => handleDirectNavigation(0)}
           className="flex items-center gap-2.5 group"
         >
           <BrandMark />
@@ -312,7 +467,7 @@ export default function Navbar() {
           {navLinks.map((link, index) => (
             <button
               key={link.href}
-              onClick={() => scrollTo(link.href)}
+              onClick={() => handleDirectNavigation(index)}
               className={`block w-full text-left px-6 py-3 text-sm transition-colors ${
                 activeIndex === index
                   ? "text-primary bg-primary/8"
