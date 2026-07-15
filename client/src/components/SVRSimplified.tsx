@@ -29,14 +29,14 @@ const EXPLANATIONS: Record<
     title: "字词识别",
     explanation: "把看到的字词准确、快速地读出来。",
     sentence: (
-      <em style={{ fontFamily: GROTESK }}>
-        {"She studied "}
-        <span className="text-primary font-medium">psychology</span>
-        {" at university."}
+      <em>
+        {"“一个不小心，他的手被"}
+        <span className="text-primary font-medium">剌<small className="text-xs ml-0.5 font-normal">(lá)</small></span>
+        {"了一个口子”"}
       </em>
     ),
     note: (
-      <>——听到 psychology 时知道是“心理学”，看到它的拼写却可能卡住或读错。</>
+      <>——口语上知道它的意思，看到字却认不出来，自然也无从理解。</>
     ),
   },
   language: {
