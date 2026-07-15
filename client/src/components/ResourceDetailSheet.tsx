@@ -51,9 +51,9 @@ export default function ResourceDetailSheet({
   // ── 主题感知 logo：详情卡片的容器背景在暗色模式下是深海军蓝
   //    （SheetContent bg-background/95 + body 区域），大多数机构 logo
   //    是「深色文字 + 透明」，在暗色容器上几乎不可见。应用主题由
-  //    ThemeProvider 写入 <html class="dark">，与 OS 的
-  //    prefers-color-scheme 脱钩（见 ThemeContext.tsx:32-43），所以
-  //    必须用 React 主题状态来选图，不能用 <picture media="...">。 ──
+  //    ThemeProvider 解析系统偏好与用户手动覆盖后写入 <html class="dark">，
+  //    所以必须用 React 的实际主题状态选图，不能只用
+  //    <picture media="...">。 ──
   const { theme } = useTheme();
 
   if (!resource) return null;

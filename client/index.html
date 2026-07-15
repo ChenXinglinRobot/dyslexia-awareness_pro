@@ -6,15 +6,21 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1"
     />
-    <meta name="theme-color" content="#050c13" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f9f4ec" />
+    <meta name="color-scheme" content="light dark" />
     <link
       data-theme-icon
       rel="icon"
       type="image/svg+xml"
       sizes="any"
-      href="/brand/favicon-dark.svg?v=2"
+      href="/brand/favicon-light.svg?v=2"
     />
+    <script src="/theme-runtime.js"></script>
+    <script>
+      window.__themeRuntime.applyTheme(
+        window.__themeRuntime.resolveTheme("dark", true).theme
+      );
+    </script>
     <link
       rel="apple-touch-icon"
       sizes="180x180"

@@ -28,8 +28,8 @@ export default function GameCard({ item, variant = "default", className }: GameC
     isFeatured ? "h-48 md:h-full" : "aspect-[4/3]",
   );
   /* 主题感知图片：应用主题由 ThemeProvider 写入 <html class="dark">，
-     与 OS 的 prefers-color-scheme 脱钩（见 ThemeContext.tsx:32-43），
-     所以必须用 React 主题状态来选图，不能用 <picture media="...">。 */
+     并可能由用户手动覆盖系统偏好，所以必须用 React 的实际主题状态
+     选图，不能只用 <picture media="...">。 */
   const { theme } = useTheme();
   const logoSrc =
     theme === "dark" && item.logoDark

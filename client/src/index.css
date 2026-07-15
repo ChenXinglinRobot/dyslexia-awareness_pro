@@ -65,6 +65,7 @@
 
 /* ============ 日间模式（默认） ============ */
 :root {
+  color-scheme: light dark;
   --font-scale: 112.5%; /* 16px→18px 全站 rem 文本基线；导师「整站小字偏小」的一键旋钮 */
   --radius: 0.5rem;
   --primary: oklch(0.55 0.14 70);

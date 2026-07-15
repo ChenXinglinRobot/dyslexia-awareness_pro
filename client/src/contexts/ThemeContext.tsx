@@ -1,6 +1,31 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 type Theme = "light" | "dark";
+
+interface ThemeResolution {
+  theme: Theme;
+  override: Theme | null;
+  mediaQuery: MediaQueryList | null;
+}
+
+interface ThemeRuntime {
+  resolveTheme: (defaultTheme: Theme, switchable: boolean) => ThemeResolution;
+  applyTheme: (theme: Theme) => void;
+  getMediaQuery: () => MediaQueryList | null;
+  writeOverride: (theme: Theme) => boolean;
+}
+
+declare global {
+  interface Window {
+    __themeRuntime: ThemeRuntime;
+  }
+}
 
 interface ThemeContextType {
   theme: Theme;
@@ -21,43 +46,54 @@ export function ThemeProvider({
   defaultTheme = "light",
   switchable = false,
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return stored === "light" || stored === "dark" ? stored : defaultTheme;
-    }
-    return defaultTheme;
+  const [themeState, setThemeState] = useState<{
+    theme: Theme;
+    override: Theme | null;
+  }>(() => {
+    const resolution = window.__themeRuntime.resolveTheme(
+      defaultTheme,
+      switchable
+    );
+    return { theme: resolution.theme, override: resolution.override };
   });
 
+  useLayoutEffect(() => {
+    window.__themeRuntime.applyTheme(themeState.theme);
+  }, [themeState.theme]);
+
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    root.style.colorScheme = theme;
+    if (!switchable || themeState.override) return;
 
-    document
-      .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#050c13" : "#f9f4ec");
-    document
-      .querySelector<HTMLLinkElement>("link[data-theme-icon]")
-      ?.setAttribute("href", `/brand/favicon-${theme}.svg?v=2`);
+    const mediaQuery = window.__themeRuntime.getMediaQuery();
+    if (!mediaQuery) return;
 
-    if (switchable) {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme, switchable]);
+    const handleChange = (event: MediaQueryListEvent) => {
+      setThemeState(previous =>
+        previous.override
+          ? previous
+          : {
+              theme: event.matches ? "dark" : "light",
+              override: null,
+            }
+      );
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [switchable, themeState.override]);
 
   const toggleTheme = switchable
     ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
+        const nextTheme = themeState.theme === "light" ? "dark" : "light";
+        window.__themeRuntime.writeOverride(nextTheme);
+        setThemeState({ theme: nextTheme, override: nextTheme });
       }
     : undefined;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider
+      value={{ theme: themeState.theme, toggleTheme, switchable }}
+    >
       {children}
     </ThemeContext.Provider>
   );

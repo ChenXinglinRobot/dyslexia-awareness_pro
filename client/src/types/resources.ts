@@ -19,9 +19,9 @@ export interface BaseResource {
   // ── 主题感知 ──
   // 大多数 logo 是「深色文字 + 透明」，在日间卡片（白底）上清晰，
   // 但在夜间卡片（深海军蓝）上几乎不可见。对这类资源，可选地提供
-  // 一个「反相/浅色版」用于暗色模式（应用主题由 ThemeProvider 写入
-  // <html class="dark">，与 OS 的 prefers-color-scheme 脱钩，见
-  // ThemeContext.tsx:32-43，所以渲染端用 useTheme() 而不是 <picture media="...">）。
+  // 一个「反相/浅色版」用于暗色模式（ThemeProvider 解析系统偏好与
+  // 用户手动覆盖后写入 <html class="dark">，所以渲染端用 useTheme()
+  // 获取实际主题，而不是只依赖 <picture media="...">）。
   // 球面（InfiniteMenu）等深色场景的 image 字段也可指向暗色版。
   logoDark?: string;
   // ── 旧字段兼容 ──
