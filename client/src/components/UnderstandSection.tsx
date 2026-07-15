@@ -672,14 +672,16 @@ function ChineseSpecificity() {
         className="text-foreground/80 text-lg leading-relaxed"
         style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
       >
-        与拼音文字以语音缺陷为主不同，
+        拼音文字中阅读障碍主要是以语音缺陷为主。而
         <DecryptedText
-          text="汉语阅读障碍儿童更突出地缺乏以下六种意识："
+          text="汉语阅读障碍儿童常表现为下列六种"
           sequential={true}
           revealDirection="start"
           animateOn="view"
           speed={80}
-        /> <CitationRef ids={[1, 8, 9]} />
+        />
+        <span className="text-primary font-semibold">语素意识</span>
+        缺陷： <CitationRef ids={[1, 8, 9]} />
       </motion.p>
 
       {/* 6 张卡：3 列栅格让「形旁 / 声旁」天然左右相邻，形成"意义线索 ↔ 读音线索"的视觉对应；
