@@ -71,7 +71,7 @@ export interface GameIntervention extends BaseResource {
   // ── 上线状态 ──
   // 缺省 = "live"（向后兼容所有现有数据，未填 status 字段即视为 live）。
   // "research-prototype" 表示学术原型阶段：没有可下载/可访问的入口，
-  // 由 ResourcesSection 的「即将上线 · 国内游戏化探索」子区块单独承载，
+  // 由 ResourcesSection 的「国内游戏化干预 · 探索中」子区块单独承载，
   // 不进主 Bento 网格，也不进全屏球面探索。
   status?: "live" | "research-prototype";
   // ── 论文信息（仅 research-prototype 必填） ──

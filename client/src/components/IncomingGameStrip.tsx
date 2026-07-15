@@ -52,14 +52,14 @@ export default function IncomingGameStrip({ items }: IncomingGameStripProps) {
             className="text-[10px] tracking-[0.22em] uppercase text-primary/80"
             style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 500 }}
           >
-            Incoming · Research Prototype
+            Under Exploration
           </span>
         </div>
         <h4
           className="text-lg text-foreground"
           style={{ fontFamily: "'Noto Serif SC', serif", fontWeight: 700 }}
         >
-          即将上线 · 国内游戏化探索
+          国内游戏化干预 · 探索中
         </h4>
         <p
           className="text-xs text-muted-foreground mt-1.5 max-w-2xl leading-relaxed"
