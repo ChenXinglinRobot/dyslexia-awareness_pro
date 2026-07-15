@@ -19,7 +19,6 @@ import {
   Car,
   Cat,
   Check,
-  ChevronDown,
   CupSoda,
   Dog,
   Fish,
@@ -37,13 +36,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/useMobile";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { useSimulation } from "@/contexts/SimulationContext";
 import CitationRef from "./CitationRef";
+import BottomDisclosure from "./BottomDisclosure";
 
 /* ============================================================
    模块5 快速命名 · RapidNaming
@@ -1116,33 +1111,12 @@ export default function RapidNaming() {
           <CitationRef id={1} />
         </p>
 
-        <Collapsible
+        <BottomDisclosure
           open={collapsibleOpen}
           onOpenChange={setCollapsibleOpen}
-          className="mt-3 border-t border-border"
+          label="为什么与阅读有关？"
+          className="mt-3"
         >
-        <CollapsibleTrigger asChild>
-          <button
-            type="button"
-            className="flex w-full items-center justify-between py-3 text-left transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            <span
-              className="text-sm text-foreground"
-              style={{ fontFamily: SERIF }}
-            >
-              为什么与阅读有关？
-            </span>
-            <ChevronDown
-              className={cn(
-                "h-4 w-4 text-muted-foreground transition-transform",
-                collapsibleOpen && "rotate-180"
-              )}
-              aria-hidden
-            />
-          </button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="space-y-3 pb-1 pt-2">
             <p
               className="text-sm leading-relaxed text-muted-foreground"
               style={{ fontFamily: SANS, fontWeight: 300 }}
@@ -1165,9 +1139,7 @@ export default function RapidNaming() {
             >
               相关结论来自群体层面的元分析，不能直接套用到单一个体。是否需要专业评估，应结合个人发展史、家族史与多份标准化测试，由专业人员判断。如需支持，可参考「行动建议」板块或咨询学校心理老师、儿童保健医生与阅读障碍专科门诊。
             </p>
-          </div>
-        </CollapsibleContent>
-        </Collapsible>
+        </BottomDisclosure>
       </div>
     </motion.div>
   );

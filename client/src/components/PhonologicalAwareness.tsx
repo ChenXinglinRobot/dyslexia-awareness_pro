@@ -5,15 +5,10 @@ import {
   Scissors,
   AudioWaveform,
   ExternalLink,
-  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@/components/ui/collapsible";
 import CitationRef from "./CitationRef";
+import BottomDisclosure from "./BottomDisclosure";
 
 /* ============================================================
    模块2 语音意识 · PhonologicalAwareness
@@ -425,29 +420,11 @@ export default function PhonologicalAwareness() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.5 }}
       >
-        <Collapsible open={collapsibleOpen} onOpenChange={setCollapsibleOpen}>
-          <CollapsibleTrigger asChild>
-            <button
-              type="button"
-              className="w-full flex items-center justify-between bg-card border border-border px-5 py-3 hover:border-primary/50 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <span
-                className="text-foreground text-sm"
-                style={{ fontFamily: SERIF }}
-              >
-                为什么这与阅读障碍有关？
-              </span>
-              <ChevronDown
-                className={cn(
-                  "w-4 h-4 text-muted-foreground transition-transform",
-                  collapsibleOpen && "rotate-180"
-                )}
-                aria-hidden
-              />
-            </button>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="bg-card border border-border border-t-0 p-5 space-y-3">
+        <BottomDisclosure
+          open={collapsibleOpen}
+          onOpenChange={setCollapsibleOpen}
+          label="为什么这与阅读障碍有关？"
+        >
               <p
                 className="text-sm text-muted-foreground leading-relaxed"
                 style={{ fontFamily: SANS, fontWeight: 300 }}
@@ -473,9 +450,7 @@ export default function PhonologicalAwareness() {
                 查看 IDA 官方定义原文
                 <ExternalLink className="w-3.5 h-3.5" aria-hidden />
               </a>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
+        </BottomDisclosure>
       </motion.div>
     </div>
   );

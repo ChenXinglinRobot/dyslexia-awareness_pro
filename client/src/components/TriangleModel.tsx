@@ -1,15 +1,11 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion, useMotionValue, useAnimationFrame, type MotionValue } from "framer-motion";
-import { Cat, Volume2, Type, ChevronDown } from "lucide-react";
+import { Cat, Volume2, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSimulation } from "@/contexts/SimulationContext";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@/components/ui/collapsible";
 import CitationRef from "./CitationRef";
 import MiniSVRBreadcrumb from "./MiniSVRBreadcrumb";
+import BottomDisclosure from "./BottomDisclosure";
 
 /* ============================================================
    模块4 三角模型 · TriangleModel
@@ -531,23 +527,12 @@ export default function TriangleModel() {
       </div>
 
       {/* 底部 Collapsible：概念示意说明 + SVR 文献（非三角模型直接实证） */}
-      <Collapsible open={collapsibleOpen} onOpenChange={setCollapsibleOpen} className="mt-4">
-        <CollapsibleTrigger asChild>
-          <button
-            type="button"
-            className="w-full flex items-center justify-between bg-card border border-border px-5 py-3 hover:border-primary/50 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            <span className="text-foreground text-sm" style={{ fontFamily: SERIF }}>
-              这张图怎么读
-            </span>
-            <ChevronDown
-              className={cn("w-4 h-4 text-muted-foreground transition-transform", collapsibleOpen && "rotate-180")}
-              aria-hidden
-            />
-          </button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="bg-card border border-border border-t-0 p-5 space-y-3">
+      <BottomDisclosure
+        open={collapsibleOpen}
+        onOpenChange={setCollapsibleOpen}
+        label="这张图怎么读"
+        className="mt-4"
+      >
             <p className="text-sm text-muted-foreground leading-relaxed" style={{ fontFamily: SANS, fontWeight: 300 }}>
               三角模型把「字词识别」内部拆成字形、读音、含义三个顶点与三条通路。熟练、初学、困难三种状态的动画都是概念示意，用来帮助理解通路强弱的变化，并非对某个个体阅读过程的诊断，也不是大脑活动的实时记录。
             </p>
@@ -558,9 +543,7 @@ export default function TriangleModel() {
               这里引用的「简单阅读观」提供的是「字词识别 × 言语理解」的整体框架
               <CitationRef ids={[6, 7]} />，并非三角模型本身的直接实证来源；三角模型只是把「字词识别」内部拆得更细的一种教学示意。
             </p>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+      </BottomDisclosure>
     </motion.div>
   );
 }
