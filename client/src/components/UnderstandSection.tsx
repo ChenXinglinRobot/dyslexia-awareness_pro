@@ -12,7 +12,6 @@ import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useIsMobile } from "@/hooks/useMobile";
-import FuzzyText from "./FuzzyText";
 import SectionHeading from "./SectionHeading";
 import TrueFocus from "./TrueFocus";
 import TextPressure from "./TextPressure";
@@ -90,9 +89,9 @@ function DyslexiaSimulator() {
 
         <div className="min-h-[120px] leading-loose text-base">
           {active ? (
-            // 二层叠加:DOM 字符层(底,带 4 轴变换)+ FuzzyText canvas 层(上,随机抖动)
-            // mix-blend-difference 让两层视觉融合,产生"被文字干扰"的双重感
-            <div className="relative">
+            // 保留可自然换行的 DOM 字符动画。FuzzyText canvas 只支持单行文本，
+            // 在段落换行时会与原文错位，因此不再叠加该噪声层。
+            <div>
               <p className="text-foreground/80 dyslexia-text" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
                 {chars.map((item, i) => (
                   <span
@@ -109,21 +108,6 @@ function DyslexiaSimulator() {
                   </span>
                 ))}
               </p>
-              <FuzzyText
-                baseIntensity={intensity}
-                hoverIntensity={Math.min(1, intensity + 0.2)}
-                direction="both"
-                fontSize={16}
-                fontFamily="'Noto Sans SC', sans-serif"
-                fontWeight={300}
-                color="currentColor"
-                fps={30}
-                disabled={!active}
-                className="absolute inset-0 pointer-events-none opacity-60 mix-blend-difference text-foreground/80"
-                aria-hidden
-              >
-                {sampleText}
-              </FuzzyText>
             </div>
           ) : (
             <p className="text-foreground/80" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>

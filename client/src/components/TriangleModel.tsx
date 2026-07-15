@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import { motion, useReducedMotion, useMotionValue, useAnimationFrame, type MotionValue } from "framer-motion";
-import { Cat, Volume2, Type } from "lucide-react";
+import { Cat } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSimulation } from "@/contexts/SimulationContext";
 import CitationRef from "./CitationRef";
@@ -20,6 +20,8 @@ import BottomDisclosure from "./BottomDisclosure";
 
 const SERIF = "'Noto Serif SC', serif";
 const SANS = "'Noto Sans SC', sans-serif";
+const NODE_RADIUS = 26;
+const NODE_LABEL_GAP = 8;
 
 type TriMode = "skilled" | "novice" | "difficult";
 
@@ -325,7 +327,7 @@ function TriangleSceneStatic({ mode }: { mode: TriMode }) {
   );
 }
 
-/** 顶点：脉冲环（仅非 reduced）+ 节点圆 + lucide 图标 + 文字标签。不随 mode 重挂。 */
+/** 顶点：脉冲环（仅非 reduced）+ 节点圆 + 圆内内容 + 统一层级的角色标签。不随 mode 重挂。 */
 function VertexNode({
   cx,
   cy,
@@ -339,7 +341,7 @@ function VertexNode({
 }: {
   cx: number;
   cy: number;
-  icon: ReactNode;
+  icon?: ReactNode;
   role: string;
   content?: string;
   contentFont?: string;
@@ -347,44 +349,47 @@ function VertexNode({
   reduced: boolean;
   delay: number;
 }) {
+  const labelOffset = NODE_RADIUS + NODE_LABEL_GAP;
+  const labelPosition = {
+    top: { x: 0, y: -labelOffset, textAnchor: "middle" as const },
+    left: { x: -labelOffset, y: 0, textAnchor: "end" as const },
+    right: { x: labelOffset, y: 0, textAnchor: "start" as const },
+  }[labelSide];
+
   return (
     <g transform={`translate(${cx} ${cy})`}>
       {!reduced && (
         <motion.circle
-          r={26}
+          r={NODE_RADIUS}
           className="fill-primary/15"
           style={{ transformBox: "fill-box", transformOrigin: "center" }}
           animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0, 0.4] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" as const, delay }}
         />
       )}
-      <circle r={26} className="fill-card stroke-primary" style={{ strokeWidth: 2 }} />
-      <g transform="translate(-12 -12)">{icon}</g>
-      {labelSide === "top" && (
-        <text y={-32} textAnchor="middle" className="fill-foreground" style={{ fontFamily: SERIF, fontSize: 14 }}>
-          {role}
+      <circle r={NODE_RADIUS} className="fill-card stroke-primary" style={{ strokeWidth: 2 }} />
+      {content ? (
+        <text
+          textAnchor="middle"
+          dominantBaseline="central"
+          className="fill-primary"
+          style={{ fontFamily: contentFont, fontSize: 20 }}
+        >
+          {content}
         </text>
+      ) : (
+        <g transform="translate(-12 -12)">{icon}</g>
       )}
-      {labelSide === "left" && (
-        <>
-          <text x={-34} y={-2} textAnchor="end" className="fill-foreground" style={{ fontFamily: contentFont, fontSize: 20 }}>
-            {content}
-          </text>
-          <text x={-34} y={16} textAnchor="end" className="fill-muted-foreground" style={{ fontFamily: SERIF, fontSize: 12 }}>
-            {role}
-          </text>
-        </>
-      )}
-      {labelSide === "right" && (
-        <>
-          <text x={34} y={-2} textAnchor="start" className="fill-foreground" style={{ fontFamily: contentFont, fontSize: 20 }}>
-            {content}
-          </text>
-          <text x={34} y={16} textAnchor="start" className="fill-muted-foreground" style={{ fontFamily: SERIF, fontSize: 12 }}>
-            {role}
-          </text>
-        </>
-      )}
+      <text
+        x={labelPosition.x}
+        y={labelPosition.y}
+        textAnchor={labelPosition.textAnchor}
+        dominantBaseline="central"
+        className="fill-foreground"
+        style={{ fontFamily: SERIF, fontSize: 14 }}
+      >
+        {role}
+      </text>
     </g>
   );
 }
@@ -456,7 +461,7 @@ export default function TriangleModel() {
           <svg viewBox="0 0 400 360" className="w-full h-auto overflow-visible" role="img" aria-label="三角模型：字形、读音、含义三个顶点与三条通路">
           <title>三角模型：识字的三条通路与三种状态</title>
           <desc>
-            三角模型把识字拆成形（字形）、音（读音）、义（含义）三个顶点，通路分别为字形→读音、读音→含义、字形→含义。切换状态可观察通路活跃程度的概念变化：熟练者字形→含义的直接通路通畅；初学者依次经过字形→读音、读音→含义；识字困难者字形→读音的转换费力，字形→含义的直接通路发展不足。图示为概念示意，并非个体诊断或脑活动实时记录。
+            三角模型把识字拆成形（字形）、音（读音）、义（含义）三个顶点；圆内分别以汉字“猫”、拼音“māo”和猫图标表示。通路分别为字形→读音、读音→含义、字形→含义。切换状态可观察通路活跃程度的概念变化：熟练者字形→含义的直接通路通畅；初学者依次经过字形→读音、读音→含义；识字困难者字形→读音的转换费力，字形→含义的直接通路发展不足。图示为概念示意，并非个体诊断或脑活动实时记录。
           </desc>
           <defs>
             <marker
@@ -482,8 +487,8 @@ export default function TriangleModel() {
 
           {/* 三个顶点（脉冲仅非 reduced） */}
           <VertexNode cx={V.meaning.cx} cy={V.meaning.cy} icon={<Cat size={24} className="text-primary" />} role="含义" labelSide="top" reduced={isReduced} delay={0} />
-          <VertexNode cx={V.phon.cx} cy={V.phon.cy} icon={<Volume2 size={24} className="text-primary" />} role="读音" content="māo" contentFont={SANS} labelSide="left" reduced={isReduced} delay={0.4} />
-          <VertexNode cx={V.ortho.cx} cy={V.ortho.cy} icon={<Type size={24} className="text-primary" />} role="字形" content="猫" contentFont={SERIF} labelSide="right" reduced={isReduced} delay={0.8} />
+          <VertexNode cx={V.phon.cx} cy={V.phon.cy} role="读音" content="māo" contentFont={SANS} labelSide="left" reduced={isReduced} delay={0.4} />
+          <VertexNode cx={V.ortho.cx} cy={V.ortho.cy} role="字形" content="猫" contentFont={SERIF} labelSide="right" reduced={isReduced} delay={0.8} />
           </svg>
         </div>
 
