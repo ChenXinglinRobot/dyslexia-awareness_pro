@@ -8,6 +8,11 @@ interface SectionHeadingProps {
   sectionId: SectionHeadingId;
 }
 
+// 只匹配访客设备上的字体，不触发任何远程字体请求；
+// Noto 不存在时依次回退到 macOS / Windows 自带的中文宋体。
+export const CHINESE_SERIF_STACK =
+  "'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif";
+
 /**
  * 4 个 section 根 H2 + UnderstandSection 内 3 个 H3 子标题的统一渲染入口。
  *
@@ -63,7 +68,7 @@ export default function SectionHeading({ sectionId }: SectionHeadingProps) {
           respectSimulation
           dataText={cn}
           className="text-3xl md:text-5xl text-foreground"
-          style={{ fontFamily: "'Noto Serif SC', serif" }}
+          style={{ fontFamily: CHINESE_SERIF_STACK }}
         >
           {cn}
         </GlitchText>
@@ -87,7 +92,7 @@ export default function SectionHeading({ sectionId }: SectionHeadingProps) {
     <h3
       aria-label={cn}
       className="text-xl md:text-2xl text-foreground"
-      style={{ fontFamily: "'Noto Serif SC', serif" }}
+      style={{ fontFamily: CHINESE_SERIF_STACK }}
     >
       <span className="relative inline-block">
         {/* 不可见 spacer：撑出文字本来宽度，保持布局稳定 */}
@@ -98,7 +103,7 @@ export default function SectionHeading({ sectionId }: SectionHeadingProps) {
           className="absolute left-0 top-0 pointer-events-none"
           fontSize="clamp(1.25rem, 3vw, 1.5rem)"
           fontWeight={600}
-          fontFamily="'Noto Serif SC', serif"
+          fontFamily={CHINESE_SERIF_STACK}
           color="currentColor"
           direction="both"
           fps={30}

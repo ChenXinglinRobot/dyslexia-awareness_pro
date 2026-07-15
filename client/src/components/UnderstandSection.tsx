@@ -6,13 +6,13 @@
    ============================================================ */
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Eye, AlertTriangle, Brain, Languages, Focus, X as XIcon, Check, ExternalLink, AudioWaveform, Footprints, Share2, Timer } from "lucide-react";
 import { useSimulation } from "@/contexts/SimulationContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useIsMobile } from "@/hooks/useMobile";
-import SectionHeading from "./SectionHeading";
+import SectionHeading, { CHINESE_SERIF_STACK } from "./SectionHeading";
 import TrueFocus from "./TrueFocus";
 import TextPressure from "./TextPressure";
 import DecryptedText from "./DecryptedText";
@@ -589,110 +589,301 @@ function ReadingMechanism() {
 // ============ 汉语特殊性 ============
 
 function ChineseSpecificity() {
-  const { ref, inView, delay } = useScrollReveal({ margin: "-50px", stagger: 0.1 });
+  const { ref, inView, delay } = useScrollReveal({
+    margin: "-50px",
+    stagger: 0.1,
+  });
+  const shouldReduceMotion = useReducedMotion();
 
-  // 「声旁意识」需要把每个字里的"青"高亮出来，所以单独列出字符；
-  // 形旁/声旁两卡在 3 列栅格里天然左右相邻，形成"意义线索 ↔ 读音线索"的视觉对应。
-  // 声旁 / 形旁两条 desc 都带 [4] 引用，与 references.ts 中的声旁研究条目对应。
+  // 「声旁意识」需要把每个字里的"青"高亮出来，所以单独列出字符。
   const phonStems = ["请", "清", "情", "晴", "青"];
 
-  const awarenessItems: Array<{
+  const morphologyItems: Array<{
     title: string;
     example?: string;
-    exampleNodes?: ReactNode;
-    desc: ReactNode;
+    desc: string;
   }> = [
-    { title: "复合词意识", example: "长颈鹿、梅花鹿 →「短颈鳄」？", desc: "理解词语由语素组合而成的规则。" },
-    { title: "同音语素意识", example: "衣 · 一 · 伊 · 医", desc: "分辨读音相同、意义不同的语素。" },
-    { title: "同形语素意识", example: "花朵 / 花费；面孔 / 面条", desc: "分辨字形相同、意义不同的语素。" },
-    { title: "形旁意识", example: "氵（海、江）、冫（冬、凉）、灬（煮、蒸、煎）", desc: <>理解形旁提示字义类别的规律<CitationRef ids={[4]} />。</> },
     {
-      title: "声旁意识",
-      // example 留空，下面 exampleNodes 接管渲染：5 个字共享"青"，统一高亮
-      desc: (
-        <>
-          声旁常能提供读音线索，但读音不一定完全相同<CitationRef ids={[4]} />。
-        </>
-      ),
-      exampleNodes: (
-        <span className="tracking-[0.4em]">
-          {phonStems.map((ch, i) => (
-            <span key={i} className="inline-flex flex-col items-center">
-              {/* 共享的「青」一律高亮；其余字保留原色 */}
-              {ch === "青" ? (
-                <span
-                  className="text-primary font-semibold underline decoration-primary/60 decoration-2 underline-offset-4"
-                  style={{ fontFamily: "'Noto Serif SC', serif" }}
-                >
-                  青
-                </span>
-              ) : (
-                <span style={{ fontFamily: "'Noto Serif SC', serif" }}>{ch}</span>
-              )}
-              {i < phonStems.length - 1 && <span aria-hidden className="text-transparent select-none">·</span>}
-            </span>
-          ))}
-        </span>
-      ),
+      title: "复合词意识",
+      example: "长颈鹿、梅花鹿 →「短颈鳄」？",
+      desc: "理解词语由语素组合而成的规则。",
     },
     {
-      title: "正字法意识",
-      desc: "理解汉字部件位置与笔画组合的常见规则。",
-      exampleNodes: (
-        <span className="flex flex-col gap-1.5 text-primary" style={{ fontFamily: "'Noto Serif SC', serif" }}>
-          <span className="tracking-wider">氵 通常在左 · 艹 通常在上</span>
-          <span className="tracking-[0.3em]">王 / 玉　　木 / 本　　大 / 太</span>
-        </span>
-      ),
+      title: "同音语素意识",
+      example: "衣 · 一 · 伊 · 医",
+      desc: "分辨读音相同、意义不同的语素。",
+    },
+    {
+      title: "同形语素意识",
+      example: "花朵 / 花费；面孔 / 面条",
+      desc: "分辨字形相同、意义不同的语素。",
+    },
+    {
+      title: "形旁意识",
+      example: "氵（海、江） · 冫（冬、凉） · 灬（煮、蒸、煎）",
+      desc: "理解形旁提示字义类别的规律。",
+    },
+    {
+      title: "声旁意识",
+      desc: "声旁常能提供读音线索，但读音不一定完全相同。",
     },
   ];
 
   return (
-    <div ref={ref} className="space-y-8">
+    <div ref={ref} className="space-y-12 md:space-y-16">
       <motion.p
-        initial={{ opacity: 0, y: 20 }}
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6 }}
-        className="text-foreground/80 text-lg leading-relaxed"
+        className="max-w-4xl text-foreground/80 text-lg leading-relaxed text-pretty"
         style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}
       >
-        不同文字系统既有共性，也有侧重：
-        <DecryptedText
-          text="拼音文字阅读障碍是以语音意识缺陷为主，汉语阅读障碍是以"
-          sequential={true}
-          revealDirection="start"
-          animateOn="view"
-          speed={80}
-        />
-        <span className="text-primary font-semibold">语素意识</span>
-        缺陷为主： <CitationRef ids={[1, 8, 9]} />
+        不同文字系统既有共性，也有侧重。拼音文字阅读障碍常以语音意识缺陷为主；汉语阅读障碍则更突出
+        <span className="text-primary font-semibold">
+          <DecryptedText
+            text="语素意识"
+            sequential={true}
+            revealDirection="start"
+            animateOn="view"
+            speed={80}
+          />
+        </span>
+        缺陷，同时也涉及汉字构形规则的掌握
+        <CitationRef ids={[1, 8, 9]} />。
       </motion.p>
 
-      {/* 6 张卡：3 列栅格让「形旁 / 声旁」天然左右相邻，形成"意义线索 ↔ 读音线索"的视觉对应；
-          中等屏（md）收窄到 2 列避免卡片过密，移动端仍为单列。 */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {awarenessItems.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: delay(index) }}
-            className="bg-card border border-border p-5 hover:border-primary/50 transition-colors duration-300"
+      <section
+        aria-labelledby="morphology-awareness-title"
+        className="grid gap-8 lg:grid-cols-[minmax(12rem,0.7fr)_minmax(0,2fr)] lg:gap-14"
+      >
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, x: -16 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.55, delay: delay(0) }}
+          className="lg:pt-1"
+        >
+          <p
+            className="mb-3 text-sm text-primary"
+            style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
           >
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-primary text-lg font-bold" style={{ fontFamily: "'Space Grotesk'" }}>{index + 1}</span>
-              <h4 className="text-foreground text-base font-medium" style={{ fontFamily: "'Noto Serif SC', serif" }}>{item.title}</h4>
-            </div>
-            {item.exampleNodes ? (
-              <p className="text-foreground text-lg mb-2">{item.exampleNodes}</p>
-            ) : (
-              <p className="text-primary text-lg mb-2 tracking-wider" style={{ fontFamily: "'Noto Serif SC', serif" }}>{item.example}</p>
-            )}
-            <p className="text-muted-foreground text-sm" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>{item.desc}</p>
-          </motion.div>
-        ))}
-      </div>
+            词怎样组成意义
+          </p>
+          <h4
+            id="morphology-awareness-title"
+            className="text-lg md:text-xl text-foreground text-balance"
+            style={{ fontFamily: CHINESE_SERIF_STACK, fontWeight: 600 }}
+          >
+            语素意识
+          </h4>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+            识别词语中最小的意义单位，并理解字音、字形与意义之间如何建立联系。
+          </p>
+        </motion.div>
 
+        <div className="border-y border-border">
+          {morphologyItems.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.45, delay: delay(index + 1) }}
+              className="group grid gap-3 border-b border-border px-1 py-5 transition-colors duration-300 last:border-b-0 hover:bg-primary/[0.04] sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6 sm:px-4 md:py-6"
+            >
+              <h5
+                className="text-base font-medium text-foreground"
+                style={{ fontFamily: "'Noto Serif SC', serif" }}
+              >
+                {item.title}
+              </h5>
+              <div className="min-w-0">
+                {item.title === "声旁意识" ? (
+                  <p
+                    className="mb-2 flex flex-wrap items-baseline gap-x-4 gap-y-2 text-xl text-foreground"
+                    aria-label="请、清、情、晴共享声旁青"
+                  >
+                    {phonStems.map(ch => (
+                      <span
+                        key={ch}
+                        className={
+                          ch === "青"
+                            ? "text-primary font-semibold underline decoration-primary/50 decoration-2 underline-offset-4"
+                            : ""
+                        }
+                        style={{ fontFamily: "'Noto Serif SC', serif" }}
+                      >
+                        {ch}
+                      </span>
+                    ))}
+                  </p>
+                ) : (
+                  <p
+                    className="mb-2 text-lg leading-relaxed text-primary text-pretty"
+                    style={{ fontFamily: "'Noto Serif SC', serif" }}
+                  >
+                    {item.example}
+                  </p>
+                )}
+                <p className="text-sm leading-relaxed text-muted-foreground text-pretty">
+                  {item.desc}
+                  {(item.title === "形旁意识" || item.title === "声旁意识") && (
+                    <CitationRef ids={[4]} />
+                  )}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="orthographic-awareness-title"
+        className="border-t border-border pt-10 md:pt-14"
+      >
+        <div className="grid gap-8 lg:grid-cols-[minmax(12rem,0.7fr)_minmax(0,2fr)] lg:gap-14">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, x: -16 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.55, delay: delay(6) }}
+          >
+            <p
+              className="mb-3 text-sm text-primary"
+              style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+            >
+              字怎样写才成立
+            </p>
+            <h4
+              id="orthographic-awareness-title"
+              className="text-lg md:text-xl text-foreground text-balance"
+              style={{ fontFamily: CHINESE_SERIF_STACK, fontWeight: 600 }}
+            >
+              正字法意识
+            </h4>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+              判断部件位置与笔画组合是否符合汉字的常见构形规则。它与语素意识相互关联，但不是同一种能力
+              <CitationRef ids={[4]} />。
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: delay(7) }}
+            className="bg-card border border-border"
+          >
+            <div className="grid md:grid-cols-2">
+              <div className="p-6 md:p-8 md:border-r md:border-border">
+                <p className="mb-6 text-sm text-muted-foreground">部件位置</p>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-5">
+                    <span
+                      className="w-14 text-center text-4xl text-primary"
+                      style={{ fontFamily: CHINESE_SERIF_STACK }}
+                    >
+                      氵
+                    </span>
+                    <div>
+                      <p className="text-foreground">通常在左</p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        海 · 江 · 河
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-5">
+                    <span
+                      className="w-14 text-center text-4xl text-primary"
+                      style={{ fontFamily: CHINESE_SERIF_STACK }}
+                    >
+                      艹
+                    </span>
+                    <div>
+                      <p className="text-foreground">通常在上</p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        花 · 草 · 茶
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-5">
+                    <span
+                      className="w-14 text-center text-4xl text-primary"
+                      style={{ fontFamily: CHINESE_SERIF_STACK }}
+                    >
+                      灬
+                    </span>
+                    <div>
+                      <p className="text-foreground">通常在下</p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        蒸 · 煮 · 煎
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-border p-6 md:border-t-0 md:p-8">
+                <p className="mb-6 text-sm text-muted-foreground">笔画组合</p>
+                <div className="border-b border-border pb-5">
+                  <p className="mb-2 text-xs text-muted-foreground">简单变化</p>
+                  <div
+                    className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 text-2xl text-foreground"
+                    style={{ fontFamily: CHINESE_SERIF_STACK }}
+                    role="img"
+                    aria-label="大加一笔形成太"
+                  >
+                    <span className="text-center">大</span>
+                    <span
+                      aria-hidden
+                      className="text-sm text-muted-foreground"
+                    >
+                      加一笔
+                    </span>
+                    <span className="text-center text-primary">太</span>
+                  </div>
+                </div>
+
+                <div className="pt-5">
+                  <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
+                    同一个“日”，一笔加在不同位置
+                  </p>
+                  <div
+                    className="flex items-stretch gap-4"
+                    role="img"
+                    aria-label="日加一笔可以形成旦、旧、由、甲、田、白"
+                  >
+                    <div className="flex w-16 shrink-0 items-center justify-center bg-primary/[0.08] px-2 py-4 sm:w-20">
+                      <span
+                        className="text-4xl text-primary"
+                        style={{ fontFamily: CHINESE_SERIF_STACK }}
+                      >
+                        日
+                      </span>
+                    </div>
+                    <div className="grid min-w-0 flex-1 grid-cols-3 border border-border bg-border gap-px">
+                      {["旦", "旧", "由", "甲", "田", "白"].map(char => (
+                        <span
+                          key={char}
+                          className="flex items-center justify-center bg-card py-2 text-2xl text-foreground"
+                          style={{ fontFamily: CHINESE_SERIF_STACK }}
+                        >
+                          {char}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-border px-6 py-4 text-sm leading-relaxed text-muted-foreground md:px-8">
+              <p>
+                语素意识关注“这个单位表达什么意义”，正字法意识关注“这个字形是否符合汉字规则”。
+              </p>
+              <p className="mt-2 text-xs">
+                研究通常把语音意识、语素意识和正字法意识作为相互关联但不同的能力分别讨论
+                <CitationRef ids={[1, 8, 9]} />。
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
