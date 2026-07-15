@@ -116,9 +116,21 @@ export default function Navbar() {
   };
 
   const updateEffectPosition = (element: HTMLElement) => {
-    if (!containerRef.current || !filterRef.current || !textRef.current) return;
+    if (!containerRef.current || !filterRef.current || !textRef.current) return false;
     const containerRect = containerRef.current.getBoundingClientRect();
     const pos = element.getBoundingClientRect();
+
+    // The desktop nav is display:none below the md breakpoint. Measuring it
+    // there returns a 0x0 rect and collapses the duplicated effect text into a
+    // vertical column when the nav becomes visible again.
+    if (
+      containerRect.width === 0 ||
+      containerRect.height === 0 ||
+      pos.width === 0 ||
+      pos.height === 0
+    ) {
+      return false;
+    }
 
     const styles = {
       left: `${pos.x - containerRect.x}px`,
@@ -129,6 +141,7 @@ export default function Navbar() {
     Object.assign(filterRef.current.style, styles);
     Object.assign(textRef.current.style, styles);
     textRef.current.innerText = element.innerText;
+    return true;
   };
 
   const handleSelect = (element: HTMLElement, index: number, requestId: number) => {
@@ -309,8 +322,7 @@ export default function Navbar() {
     // 双重保险：动画期间跳过，防止意外干扰
     if (!navRef.current || isAnimatingRef.current) return;
     const activeItem = navRef.current.querySelectorAll("li button")[activeIndex] as HTMLElement;
-    if (activeItem) {
-      updateEffectPosition(activeItem);
+    if (activeItem && updateEffectPosition(activeItem)) {
       const effectTimer = scheduleTimeout(() => {
         if (filterRef.current) {
           const particles = filterRef.current.querySelectorAll(".particle");
@@ -325,6 +337,33 @@ export default function Navbar() {
       }
       return () => cancelTimeout(effectTimer);
     }
+  }, [activeIndex]);
+
+  // Keep the duplicated gooey layers aligned when the desktop nav changes
+  // size, especially when crossing the md breakpoint from hidden to visible.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const syncEffectPosition = () => {
+      const activeItem = navRef.current?.querySelectorAll("li button")[
+        activeIndex
+      ] as HTMLElement | undefined;
+      if (activeItem) updateEffectPosition(activeItem);
+    };
+
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(syncEffectPosition);
+
+    resizeObserver?.observe(container);
+    window.addEventListener("resize", syncEffectPosition);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", syncEffectPosition);
+    };
   }, [activeIndex]);
 
   // Initialize effect position on mount
