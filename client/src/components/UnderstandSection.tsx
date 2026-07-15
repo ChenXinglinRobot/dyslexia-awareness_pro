@@ -804,6 +804,65 @@ export default function UnderstandSection() {
     }
   }, [simEnabled]);
 
+  const crowdingLauncher = (
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      onClick={() => setShowCrowding(true)}
+      className="flex items-center gap-2 border border-primary px-5 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10 btn-press"
+      style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+    >
+      启动视觉拥挤体验
+    </motion.button>
+  );
+
+  const focusLauncher = (
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      onClick={() => setShowFocus(true)}
+      className="flex items-center gap-2 border border-primary px-5 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10 btn-press"
+      style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+    >
+      启动逐字解码体验
+    </motion.button>
+  );
+
+  const focusPanel = (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
+    >
+      <p className="text-xs text-muted-foreground text-center mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
+        {isMobile
+          ? "正在自动逐字扫描 — 一次只能看清一个字"
+          : "鼠标移到任意字上 — 只有它会清晰"}
+      </p>
+      <div className="flex justify-center">
+        <TrueFocus
+          sentence="一次 只能 看清 一个 字"
+          separator=" "
+          manualMode={!isMobile}
+          blurAmount={6}
+          borderColor="var(--primary)"
+          glowColor="color-mix(in oklch, var(--primary) 60%, transparent)"
+          animationDuration={0.4}
+        />
+      </div>
+      <button
+        onClick={() => setShowFocus(false)}
+        className="mx-auto mt-8 block text-xs text-muted-foreground hover:text-foreground transition-colors"
+        style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
+      >
+        收起
+      </button>
+    </motion.div>
+  );
+
   return (
     <section id="understand" className="relative overflow-hidden">
       <div className="divider-glow" />
@@ -844,71 +903,29 @@ export default function UnderstandSection() {
             <CitationRef ids={[2, 3, 12]} />。
           </p>
 
-          {/* 双体验入口：横屏左右并排，竖屏上下堆叠 */}
-          {simEnabled && (!showCrowding || !showFocus) && (
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
-              {!showCrowding && (
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  onClick={() => setShowCrowding(true)}
-                  className="flex items-center gap-2 text-sm px-5 py-2.5 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
-                  style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-                >
-                  启动视觉拥挤体验
-                </motion.button>
+          {simEnabled && !showCrowding && !showFocus ? (
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+              {crowdingLauncher}
+              {focusLauncher}
+            </div>
+          ) : simEnabled ? (
+            <div className="space-y-6 md:space-y-8">
+              {showCrowding ? (
+                <CrowdingSimulation
+                  showCrowding={showCrowding}
+                  setShowCrowding={setShowCrowding}
+                />
+              ) : (
+                <div className="flex justify-center">{crowdingLauncher}</div>
               )}
-              {!showFocus && (
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  onClick={() => setShowFocus(true)}
-                  className="flex items-center gap-2 text-sm px-5 py-2.5 border border-primary text-primary hover:bg-primary/10 transition-colors btn-press"
-                  style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-                >
-                  启动逐字解码体验
-                </motion.button>
+
+              {showFocus ? (
+                focusPanel
+              ) : (
+                <div className="flex justify-center">{focusLauncher}</div>
               )}
             </div>
-          )}
-
-          <CrowdingSimulation showCrowding={showCrowding} setShowCrowding={setShowCrowding} />
-
-          {/* 逐字解码体验面板 */}
-          {simEnabled && showFocus && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-card border border-border p-6 md:p-10 transition-colors duration-500"
-            >
-              <p className="text-xs text-muted-foreground text-center mb-6" style={{ fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 300 }}>
-                {isMobile
-                  ? "正在自动逐字扫描 — 一次只能看清一个字"
-                  : "鼠标移到任意字上 — 只有它会清晰"}
-              </p>
-              <div className="flex justify-center">
-                <TrueFocus
-                  sentence="一次 只能 看清 一个 字"
-                  separator=" "
-                  manualMode={!isMobile}
-                  blurAmount={6}
-                  borderColor="var(--primary)"
-                  glowColor="color-mix(in oklch, var(--primary) 60%, transparent)"
-                  animationDuration={0.4}
-                />
-              </div>
-              <button
-                onClick={() => setShowFocus(false)}
-                className="mx-auto mt-8 block text-xs text-muted-foreground hover:text-foreground transition-colors"
-                style={{ fontFamily: "'Noto Sans SC', sans-serif" }}
-              >
-                收起
-              </button>
-            </motion.div>
-          )}
+          ) : null}
         </div>
 
         <div className="mb-20">
